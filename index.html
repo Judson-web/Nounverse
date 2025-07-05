@@ -11,7 +11,7 @@
 </head>
 <body>
   <!-- Splash Screen -->
-  <div id="splash-screen" class="splash-screen">
+  <div id="splash-screen" class="splash-screen" role="alert" aria-live="polite">
     <img src="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2F1676172615227.gif?alt=media&token=c3f8a658-e590-4324-a37c-ab3b6f0abff8" alt="Loading" style="width:80px;height:80px;margin-bottom:1em;">
     <p class="text-lg font-semibold text-blue-600">Loading Quiz...</p>
   </div>
@@ -20,9 +20,9 @@
   <header class="header">
     <h1>Collective Nouns Quiz</h1>
     <div class="header-btns">
-      <button id="profile-btn">Profile</button>
-      <button id="open-settings">Settings</button>
-      <button id="sound-toggle-btn" aria-pressed="false">
+      <button id="profile-btn" aria-label="Profile">Profile</button>
+      <button id="open-settings" aria-label="Settings">Settings</button>
+      <button id="sound-toggle-btn" aria-pressed="false" aria-label="Toggle Sound">
         <span id="volume-icon">🔊</span>
         <span id="mute-icon" class="hidden">🔇</span>
         <span id="sound-tooltip" class="hidden sm:inline">Mute Sound</span>
@@ -33,11 +33,11 @@
   <!-- Main Quiz Area -->
   <main>
     <div id="quiz-content" class="quiz-container hidden">
-      <div class="score-streak-bar">
+      <div class="score-streak-bar" aria-live="polite">
         <span>Score: <span id="score">0</span></span>
         <span>Streak: <span id="streak">0</span></span>
       </div>
-      <div class="timer-bar">
+      <div class="timer-bar" aria-hidden="true">
         <span id="timer-text">20s</span>
         <div id="timer-bar-fill"></div>
       </div>
@@ -45,23 +45,23 @@
         <span>Question <span id="current-question">1</span> of <span id="total-questions">10</span></span>
       </div>
       <div id="question-area"></div>
-      <div id="fun-fact-box" class="fun-fact hidden"></div>
+      <div id="fun-fact-box" class="fun-fact hidden" aria-live="polite"></div>
     </div>
   </main>
 
   <!-- Profile Modal -->
-  <div id="profile-modal" class="modal hidden">
+  <div id="profile-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
     <div class="modal-content">
-      <button id="close-profile-modal" class="close-btn">&times;</button>
+      <button id="close-profile-modal" class="close-btn" aria-label="Close">&times;</button>
       <div class="profile-avatar-section">
         <img id="profile-avatar" src="https://mui.com/static/images/avatar/1.jpg" alt="Profile Avatar">
         <input type="file" id="avatar-upload" accept="image/*" class="hidden" />
         <div class="avatar-btns">
-          <button id="edit-avatar-btn">Change Photo</button>
-          <button id="emoji-avatar-btn" title="Pick Emoji Avatar">😀</button>
+          <button id="edit-avatar-btn" type="button">Change Photo</button>
+          <button id="emoji-avatar-btn" type="button" title="Pick Emoji Avatar">😀</button>
         </div>
       </div>
-      <form id="profile-form">
+      <form id="profile-form" autocomplete="off">
         <label>Display Name
           <input id="profile-display-name" type="text" maxlength="24" autocomplete="off" />
         </label>
@@ -146,11 +146,11 @@
   </div>
 
   <!-- Settings Modal -->
-  <div id="settings-modal" class="modal hidden">
+  <div id="settings-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title">
     <div class="modal-content">
-      <button id="close-settings-modal" class="close-btn">&times;</button>
-      <h2>Settings</h2>
-      <form id="settings-form">
+      <button id="close-settings-modal" class="close-btn" aria-label="Close">&times;</button>
+      <h2 id="settings-modal-title">Settings</h2>
+      <form id="settings-form" autocomplete="off">
         <label>
           <input type="checkbox" id="sound-effects-toggle" checked>
           Enable Sound Effects
