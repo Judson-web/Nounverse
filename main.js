@@ -210,7 +210,6 @@ const animationsToggle = document.getElementById('animations-toggle');
 
 if (settingsBtn && settingsModal) {
     settingsBtn.onclick = () => {
-        // Populate form with current settings
         soundEffectsToggle.checked = settings.soundEffects;
         fontSizeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.font === settings.fontSize));
         quizLengthSetting.value = settings.quizLength;
@@ -227,7 +226,6 @@ settingsModal?.addEventListener('click', (e) => {
     if (e.target === settingsModal) settingsModal.classList.add('hidden');
 });
 
-// Font size toggle logic
 fontSizeBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         fontSizeBtns.forEach(b => b.classList.remove('active'));
@@ -236,7 +234,6 @@ fontSizeBtns.forEach(btn => {
     });
 });
 
-// Theme toggle logic (no Light/default option)
 themeBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         themeBtns.forEach(b => b.classList.remove('active'));
@@ -245,23 +242,20 @@ themeBtns.forEach(btn => {
     });
 });
 
-// Save settings
 if (settingsForm) {
     settingsForm.addEventListener('submit', function(e) {
         e.preventDefault();
         settings.soundEffects = soundEffectsToggle.checked;
-        // fontSize and theme are set by toggle logic above
         settings.quizLength = quizLengthSetting.value;
         settings.language = languageSetting.value;
         settings.animations = animationsToggle.checked;
         localStorage.setItem('settings', JSON.stringify(settings));
         applySettings();
         settingsModal.classList.add('hidden');
-        startQuiz(); // Restart quiz with new settings
+        startQuiz();
     });
 }
 
-// Reset progress
 if (resetProgressBtn) {
     resetProgressBtn.onclick = () => {
         if (confirm("Are you sure you want to reset all progress? This cannot be undone.")) {
@@ -271,22 +265,15 @@ if (resetProgressBtn) {
     };
 }
 
-// ====== Apply Settings ======
 function applySettings() {
-    // Remove all theme classes
     document.body.classList.remove('dark', 'theme-ocean', 'theme-sunset');
-    // Only apply theme if selected
     if (settings.theme === 'dark') document.body.classList.add('dark');
     if (settings.theme === 'ocean') document.body.classList.add('theme-ocean');
     if (settings.theme === 'sunset') document.body.classList.add('theme-sunset');
-    // Font size
     document.documentElement.style.fontSize =
         settings.fontSize === 'small' ? '15px' :
         settings.fontSize === 'large' ? '19px' : '17px';
-    // Animations
     document.body.classList.toggle('animations-off', !settings.animations);
-    // Language (future support)
-    // Sound effects handled in playSound
 }
 
 // ====== Sound Toggle Logic ======
@@ -405,3 +392,11 @@ if (editAvatarBtn && avatarUpload) {
 function updateProfileStatsLive() {
     if (profileModal && !profileModal.classList.contains('hidden')) {
         if (profileScore) profileScore.textContent = score;
+        if (profileStreak) profileStreak.textContent = streak;
+    }
+}
+
+// ====== Settings UI Setup (for toggles/buttons) ======
+function setupSettingsUI() {
+    fontSizeBtns.forEach(btn => {
+        btn.classList.toggle('active
