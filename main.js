@@ -3,6 +3,17 @@ function $(sel) { return document.getElementById(sel); }
 function $q(sel) { return document.querySelector(sel); }
 function $qa(sel) { return document.querySelectorAll(sel); }
 
+// Defensive localStorage parsing
+function safeParse(key, fallback) {
+    try {
+        const value = localStorage.getItem(key);
+        return value ? JSON.parse(value) : fallback;
+    } catch (e) {
+        localStorage.removeItem(key);
+        return fallback;
+    }
+}
+
 // --- Splash Screen Logic ---
 window.addEventListener('DOMContentLoaded', function() {
   setTimeout(function() {
@@ -28,7 +39,7 @@ const themeList = [
   { name: "Pink", color: "#ec4899" },
   { name: "Orange", color: "#f59e42" }
 ];
-let profiles = JSON.parse(localStorage.getItem('profiles')) || [];
+let profiles = safeParse('profiles', []);
 let currentProfileIndex = Number(localStorage.getItem('currentProfileIndex'));
 if (isNaN(currentProfileIndex) || currentProfileIndex < 0) currentProfileIndex = 0;
 
@@ -72,7 +83,7 @@ function showAddProfileModal() {
     $('add-profile-form').onsubmit = function(e) {
       e.preventDefault();
       const name = $('profile-name-input') ? $('profile-name-input').value.trim() : '';
-      if (!name) return;
+      if (!name) { alert("Please enter a name."); return; }
       const selectedAvatar = $q('.avatar-choose-img.selected');
       const selectedTheme = $q('.theme-choose-sample.selected');
       profiles.push({
@@ -137,8 +148,15 @@ function selectProfile(idx) {
 }
 
 function deleteProfile(idx) {
-  if (!confirm('Delete this profile?')) return;
   profiles.splice(idx, 1);
+  if (profiles.length === 0) {
+    currentProfileIndex = 0;
+    localStorage.removeItem('profiles');
+    localStorage.removeItem('currentProfileIndex');
+    updateProfileHeader();
+    showProfileSelection();
+    return;
+  }
   if (currentProfileIndex >= profiles.length) currentProfileIndex = 0;
   localStorage.setItem('profiles', JSON.stringify(profiles));
   localStorage.setItem('currentProfileIndex', currentProfileIndex);
@@ -356,7 +374,6 @@ function updateStreakStars() {
 
 // --- Hint System ---
 function showHint() {
-  // Example: just disables two wrong options
   const q = quizQuestions[currentQuestion];
   const optionButtons = $qa('.option-button');
   let availableWrongOptions = [];
@@ -370,4 +387,22 @@ function showHint() {
     optionButtons[wrongIdx].disabled = true;
   }
   if ($('hint-button')) $('hint-button').disabled = true;
+}
+
+// --- Cookie Banner (defensive) ---
+function showCookieBanner() {
+  if (!localStorage.getItem('cookiesAccepted')) {
+    const banner = $('cookie-banner');
+    if (banner) {
+      banner.classList.add('show');
+      banner.classList.remove('hidden');
+      const acceptBtn = $('accept-cookies');
+      if (acceptBtn) {
+        acceptBtn.onclick = () => {
+          localStorage.setItem('cookiesAccepted', 'true');
+          banner.classList.remove('show');
+        };
+      }
+    }
+  }
 }
