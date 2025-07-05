@@ -13,7 +13,60 @@ const quizQuestions = [
         answer: 0,
         funFact: "A group of lions is called a 'pride' because they live together as a family group."
     },
-    // ... (rest of your questions here) ...
+    {
+        question: "What is a group of crows called?",
+        options: ["Murder", "Gaggle", "Pod", "Swarm"],
+        answer: 0,
+        funFact: "A group of crows is called a 'murder'—the name comes from old folk tales and superstitions!"
+    },
+    {
+        question: "What is a group of dolphins called?",
+        options: ["Pod", "Troop", "Army", "Parliament"],
+        answer: 0,
+        funFact: "A group of dolphins is called a 'pod.' Dolphins are very social animals!"
+    },
+    {
+        question: "What is a group of bees called?",
+        options: ["Swarm", "Flock", "Herd", "Pack"],
+        answer: 0,
+        funFact: "A group of bees is called a 'swarm.' Swarms are usually seen when bees are searching for a new home."
+    },
+    {
+        question: "What is a group of owls called?",
+        options: ["Parliament", "Flock", "Colony", "Pack"],
+        answer: 0,
+        funFact: "A group of owls is called a 'parliament'—the name was popularized by C.S. Lewis in his books!"
+    },
+    {
+        question: "What is a group of flamingos called?",
+        options: ["Flamboyance", "Gaggle", "Herd", "Pod"],
+        answer: 0,
+        funFact: "A group of flamingos is called a 'flamboyance' because of their bright pink feathers."
+    },
+    {
+        question: "What is a group of whales called?",
+        options: ["Pod", "School", "Troop", "Murder"],
+        answer: 0,
+        funFact: "Whales travel in groups called 'pods' to communicate and protect each other."
+    },
+    {
+        question: "What is a group of frogs called?",
+        options: ["Army", "Swarm", "Pack", "Colony"],
+        answer: 0,
+        funFact: "A group of frogs is called an 'army' because they often move together in large numbers."
+    },
+    {
+        question: "What is a group of kangaroos called?",
+        options: ["Mob", "Pack", "Herd", "Troop"],
+        answer: 0,
+        funFact: "A group of kangaroos is called a 'mob'—they use this group for protection."
+    },
+    {
+        question: "What is a group of ants called?",
+        options: ["Colony", "Swarm", "Herd", "Pack"],
+        answer: 0,
+        funFact: "A group of ants is called a 'colony' because they live and work together underground."
+    }
 ];
 
 // ====== Quiz State ======
@@ -276,7 +329,7 @@ function playSound(id) {
     const sound = document.getElementById(id);
     if (sound) {
         sound.currentTime = 0;
-        sound.play();
+        sound.play().catch(()=>{});
     }
 }
 
@@ -339,24 +392,4 @@ if (profileForm) {
 // Avatar upload logic
 if (editAvatarBtn && avatarUpload) {
     editAvatarBtn.addEventListener('click', () => avatarUpload.click());
-    avatarUpload.addEventListener('change', function() {
-        const file = this.files[0];
-        if (file && file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                userProfile.avatar = e.target.result;
-                if (profileAvatar) profileAvatar.src = userProfile.avatar;
-                localStorage.setItem('userProfile', JSON.stringify(userProfile));
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-}
-
-// Update stats in profile modal when score/streak changes
-function updateProfileStatsLive() {
-    if (profileModal && !profileModal.classList.contains('hidden')) {
-        if (profileScore) profileScore.textContent = score;
-        if (profileStreak) profileStreak.textContent = streak;
-    }
-}
+    avatarUpload.addEventListener('change', function
