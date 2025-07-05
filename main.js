@@ -1,65 +1,13 @@
 // ====== Quiz Data ======
 const quizQuestions = [
+    // ... your quiz questions as before ...
     {
         question: "What is a group of lions called?",
         options: ["Pride", "Flock", "School", "Pack"],
         answer: 0,
         funFact: "A group of lions is called a 'pride' because they live together as a family group."
     },
-    {
-        question: "What is a group of crows called?",
-        options: ["Murder", "Gaggle", "Pod", "Swarm"],
-        answer: 0,
-        funFact: "A group of crows is called a 'murder'—the name comes from old folk tales and superstitions!"
-    },
-    {
-        question: "What is a group of dolphins called?",
-        options: ["Pod", "Troop", "Army", "Parliament"],
-        answer: 0,
-        funFact: "A group of dolphins is called a 'pod.' Dolphins are very social animals!"
-    },
-    {
-        question: "What is a group of bees called?",
-        options: ["Swarm", "Flock", "Herd", "Pack"],
-        answer: 0,
-        funFact: "A group of bees is called a 'swarm.' Swarms are usually seen when bees are searching for a new home."
-    },
-    {
-        question: "What is a group of owls called?",
-        options: ["Parliament", "Flock", "Colony", "Pack"],
-        answer: 0,
-        funFact: "A group of owls is called a 'parliament'—the name was popularized by C.S. Lewis in his books!"
-    },
-    {
-        question: "What is a group of flamingos called?",
-        options: ["Flamboyance", "Gaggle", "Herd", "Pod"],
-        answer: 0,
-        funFact: "A group of flamingos is called a 'flamboyance' because of their bright pink feathers."
-    },
-    {
-        question: "What is a group of whales called?",
-        options: ["Pod", "School", "Troop", "Murder"],
-        answer: 0,
-        funFact: "Whales travel in groups called 'pods' to communicate and protect each other."
-    },
-    {
-        question: "What is a group of frogs called?",
-        options: ["Army", "Swarm", "Pack", "Colony"],
-        answer: 0,
-        funFact: "A group of frogs is called an 'army' because they often move together in large numbers."
-    },
-    {
-        question: "What is a group of kangaroos called?",
-        options: ["Mob", "Pack", "Herd", "Troop"],
-        answer: 0,
-        funFact: "A group of kangaroos is called a 'mob'—they use this group for protection."
-    },
-    {
-        question: "What is a group of ants called?",
-        options: ["Colony", "Swarm", "Herd", "Pack"],
-        answer: 0,
-        funFact: "A group of ants is called a 'colony' because they live and work together underground."
-    }
+    // ... (rest of your questions) ...
 ];
 
 // ====== User Profile Data ======
@@ -76,8 +24,19 @@ let timeTotal = 20; // Default timer value, can be changed in settings
 // ====== Sound State ======
 let isMuted = false;
 
+// ====== Settings Modal State ======
+let pendingTimeTotal = timeTotal;
+let pendingDarkMode = localStorage.getItem('darkMode') === 'true';
+
 // ====== DOMContentLoaded ======
 window.addEventListener('DOMContentLoaded', function() {
+    // Apply dark mode from localStorage
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark');
+    } else {
+        document.body.classList.remove('dark');
+    }
+
     // Defensive: check for splash and quiz-content
     const splash = document.getElementById('splash-screen');
     const quizContent = document.getElementById('quiz-content');
@@ -85,9 +44,6 @@ window.addEventListener('DOMContentLoaded', function() {
         alert('Required elements missing from HTML!');
         return;
     }
-    // Load dark mode preference on startup
-    loadDarkModePreference();
-
     setTimeout(() => {
         splash.style.display = 'none';
         quizContent.classList.remove('hidden');
@@ -102,7 +58,6 @@ function startQuiz() {
 }
 
 function showQuestion() {
-    // Defensive: check for required elements
     const scoreEl = document.getElementById('score');
     const streakEl = document.getElementById('streak');
     const currentQ = document.getElementById('current-question');
@@ -116,7 +71,6 @@ function showQuestion() {
     currentQ.textContent = current + 1;
     totalQ.textContent = quizQuestions.length;
 
-    // Render question and options
     area.innerHTML = `
         <h2 class="mb-4 text-xl font-bold">${q.question}</h2>
         <div id="options-list" class="flex flex-col gap-3"></div>
@@ -239,36 +193,45 @@ const timerSettingInput = document.getElementById('timer-setting');
 const saveSettingsBtn = document.getElementById('save-settings');
 const darkModeToggle = document.getElementById('dark-mode-toggle');
 
+// Keep track of pending (not-yet-applied) settings
 if (settingsBtn && settingsModal) {
     settingsBtn.onclick = () => {
-        // Set current timer value in input
+        // Set inputs to current (applied) values
         if (timerSettingInput) timerSettingInput.value = timeTotal;
-        // Set current dark mode value in checkbox
         if (darkModeToggle) darkModeToggle.checked = document.body.classList.contains('dark');
+        // Also update pending values
+        pendingTimeTotal = timeTotal;
+        pendingDarkMode = document.body.classList.contains('dark');
         settingsModal.classList.remove('hidden');
     };
 }
 if (closeSettingsBtn && settingsModal) {
     closeSettingsBtn.onclick = () => settingsModal.classList.add('hidden');
 }
+if (timerSettingInput) {
+    timerSettingInput.addEventListener('input', function() {
+        let val = parseInt(timerSettingInput.value, 10);
+        if (!isNaN(val) && val >= 5 && val <= 60) {
+            pendingTimeTotal = val;
+        }
+    });
+}
+if (darkModeToggle) {
+    darkModeToggle.addEventListener('change', function() {
+        pendingDarkMode = darkModeToggle.checked;
+    });
+}
 if (saveSettingsBtn && settingsModal) {
     saveSettingsBtn.onclick = () => {
-        // Update timer duration
-        if (timerSettingInput) {
-            let val = parseInt(timerSettingInput.value, 10);
-            if (!isNaN(val) && val >= 5 && val <= 60) {
-                timeTotal = val;
-            }
-        }
-        // Save dark mode preference
-        if (darkModeToggle) {
-            if (darkModeToggle.checked) {
-                document.body.classList.add('dark');
-                localStorage.setItem('darkMode', 'true');
-            } else {
-                document.body.classList.remove('dark');
-                localStorage.setItem('darkMode', 'false');
-            }
+        // Apply timer
+        timeTotal = pendingTimeTotal;
+        // Apply dark mode
+        if (pendingDarkMode) {
+            document.body.classList.add('dark');
+            localStorage.setItem('darkMode', 'true');
+        } else {
+            document.body.classList.remove('dark');
+            localStorage.setItem('darkMode', 'false');
         }
         settingsModal.classList.add('hidden');
     };
@@ -277,26 +240,6 @@ if (saveSettingsBtn && settingsModal) {
 settingsModal?.addEventListener('click', (e) => {
     if (e.target === settingsModal) settingsModal.classList.add('hidden');
 });
-
-// Dark Mode logic: live toggle (even before save)
-if (darkModeToggle) {
-    darkModeToggle.addEventListener('change', function() {
-        if (this.checked) {
-            document.body.classList.add('dark');
-        } else {
-            document.body.classList.remove('dark');
-        }
-    });
-}
-function loadDarkModePreference() {
-    if (localStorage.getItem('darkMode') === 'true') {
-        document.body.classList.add('dark');
-        if (darkModeToggle) darkModeToggle.checked = true;
-    } else {
-        document.body.classList.remove('dark');
-        if (darkModeToggle) darkModeToggle.checked = false;
-    }
-}
 
 // ====== Sound Toggle Logic ======
 const soundToggleBtn = document.getElementById('sound-toggle-btn');
@@ -360,15 +303,13 @@ if (closeProfileBtn && profileModal) {
         profileModal.classList.add('hidden');
     });
 }
-// Optional: close modal when clicking outside content
 profileModal?.addEventListener('click', (e) => {
     if (e.target === profileModal) profileModal.classList.add('hidden');
 });
 
-// Function to update profile info dynamically
 function updateProfileInfo() {
     document.getElementById('profile-name').textContent = userProfile.name || 'Guest';
     document.getElementById('profile-age').textContent = userProfile.age || '-';
-    document.getElementById('profile-score').textContent = score;  // current quiz score
-    document.getElementById('profile-streak').textContent = streak; // current streak
+    document.getElementById('profile-score').textContent = score;
+    document.getElementById('profile-streak').textContent = streak;
 }
