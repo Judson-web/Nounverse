@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Collective Nouns Quiz</title>
-  <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2Faecc661b69309290f600.ico?alt=media&token=1283a192-a304-4ecd-8f69-26f4abd0407d" type="image/x-icon">
+  <title>Global Quiz App</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -18,38 +17,54 @@
 
   <!-- Header -->
   <header class="header">
-    <h1>Collective Nouns Quiz</h1>
+    <h1 id="app-title">Quiz App</h1>
     <div class="header-btns">
-      <button id="profile-btn" aria-label="Profile">Profile</button>
-      <button id="open-settings" aria-label="Settings">Settings</button>
+      <button id="profile-btn" aria-label="Profile"><span class="material-icons">person</span></button>
+      <button id="leaderboard-btn" aria-label="Leaderboard"><span class="material-icons">leaderboard</span></button>
+      <button id="open-settings" aria-label="Settings"><span class="material-icons">settings</span></button>
+      <select id="language-selector" aria-label="Language Selector">
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="hi">हिन्दी</option>
+      </select>
       <button id="sound-toggle-btn" aria-pressed="false" aria-label="Toggle Sound">
         <span id="volume-icon">🔊</span>
         <span id="mute-icon" class="hidden">🔇</span>
-        <span id="sound-tooltip" class="hidden sm:inline">Mute Sound</span>
       </button>
     </div>
   </header>
 
+  <!-- Daily Challenge -->
+  <div id="daily-challenge" class="quiz-container" style="text-align:center; margin-bottom:1.5em;">
+    <h2 id="daily-title">Daily Challenge</h2>
+    <button id="start-daily-btn" class="option-button" style="width:auto;min-width:140px;margin-top:1em;">Start Daily Quiz</button>
+  </div>
+
   <!-- Start Screen -->
   <div id="start-screen" class="quiz-container" style="text-align:center;">
-    <h2>Welcome to the Collective Nouns Quiz!</h2>
-    <p>Test your knowledge of animal group names.<br>Ready to begin?</p>
+    <h2 id="welcome-title">Welcome!</h2>
+    <p id="welcome-desc">Test your knowledge with global quizzes.<br>Ready to begin?</p>
     <button id="start-quiz-btn" class="option-button" style="width:auto;min-width:140px;margin-top:2em;">Start Quiz</button>
+    <div style="margin-top:1.5em;">
+      <button id="login-btn" class="option-button" style="width:auto;min-width:100px;">Login</button>
+      <button id="signup-btn" class="option-button" style="width:auto;min-width:100px;">Sign Up</button>
+    </div>
   </div>
 
   <!-- Main Quiz Area -->
   <main>
     <div id="quiz-content" class="quiz-container hidden">
       <div class="score-streak-bar" aria-live="polite">
-        <span>Score: <span id="score">0</span></span>
-        <span>Streak: <span id="streak">0</span></span>
+        <span id="score-label">Score: <span id="score">0</span></span>
+        <span id="streak-label">Streak: <span id="streak">0</span></span>
       </div>
       <div class="timer-bar" aria-hidden="true">
         <span id="timer-text">20s</span>
         <div id="timer-bar-fill"></div>
       </div>
       <div class="question-meta">
-        <span>Question <span id="current-question">1</span> of <span id="total-questions">10</span></span>
+        <span id="question-progress">Question <span id="current-question">1</span> of <span id="total-questions">10</span></span>
       </div>
       <div id="question-area"></div>
       <div id="fun-fact-box" class="fun-fact hidden" aria-live="polite"></div>
@@ -63,26 +78,19 @@
       <div class="profile-avatar-section">
         <img id="profile-avatar" src="https://mui.com/static/images/avatar/1.jpg" alt="Profile Avatar" tabindex="0">
         <div class="avatar-btns" style="margin-top:0.5em;">
-          <button id="edit-avatar-btn" type="button" aria-label="Change Photo">
-            <span class="material-icons">photo_camera</span>
-          </button>
-          <button id="emoji-avatar-btn" type="button" aria-label="Pick Emoji Avatar">
-            <span class="material-icons">emoji_emotions</span>
-          </button>
+          <button id="edit-avatar-btn" type="button" aria-label="Change Photo"><span class="material-icons">photo_camera</span></button>
+          <button id="emoji-avatar-btn" type="button" aria-label="Pick Emoji Avatar"><span class="material-icons">emoji_emotions</span></button>
         </div>
       </div>
       <form id="profile-form" autocomplete="off" style="margin-top:1em;">
         <div class="profile-fields">
-          <label>
-            <span class="material-icons" aria-hidden="true">badge</span>
+          <label><span class="material-icons" aria-hidden="true">badge</span>
             <input id="profile-display-name" type="text" maxlength="24" required autocomplete="nickname" placeholder="Display Name" />
           </label>
-          <label>
-            <span class="material-icons" aria-hidden="true">alternate_email</span>
+          <label><span class="material-icons" aria-hidden="true">alternate_email</span>
             <input id="profile-username" type="text" readonly placeholder="Username" />
           </label>
-          <label>
-            <span class="material-icons" aria-hidden="true">waving_hand</span>
+          <label><span class="material-icons" aria-hidden="true">waving_hand</span>
             <select id="profile-pronouns">
               <option value="">Pronouns</option>
               <option value="she/her">She/Her</option>
@@ -92,8 +100,7 @@
             </select>
             <input id="profile-pronouns-custom" type="text" class="hidden" maxlength="24" placeholder="Custom pronouns" />
           </label>
-          <label>
-            <span class="material-icons" aria-hidden="true">palette</span>
+          <label><span class="material-icons" aria-hidden="true">palette</span>
             <input id="profile-fav-color" type="color" value="#1976d2" title="Favorite Color" style="width:2.2em;height:2.2em;padding:0;border:none;background:none;">
             <span class="material-icons" aria-hidden="true" style="margin-left:0.7em;">pets</span>
             <select id="profile-fav-animal">
@@ -108,27 +115,14 @@
               <option value="Other">Other</option>
             </select>
           </label>
-          <label>
-            <span class="material-icons" aria-hidden="true">short_text</span>
+          <label><span class="material-icons" aria-hidden="true">short_text</span>
             <input id="profile-greeting" type="text" maxlength="48" placeholder="Short bio or greeting" />
           </label>
         </div>
         <div class="profile-stats" aria-label="Your Quiz Stats" style="margin:1em 0;">
-          <div>
-            <span class="material-icons" aria-hidden="true">star</span>
-            <span id="profile-score">0</span>
-            <span>Best Score</span>
-          </div>
-          <div>
-            <span class="material-icons" aria-hidden="true">whatshot</span>
-            <span id="profile-streak">0</span>
-            <span>Best Streak</span>
-          </div>
-          <div>
-            <span class="material-icons" aria-hidden="true">quiz</span>
-            <span id="profile-quizzes">0</span>
-            <span>Quizzes</span>
-          </div>
+          <div><span class="material-icons" aria-hidden="true">star</span><span id="profile-score">0</span><span>Best Score</span></div>
+          <div><span class="material-icons" aria-hidden="true">whatshot</span><span id="profile-streak">0</span><span>Best Streak</span></div>
+          <div><span class="material-icons" aria-hidden="true">quiz</span><span id="profile-quizzes">0</span><span>Quizzes</span></div>
         </div>
         <div class="profile-badges" aria-label="Badges" style="display:flex; gap:0.5em; justify-content:center;">
           <span title="First Quiz"><span class="material-icons" aria-hidden="true">emoji_events</span></span>
@@ -139,23 +133,22 @@
           <button type="button" id="cancel-profile-edit" class="cancel-btn">Cancel</button>
         </div>
         <div class="profile-accessibility" aria-label="Theme & Accessibility" style="display:flex; gap:0.5em; margin-top:1.2em; justify-content:center;">
-          <button type="button" id="profile-theme-dark" title="Dark Theme" aria-label="Dark Theme">
-            <span class="material-icons">dark_mode</span>
-          </button>
-          <button type="button" id="profile-theme-ocean" title="Ocean Theme" aria-label="Ocean Theme">
-            <span class="material-icons">waves</span>
-          </button>
-          <button type="button" id="profile-theme-sunset" title="Sunset Theme" aria-label="Sunset Theme">
-            <span class="material-icons">wb_sunny</span>
-          </button>
-          <button type="button" id="profile-accessibility-font" title="Font Size" aria-label="Change Font Size">
-            <span class="material-icons">format_size</span>
-          </button>
-          <button type="button" id="profile-accessibility-language" title="Language" aria-label="Change Language">
-            <span class="material-icons">language</span>
-          </button>
+          <button type="button" id="profile-theme-dark" title="Dark Theme" aria-label="Dark Theme"><span class="material-icons">dark_mode</span></button>
+          <button type="button" id="profile-theme-ocean" title="Ocean Theme" aria-label="Ocean Theme"><span class="material-icons">waves</span></button>
+          <button type="button" id="profile-theme-sunset" title="Sunset Theme" aria-label="Sunset Theme"><span class="material-icons">wb_sunny</span></button>
+          <button type="button" id="profile-accessibility-font" title="Font Size" aria-label="Change Font Size"><span class="material-icons">format_size</span></button>
+          <button type="button" id="profile-accessibility-language" title="Language" aria-label="Change Language"><span class="material-icons">language</span></button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- Leaderboard Modal -->
+  <div id="leaderboard-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="leaderboard-modal-title">
+    <div class="modal-content" style="max-width:350px;">
+      <button id="close-leaderboard-modal" class="close-btn" aria-label="Close">&times;</button>
+      <h2 id="leaderboard-modal-title">Leaderboard</h2>
+      <ol id="leaderboard-list"></ol>
     </div>
   </div>
 
@@ -165,18 +158,14 @@
       <button id="close-settings-modal" class="close-btn" aria-label="Close">&times;</button>
       <h2 id="settings-modal-title">Settings</h2>
       <form id="settings-form" autocomplete="off">
-        <label>
-          <input type="checkbox" id="sound-effects-toggle" checked>
-          Enable Sound Effects
-        </label>
+        <label><input type="checkbox" id="sound-effects-toggle" checked> Enable Sound Effects</label>
         <div style="margin:1em 0;">
           <span style="font-weight:600;">Font Size:</span>
           <button type="button" class="toggle-btn" data-font="small">Small</button>
           <button type="button" class="toggle-btn active" data-font="medium">Medium</button>
           <button type="button" class="toggle-btn" data-font="large">Large</button>
         </div>
-        <label>
-          Number of Questions:
+        <label>Number of Questions:
           <select id="quiz-length-setting">
             <option value="5">5</option>
             <option value="10" selected>10</option>
@@ -190,19 +179,31 @@
           <button type="button" class="toggle-btn theme-btn" data-theme="ocean">Ocean</button>
           <button type="button" class="toggle-btn theme-btn" data-theme="sunset">Sunset</button>
         </div>
-        <label>
-          Language:
+        <label>Language:
           <select id="language-setting">
             <option value="en" selected>English</option>
             <option value="es">Español</option>
+            <option value="fr">Français</option>
+            <option value="hi">हिन्दी</option>
           </select>
         </label>
-        <label>
-          <input type="checkbox" id="animations-toggle" checked>
-          Enable Animations
-        </label>
+        <label><input type="checkbox" id="animations-toggle" checked> Enable Animations</label>
         <button id="reset-progress-btn" type="button" class="reset-btn">Reset All Progress</button>
         <button id="save-settings" type="submit" class="save-btn">Save</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Login/Signup Modal -->
+  <div id="auth-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+    <div class="modal-content" style="max-width:340px;">
+      <button id="close-auth-modal" class="close-btn" aria-label="Close">&times;</button>
+      <h2 id="auth-modal-title">Login</h2>
+      <form id="auth-form" autocomplete="off">
+        <input id="auth-email" type="email" placeholder="Email" required>
+        <input id="auth-password" type="password" placeholder="Password" required>
+        <button id="auth-submit" type="submit" class="save-btn">Login</button>
+        <p id="auth-switch" style="text-align:center; margin-top:1em; cursor:pointer; color:var(--primary);">Don't have an account? Sign up</p>
       </form>
     </div>
   </div>
