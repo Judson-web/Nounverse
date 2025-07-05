@@ -142,46 +142,104 @@
 
   <!-- PROFILE MODAL -->
   <div id="profile-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-    <div class="bg-white rounded-xl p-6 w-96 shadow-xl relative flex flex-col items-center">
+    <div class="bg-white rounded-xl p-6 w-full max-w-lg shadow-xl relative flex flex-col items-center">
       <button id="close-profile-modal" class="absolute top-2 right-3 text-xl font-bold material-btn">&times;</button>
       <div class="mb-4 flex flex-col items-center">
         <img id="profile-avatar" src="https://mui.com/static/images/avatar/1.jpg" alt="Profile Avatar" class="rounded-full shadow-md" style="width:80px;height:80px;object-fit:cover;">
         <input type="file" id="avatar-upload" accept="image/*" class="hidden" />
-        <button id="edit-avatar-btn" class="material-btn mt-2 text-xs px-3 py-1">Change Photo</button>
+        <div class="flex gap-2 mt-2">
+          <button id="edit-avatar-btn" class="material-btn text-xs px-3 py-1">Change Photo</button>
+          <button id="emoji-avatar-btn" class="material-btn text-xs px-3 py-1" title="Pick Emoji Avatar">😀</button>
+        </div>
       </div>
       <form id="profile-form" class="w-full flex flex-col items-center gap-3">
         <div class="w-full">
-          <label for="profile-name-input" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
-          <input id="profile-name-input" type="text" class="material-input w-full" maxlength="32" autocomplete="off" />
+          <label for="profile-display-name" class="block text-sm font-medium text-gray-700 mb-1">Display Name</label>
+          <input id="profile-display-name" type="text" class="material-input w-full" maxlength="24" autocomplete="off" />
         </div>
         <div class="w-full">
-          <label for="profile-age-input" class="block text-sm font-medium text-gray-700 mb-1">Age</label>
-          <input id="profile-age-input" type="number" min="1" max="120" class="material-input w-full" />
+          <label for="profile-username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+          <input id="profile-username" type="text" class="material-input w-full bg-gray-100" readonly />
         </div>
-        <div class="w-full flex justify-between mt-3">
-          <div class="profile-stat-card">
-            <span class="material-icons" style="font-size:1.3em;color:#43a047;">star</span>
-            <span id="profile-score" class="font-bold ml-1">0</span>
-            <span class="text-xs ml-1">Score</span>
+        <div class="w-full flex gap-2">
+          <div class="flex-1">
+            <label for="profile-birthday" class="block text-sm font-medium text-gray-700 mb-1">Birthday</label>
+            <input id="profile-birthday" type="date" class="material-input w-full" />
           </div>
-          <div class="profile-stat-card">
-            <span class="material-icons" style="font-size:1.3em;color:#fbc02d;">whatshot</span>
-            <span id="profile-streak" class="font-bold ml-1">0</span>
-            <span class="text-xs ml-1">Streak</span>
+          <div class="flex-1">
+            <label for="profile-age" class="block text-sm font-medium text-gray-700 mb-1">Age</label>
+            <input id="profile-age" type="number" min="1" max="120" class="material-input w-full" />
           </div>
+        </div>
+        <div class="w-full">
+          <label for="profile-pronouns" class="block text-sm font-medium text-gray-700 mb-1">Pronouns</label>
+          <select id="profile-pronouns" class="material-input w-full">
+            <option value="">Prefer not to say</option>
+            <option value="she/her">She/Her</option>
+            <option value="he/him">He/Him</option>
+            <option value="they/them">They/Them</option>
+            <option value="custom">Custom...</option>
+          </select>
+          <input id="profile-pronouns-custom" type="text" class="material-input w-full mt-1 hidden" maxlength="24" placeholder="Enter your pronouns" />
+        </div>
+        <div class="w-full flex gap-2">
+          <div class="flex-1">
+            <label for="profile-fav-color" class="block text-sm font-medium text-gray-700 mb-1">Favorite Color</label>
+            <input id="profile-fav-color" type="color" class="material-input w-full" value="#1976d2" />
+          </div>
+          <div class="flex-1">
+            <label for="profile-fav-animal" class="block text-sm font-medium text-gray-700 mb-1">Favorite Animal</label>
+            <select id="profile-fav-animal" class="material-input w-full">
+              <option value="">Select...</option>
+              <option value="Lion">Lion</option>
+              <option value="Dolphin">Dolphin</option>
+              <option value="Owl">Owl</option>
+              <option value="Flamingo">Flamingo</option>
+              <option value="Frog">Frog</option>
+              <option value="Kangaroo">Kangaroo</option>
+              <option value="Ant">Ant</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="w-full">
+          <label for="profile-greeting" class="block text-sm font-medium text-gray-700 mb-1">Custom Greeting</label>
+          <input id="profile-greeting" type="text" class="material-input w-full" maxlength="48" placeholder="e.g. Ready for a quiz adventure!" />
+        </div>
+        <div class="w-full flex flex-col items-center mt-3">
+          <div class="flex gap-3 mb-2">
+            <div class="profile-stat-card">
+              <span class="material-icons" style="font-size:1.3em;color:#43a047;">star</span>
+              <span id="profile-score" class="font-bold ml-1">0</span>
+              <span class="text-xs ml-1">Score</span>
+            </div>
+            <div class="profile-stat-card">
+              <span class="material-icons" style="font-size:1.3em;color:#fbc02d;">whatshot</span>
+              <span id="profile-streak" class="font-bold ml-1">0</span>
+              <span class="text-xs ml-1">Streak</span>
+            </div>
+            <div class="profile-stat-card">
+              <span class="material-icons" style="font-size:1.3em;color:#1976d2;">quiz</span>
+              <span id="profile-quizzes" class="font-bold ml-1">0</span>
+              <span class="text-xs ml-1">Quizzes</span>
+            </div>
+          </div>
+          <div class="flex gap-2 mb-2">
+            <!-- Example badges, update dynamically in JS -->
+            <span class="inline-block" title="First Quiz"><span class="material-icons" style="color:#ffb300;">emoji_events</span></span>
+            <span class="inline-block" title="Streak 5"><span class="material-icons" style="color:#43a047;">military_tech</span></span>
+          </div>
+        </div>
+        <div class="w-full flex gap-2 items-center mt-2">
+          <label for="profile-pin" class="block text-sm font-medium text-gray-700">Profile PIN</label>
+          <input id="profile-pin" type="password" class="material-input w-24" maxlength="6" autocomplete="off" placeholder="Optional" />
+          <span class="text-xs text-gray-400">(for parental lock)</span>
         </div>
         <div class="flex gap-3 mt-5">
           <button type="submit" class="material-btn bg-blue-600 text-white px-5 py-2 rounded">Save</button>
           <button type="button" id="cancel-profile-edit" class="material-btn bg-gray-200 text-gray-800 px-5 py-2 rounded">Cancel</button>
         </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- AUDIO ELEMENTS FOR FEEDBACK -->
-  <audio id="correct-sound" src="https://cdn.pixabay.com/audio/2022/10/16/audio_12c3fae3f2.mp3" preload="auto"></audio>
-  <audio id="wrong-sound" src="https://cdn.pixabay.com/audio/2022/10/16/audio_12c3fae3f2.mp3" preload="auto"></audio>
-
-  <script src="main.js"></script>
-</body>
-</html>
+        <div class="flex gap-2 mt-5">
+          <button type="button" id="profile-accessibility-font" class="toggle-btn" title="Font Size">A</button>
+          <button type="button" id="profile-accessibility-theme" class="toggle-btn" title="Theme">🌗</button>
+          <button type="button" id="profile-accessibility-language" class="toggle-btn" title
