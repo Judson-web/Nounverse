@@ -1,0 +1,170 @@
+{
+  "en": {
+    "appTitle": "Global Quiz App",
+    "welcomeTitle": "Welcome!",
+    "welcomeDesc": "Test your knowledge with global quizzes.<br>Ready to begin?",
+    "dailyTitle": "Daily Challenge",
+    "startQuiz": "Start Quiz",
+    "startDailyQuiz": "Start Daily Quiz",
+    "login": "Login",
+    "signup": "Sign Up",
+    "score": "Score",
+    "streak": "Streak",
+    "question": "Question",
+    "of": "of",
+    "profile": "Profile",
+    "settings": "Settings",
+    "leaderboard": "Leaderboard",
+    "badges": "Badges",
+    "save": "Save",
+    "cancel": "Cancel",
+    "resetProgress": "Reset All Progress",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "dontHaveAccount": "Don't have an account? Sign up",
+    "haveAccount": "Already have an account? Login",
+    "quizQuestions": [
+      {
+        "question": "What is a group of lions called?",
+        "options": ["Pride", "Flock", "School", "Pack"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+        "explanation": "A group of lions is called a pride."
+      },
+      {
+        "question": "What is a group of crows called?",
+        "options": ["Murder", "Gaggle", "Pod", "Swarm"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
+        "explanation": "A group of crows is called a murder."
+      }
+    ]
+  },
+  "es": {
+    "appTitle": "Quiz Global",
+    "welcomeTitle": "¡Bienvenido!",
+    "welcomeDesc": "Pon a prueba tus conocimientos con cuestionarios globales.<br>¿Listo para empezar?",
+    "dailyTitle": "Desafío diario",
+    "startQuiz": "Comenzar quiz",
+    "startDailyQuiz": "Comenzar desafío diario",
+    "login": "Iniciar sesión",
+    "signup": "Registrarse",
+    "score": "Puntaje",
+    "streak": "Racha",
+    "question": "Pregunta",
+    "of": "de",
+    "profile": "Perfil",
+    "settings": "Configuración",
+    "leaderboard": "Clasificación",
+    "badges": "Insignias",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "resetProgress": "Restablecer todo el progreso",
+    "logout": "Cerrar sesión",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "dontHaveAccount": "¿No tienes una cuenta? Regístrate",
+    "haveAccount": "¿Ya tienes una cuenta? Inicia sesión",
+    "quizQuestions": [
+      {
+        "question": "¿Cómo se llama un grupo de leones?",
+        "options": ["Manada", "Bandada", "Escuela", "Manojo"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un grupo de leones se llama manada."
+      },
+      {
+        "question": "¿Cómo se llama un grupo de cuervos?",
+        "options": ["Parvada", "Bandada", "Pod", "Enjambre"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un grupo de cuervos se llama parvada."
+      }
+    ]
+  },
+  "fr": {
+    "appTitle": "Quiz Mondial",
+    "welcomeTitle": "Bienvenue !",
+    "welcomeDesc": "Testez vos connaissances avec des quiz mondiaux.<br>Prêt à commencer ?",
+    "dailyTitle": "Défi du jour",
+    "startQuiz": "Commencer le quiz",
+    "startDailyQuiz": "Commencer le défi du jour",
+    "login": "Connexion",
+    "signup": "S'inscrire",
+    "score": "Score",
+    "streak": "Série",
+    "question": "Question",
+    "of": "sur",
+    "profile": "Profil",
+    "settings": "Paramètres",
+    "leaderboard": "Classement",
+    "badges": "Badges",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "resetProgress": "Réinitialiser tout le progrès",
+    "logout": "Déconnexion",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "dontHaveAccount": "Pas de compte ? Inscrivez-vous",
+    "haveAccount": "Vous avez déjà un compte ? Connectez-vous",
+    "quizQuestions": [
+      {
+        "question": "Comment appelle-t-on un groupe de lions ?",
+        "options": ["Troupe", "Vol", "École", "Meute"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un groupe de lions s'appelle une troupe."
+      },
+      {
+        "question": "Comment appelle-t-on un groupe de corbeaux ?",
+        "options": ["Volée", "Bande", "Pod", "Essaim"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un groupe de corbeaux s'appelle une volée."
+      }
+    ]
+  },
+  "hi": {
+    "appTitle": "ग्लोबल क्विज़ ऐप",
+    "welcomeTitle": "स्वागत है!",
+    "welcomeDesc": "वैश्विक क्विज़ के साथ अपना ज्ञान आज़माएँ।<br>क्या आप तैयार हैं?",
+    "dailyTitle": "दैनिक चुनौती",
+    "startQuiz": "क्विज़ शुरू करें",
+    "startDailyQuiz": "दैनिक क्विज़ शुरू करें",
+    "login": "लॉगिन",
+    "signup": "साइन अप",
+    "score": "स्कोर",
+    "streak": "स्ट्रिक",
+    "question": "प्रश्न",
+    "of": "में से",
+    "profile": "प्रोफ़ाइल",
+    "settings": "सेटिंग्स",
+    "leaderboard": "लीडरबोर्ड",
+    "badges": "बैज",
+    "save": "सहेजें",
+    "cancel": "रद्द करें",
+    "resetProgress": "सभी प्रगति रीसेट करें",
+    "logout": "लॉग आउट",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "dontHaveAccount": "कोई खाता नहीं है? साइन अप करें",
+    "haveAccount": "पहले से खाता है? लॉगिन करें",
+    "quizQuestions": [
+      {
+        "question": "शेरों के समूह को क्या कहते हैं?",
+        "options": ["प्राइड", "झुंड", "स्कूल", "पैक"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+        "explanation": "शेरों के समूह को प्राइड कहते हैं।"
+      },
+      {
+        "question": "कौवों के समूह को क्या कहते हैं?",
+        "options": ["झुंड", "बंडल", "पॉड", "झुंड"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
+        "explanation": "कौवों के समूह को झुंड कहते हैं।"
+      }
+    ]
+  }
+}
