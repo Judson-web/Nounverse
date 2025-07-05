@@ -15,7 +15,6 @@ let userProfile = JSON.parse(localStorage.getItem('userProfile')) || {
     favAnimal: '',
     greeting: '',
     avatar: 'https://mui.com/static/images/avatar/1.jpg',
-    pin: '',
     stats: { quizzes: 0, bestScore: 0, bestStreak: 0 },
     badges: []
 };
@@ -61,7 +60,6 @@ const dom = {
     favColorInput: $('profile-fav-color'),
     favAnimalInput: $('profile-fav-animal'),
     greetingInput: $('profile-greeting'),
-    pinInput: $('profile-pin'),
     scoreStat: $('profile-score'),
     streakStat: $('profile-streak'),
     quizzesStat: $('profile-quizzes'),
@@ -112,7 +110,6 @@ window.addEventListener('DOMContentLoaded', function() {
     updateProfileInfo();
     setupSettingsUI();
     setupProfileUI();
-    // Hide splash and show quiz when DOM is ready
     if (dom.splash) dom.splash.style.display = 'none';
     if (dom.quizContent) dom.quizContent.classList.remove('hidden');
     startQuiz();
@@ -261,7 +258,6 @@ function updateProfileInfo() {
     dom.favColorInput.value = userProfile.favColor || '#1976d2';
     dom.favAnimalInput.value = userProfile.favAnimal || '';
     dom.greetingInput.value = userProfile.greeting || '';
-    dom.pinInput.value = userProfile.pin || '';
     if (dom.profileAvatar) dom.profileAvatar.src = userProfile.avatar || 'https://mui.com/static/images/avatar/1.jpg';
     dom.scoreStat.textContent = userProfile.stats.bestScore || 0;
     dom.streakStat.textContent = userProfile.stats.bestStreak || 0;
@@ -309,7 +305,6 @@ if (dom.profileForm) {
         userProfile.favColor = dom.favColorInput.value;
         userProfile.favAnimal = dom.favAnimalInput.value;
         userProfile.greeting = dom.greetingInput.value.trim();
-        userProfile.pin = dom.pinInput.value.trim();
         saveProfile();
         updateProfileInfo();
         dom.profileModal.classList.add('hidden');
@@ -496,24 +491,3 @@ function playSound(id) {
     if (isMuted || !settings.soundEffects) return;
     const sound = $(id);
     if (sound) {
-        sound.currentTime = 0;
-        sound.play().catch(()=>{});
-    }
-}
-
-// ===== UI Setup =====
-function setupSettingsUI() {
-    dom.fontSizeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.font === settings.fontSize));
-    dom.themeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.theme === settings.theme));
-}
-function setupProfileUI() {
-    if (dom.displayNameInput && dom.usernameInput) {
-        let debounce;
-        dom.displayNameInput.addEventListener('input', function() {
-            clearTimeout(debounce);
-            debounce = setTimeout(() => {
-                dom.usernameInput.value = generateUsername(dom.displayNameInput.value);
-            }, 200);
-        });
-    }
-}
