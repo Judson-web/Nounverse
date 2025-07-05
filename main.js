@@ -10,7 +10,7 @@ let settings = JSON.parse(localStorage.getItem('settings')) || {
     soundEffects: true,
     fontSize: 'medium',
     quizLength: 10,
-    theme: 'light',
+    theme: '', // '' means default (light)
     language: 'en',
     animations: true
 };
@@ -236,7 +236,7 @@ fontSizeBtns.forEach(btn => {
     });
 });
 
-// Theme toggle logic
+// Theme toggle logic (no Light/default option)
 themeBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         themeBtns.forEach(b => b.classList.remove('active'));
@@ -273,8 +273,9 @@ if (resetProgressBtn) {
 
 // ====== Apply Settings ======
 function applySettings() {
-    // Theme
+    // Remove all theme classes
     document.body.classList.remove('dark', 'theme-ocean', 'theme-sunset');
+    // Only apply theme if selected
     if (settings.theme === 'dark') document.body.classList.add('dark');
     if (settings.theme === 'ocean') document.body.classList.add('theme-ocean');
     if (settings.theme === 'sunset') document.body.classList.add('theme-sunset');
@@ -367,7 +368,7 @@ profileModal?.addEventListener('click', (e) => {
 });
 
 function updateProfileInfo() {
-    if (profileNameInput) profileNameInput.value = userProfile.name || 'Guest';
+    if (profileNameInput) profileNameInput.value = userProfile.name || '';
     if (profileAgeInput) profileAgeInput.value = userProfile.age || '';
     if (profileScore) profileScore.textContent = score;
     if (profileStreak) profileStreak.textContent = streak;
@@ -404,18 +405,3 @@ if (editAvatarBtn && avatarUpload) {
 function updateProfileStatsLive() {
     if (profileModal && !profileModal.classList.contains('hidden')) {
         if (profileScore) profileScore.textContent = score;
-        if (profileStreak) profileStreak.textContent = streak;
-    }
-}
-
-// ====== Settings UI Setup (for toggles/buttons) ======
-function setupSettingsUI() {
-    // Font size toggle (ensure correct active state on load)
-    fontSizeBtns.forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.font === settings.fontSize);
-    });
-    // Theme toggle (ensure correct active state on load)
-    themeBtns.forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.theme === settings.theme);
-    });
-}
