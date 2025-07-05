@@ -43,23 +43,46 @@ document.addEventListener('keydown', function(e) {
 
 // Attach header button listeners after DOM is ready
 window.addEventListener('DOMContentLoaded', function() {
+    // Splash screen logic: show quiz content after loading
+    setTimeout(function() {
+        if ($('splash-screen')) $('splash-screen').style.display = 'none';
+        if ($('quiz-content')) $('quiz-content').classList.remove('hidden');
+        showProfileSelection();
+        showCookieBanner();
+    }, 1000);
+
     $('profile-btn')?.addEventListener('click', () => openModal('profile-modal'));
     $('open-settings')?.addEventListener('click', () => openModal('settings-modal'));
     $('open-shop')?.addEventListener('click', () => openModal('shop-modal'));
     $('open-stickerbook')?.addEventListener('click', () => openModal('stickerbook-modal'));
     $('daily-challenge-btn')?.addEventListener('click', () => openModal('daily-challenge-modal'));
-    // Example: Close modal buttons
+
+    // Close modal buttons
     $qa('.modal-overlay .btn-modal, .modal-overlay [id^="close-"]').forEach(btn => {
         btn.addEventListener('click', closeAllModals);
     });
-    // Optionally: Cookie banner accept
+
+    // Cookie banner accept
     $('accept-cookies')?.addEventListener('click', function() {
         localStorage.setItem('cookiesAccepted', 'true');
         $('cookie-banner')?.classList.remove('show');
     });
 });
 
-// Quiz option buttons: event delegation (re-attach after each render)
+// Example: show cookie banner if not accepted
+function showCookieBanner() {
+    if (!localStorage.getItem('cookiesAccepted')) {
+        const banner = $('cookie-banner');
+        if (banner) banner.classList.add('show');
+    }
+}
+
+// Example: Profile modal logic (stub)
+function showProfileSelection() {
+    // You can implement your profile selection logic here
+}
+
+// Example quiz logic for option buttons
 function renderQuizOptions(options) {
     const optionsList = $('options-list');
     if (!optionsList) return;
@@ -80,23 +103,13 @@ function renderQuizOptions(options) {
     };
 }
 
-// Example quiz logic (replace with your actual logic)
+// Example: handle option click
 function handleOptionClick(idx, btn) {
-    // Example: disable all option buttons after click
     $qa('.option-button').forEach(b => b.disabled = true);
     btn.classList.add('correct');
     // Show next button, update score, etc.
 }
 
-// Example: show cookie banner if not accepted
-function showCookieBanner() {
-    if (!localStorage.getItem('cookiesAccepted')) {
-        const banner = $('cookie-banner');
-        if (banner) banner.classList.add('show');
-    }
-}
+// Optionally, call renderQuizOptions(['Pride', 'Flock', 'School', 'Pack']); after quiz content is shown
 
-// Call this after quiz render
-// renderQuizOptions(['Pride', 'Flock', 'School', 'Pack']);
-
-showCookieBanner();
+// Add any additional quiz logic as needed
