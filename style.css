@@ -98,8 +98,9 @@ body {
   font-size: 1.5em;
 }
 
-/* ===== Modal Overlay (for settings, etc.) ===== */
-#settings-modal {
+/* ===== Modal Overlay (for settings, profile, etc.) ===== */
+#settings-modal,
+#profile-modal {
   position: fixed;
   inset: 0;
   z-index: 100;
@@ -108,10 +109,12 @@ body {
   justify-content: center;
   background: rgba(0,0,0,0.4);
 }
-#settings-modal.hidden {
+#settings-modal.hidden,
+#profile-modal.hidden {
   display: none;
 }
-#settings-modal .bg-white {
+#settings-modal .bg-white,
+#profile-modal .bg-white {
   background: #fff;
   border-radius: 1rem;
   padding: 2rem 1.5rem 1.5rem 1.5rem;
@@ -120,10 +123,12 @@ body {
   max-width: 90vw;
   position: relative;
 }
-#settings-modal h2 {
+#settings-modal h2,
+#profile-modal h2 {
   margin-top: 0;
 }
-#close-settings-modal {
+#close-settings-modal,
+#close-profile-modal {
   position: absolute;
   top: 0.6rem;
   right: 1rem;
@@ -134,7 +139,8 @@ body {
   cursor: pointer;
   transition: color 0.2s;
 }
-#close-settings-modal:hover {
+#close-settings-modal:hover,
+#close-profile-modal:hover {
   color: #f87171;
 }
 #timer-setting {
@@ -158,6 +164,15 @@ body {
 }
 #save-settings:hover {
   background: #1d4ed8;
+}
+
+/* ===== Profile Modal Content ===== */
+#profile-content p {
+  margin: 0.5em 0;
+  font-size: 1.05em;
+}
+#profile-content strong {
+  color: #2563eb;
 }
 
 /* ===== Mute/Unmute Button ===== */
@@ -202,7 +217,7 @@ body {
 
 /* ===== Responsive ===== */
 @media (max-width: 600px) {
-  #quiz-container, #quiz-content, #settings-modal .bg-white {
+  #quiz-container, #quiz-content, #settings-modal .bg-white, #profile-modal .bg-white {
     padding: 1em 0.5em 1em 0.5em;
     min-width: unset;
   }
