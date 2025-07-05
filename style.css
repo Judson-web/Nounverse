@@ -143,35 +143,6 @@ header {
     100% { opacity: 0; transform: translate(-50%,-50%) scale(0.8);}
 }
 
-/* Avatar & Theme Selection */
-.avatar-choose-img {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 2px solid #ccc;
-    cursor: pointer;
-    object-fit: cover;
-    transition: border 0.2s, box-shadow 0.2s;
-    display: inline-block;
-}
-.avatar-choose-img.selected {
-    border: 2px solid #4A90E2;
-    box-shadow: 0 0 0 2px #4A90E2;
-}
-.theme-choose-sample {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: 2px solid #eee;
-    display: inline-block;
-    margin-left: 0.5rem;
-    cursor: pointer;
-}
-.theme-choose-sample.selected {
-    border: 2px solid #4A90E2;
-    box-shadow: 0 0 0 2px #4A90E2;
-}
-
 /* Modals */
 .modal-overlay {
     position: fixed;
