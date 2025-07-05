@@ -66,6 +66,10 @@ const quizQuestions = [
 let current = 0, score = 0, streak = 0, timer = null;
 let timeTotal = 20; // Default timer value, can be changed in settings
 
+// ====== Sound State ======
+let isMuted = false;
+
+// ====== DOMContentLoaded ======
 window.addEventListener('DOMContentLoaded', function() {
     // Defensive: check for splash and quiz-content
     const splash = document.getElementById('splash-screen');
@@ -81,6 +85,7 @@ window.addEventListener('DOMContentLoaded', function() {
     }, 900);
 });
 
+// ====== Quiz Functions ======
 function startQuiz() {
     current = 0; score = 0; streak = 0;
     showQuestion();
@@ -127,10 +132,12 @@ function handleAnswer(idx, btn) {
     if (idx === q.answer) {
         btn.classList.add('correct');
         score++; streak++;
+        playSound('correct-sound');
     } else {
         btn.classList.add('incorrect');
         allBtns[q.answer].classList.add('correct');
         streak = 0;
+        playSound('wrong-sound');
     }
     document.getElementById('score').textContent = score;
     document.getElementById('streak').textContent = streak;
@@ -190,6 +197,7 @@ function handleTimeUp() {
     });
     streak = 0;
     document.getElementById('streak').textContent = streak;
+    playSound('wrong-sound');
     showFunFact(q.funFact);
     setTimeout(() => {
         current++;
@@ -246,3 +254,49 @@ if (saveSettingsBtn && settingsModal) {
 settingsModal?.addEventListener('click', (e) => {
     if (e.target === settingsModal) settingsModal.classList.add('hidden');
 });
+
+// ====== Sound Toggle Logic ======
+const soundToggleBtn = document.getElementById('sound-toggle-btn');
+const volumeIcon = document.getElementById('volume-icon');
+const muteIcon = document.getElementById('mute-icon');
+const soundTooltip = document.getElementById('sound-tooltip');
+
+if (soundToggleBtn) {
+    soundToggleBtn.addEventListener('click', () => {
+        isMuted = !isMuted;
+        soundToggleBtn.setAttribute('aria-pressed', isMuted);
+
+        if (isMuted) {
+            volumeIcon.classList.add('hidden');
+            muteIcon.classList.remove('hidden');
+            if (soundTooltip) soundTooltip.textContent = "Unmute Sound";
+            muteAllAudio();
+        } else {
+            volumeIcon.classList.remove('hidden');
+            muteIcon.classList.add('hidden');
+            if (soundTooltip) soundTooltip.textContent = "Mute Sound";
+            unmuteAllAudio();
+        }
+    });
+}
+
+function muteAllAudio() {
+    document.querySelectorAll('audio').forEach(audio => {
+        audio.muted = true;
+    });
+}
+function unmuteAllAudio() {
+    document.querySelectorAll('audio').forEach(audio => {
+        audio.muted = false;
+    });
+}
+
+// ====== Play Sound Helper ======
+function playSound(id) {
+    if (isMuted) return;
+    const sound = document.getElementById(id);
+    if (sound) {
+        sound.currentTime = 0;
+        sound.play();
+    }
+}
