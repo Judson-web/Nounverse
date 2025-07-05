@@ -8,9 +8,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <style>
-    /* ... (Your existing CSS or style.css is loaded) ... */
-  </style>
 </head>
 <body class="min-h-screen flex flex-col bg-gradient-to-tr from-yellow-200 via-blue-100 to-green-100">
 
@@ -109,6 +106,21 @@
       </div>
       <!-- Add more settings options here as needed -->
       <button id="save-settings" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+    </div>
+  </div>
+
+  <!-- PROFILE MODAL -->
+  <div id="profile-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+    <div class="bg-white rounded-xl p-6 w-80 shadow-xl relative">
+      <button id="close-profile-modal" class="absolute top-2 right-3 text-xl font-bold">&times;</button>
+      <h2 class="text-xl font-semibold mb-4">User Profile</h2>
+      <div id="profile-content">
+        <p><strong>Name:</strong> <span id="profile-name">Guest</span></p>
+        <p><strong>Age:</strong> <span id="profile-age">-</span></p>
+        <p><strong>Score:</strong> <span id="profile-score">0</span></p>
+        <p><strong>Streak:</strong> <span id="profile-streak">0</span></p>
+        <!-- Add more profile info as needed -->
+      </div>
     </div>
   </div>
 
