@@ -1,14 +1,19 @@
+// --- Utility: Safe DOM access ---
+function $(sel) { return document.getElementById(sel); }
+function $q(sel) { return document.querySelector(sel); }
+function $qa(sel) { return document.querySelectorAll(sel); }
+
 // --- Splash Screen Logic ---
 window.addEventListener('DOMContentLoaded', function() {
   setTimeout(function() {
-    document.getElementById('splash-screen').style.display = 'none';
-    document.getElementById('quiz-content').classList.remove('hidden');
+    if ($('splash-screen')) $('splash-screen').style.display = 'none';
+    if ($('quiz-content')) $('quiz-content').classList.remove('hidden');
     showProfileSelection();
     showCookieBanner();
   }, 1000);
 });
 
-// --- Profile System with Avatar and Theme ---
+// --- Profile System ---
 const avatarList = [
   "https://api.dicebear.com/6.x/personas/svg?seed=Cat",
   "https://api.dicebear.com/6.x/personas/svg?seed=Dog",
@@ -24,17 +29,20 @@ const themeList = [
   { name: "Orange", color: "#f59e42" }
 ];
 let profiles = JSON.parse(localStorage.getItem('profiles')) || [];
-let currentProfileIndex = Number(localStorage.getItem('currentProfileIndex')) || 0;
+let currentProfileIndex = Number(localStorage.getItem('currentProfileIndex'));
+if (isNaN(currentProfileIndex) || currentProfileIndex < 0) currentProfileIndex = 0;
 
 // Profile Modal Logic
 function showProfileSelection() {
-  document.getElementById('profile-modal').classList.add('visible');
+  if (!$('profile-modal')) return;
+  $('profile-modal').classList.add('visible');
   renderProfileList();
-  document.getElementById('add-profile-btn').onclick = showAddProfileModal;
-  document.getElementById('close-profile').onclick = () => document.getElementById('profile-modal').classList.remove('visible');
+  if ($('add-profile-btn')) $('add-profile-btn').onclick = showAddProfileModal;
+  if ($('close-profile')) $('close-profile').onclick = () => $('profile-modal').classList.remove('visible');
 }
 function renderProfileList() {
-  const profileList = document.getElementById('profile-list');
+  const profileList = $('profile-list');
+  if (!profileList) return;
   profileList.innerHTML = '';
   if (profiles.length === 0) {
     profileList.innerHTML = `<div class="text-gray-500 text-center">No profiles yet. Add one!</div>`;
@@ -50,71 +58,77 @@ function renderProfileList() {
       <button class="delete-profile-btn" title="Delete Profile">&times;</button>
     `;
     div.onclick = () => selectProfile(idx);
-    div.querySelector('.delete-profile-btn').onclick = (e) => {
-      e.stopPropagation();
-      deleteProfile(idx);
-    };
+    const delBtn = div.querySelector('.delete-profile-btn');
+    if (delBtn) delBtn.onclick = (e) => { e.stopPropagation(); deleteProfile(idx); };
     profileList.appendChild(div);
   });
 }
 function showAddProfileModal() {
-  document.getElementById('profile-modal').classList.remove('visible');
-  document.getElementById('add-profile-modal').classList.add('visible');
+  if ($('profile-modal')) $('profile-modal').classList.remove('visible');
+  if ($('add-profile-modal')) $('add-profile-modal').classList.add('visible');
   renderAvatarThemeChoices();
-  document.getElementById('add-profile-form').onsubmit = function(e) {
-    e.preventDefault();
-    const name = document.getElementById('profile-name-input').value.trim();
-    if (!name) return;
-    const selectedAvatar = document.querySelector('.avatar-choose-img.selected');
-    const selectedTheme = document.querySelector('.theme-choose-sample.selected');
-    profiles.push({
-      name,
-      avatar: avatarList[selectedAvatar ? selectedAvatar.dataset.idx : 0],
-      theme: themeList[selectedTheme ? selectedTheme.dataset.idx : 0].color
-    });
-    localStorage.setItem('profiles', JSON.stringify(profiles));
-    localStorage.setItem('currentProfileIndex', profiles.length - 1);
-    document.getElementById('add-profile-modal').classList.remove('visible');
-    showProfileSelection();
-    updateProfileHeader();
-  };
-  document.getElementById('cancel-add-profile').onclick = function() {
-    document.getElementById('add-profile-modal').classList.remove('visible');
-    showProfileSelection();
-  };
+  if ($('add-profile-form')) {
+    $('add-profile-form').onsubmit = function(e) {
+      e.preventDefault();
+      const name = $('profile-name-input') ? $('profile-name-input').value.trim() : '';
+      if (!name) return;
+      const selectedAvatar = $q('.avatar-choose-img.selected');
+      const selectedTheme = $q('.theme-choose-sample.selected');
+      profiles.push({
+        name,
+        avatar: avatarList[selectedAvatar ? selectedAvatar.dataset.idx : 0],
+        theme: themeList[selectedTheme ? selectedTheme.dataset.idx : 0].color
+      });
+      localStorage.setItem('profiles', JSON.stringify(profiles));
+      localStorage.setItem('currentProfileIndex', profiles.length - 1);
+      if ($('add-profile-modal')) $('add-profile-modal').classList.remove('visible');
+      showProfileSelection();
+      updateProfileHeader();
+    };
+  }
+  if ($('cancel-add-profile')) {
+    $('cancel-add-profile').onclick = function() {
+      if ($('add-profile-modal')) $('add-profile-modal').classList.remove('visible');
+      showProfileSelection();
+    };
+  }
 }
 function renderAvatarThemeChoices() {
-  const avatarListDiv = document.getElementById('avatar-choose-list');
-  avatarListDiv.innerHTML = '';
-  avatarList.forEach((url, i) => {
-    const img = document.createElement('img');
-    img.src = url;
-    img.className = 'avatar-choose-img rounded-full border-2 border-gray-300 cursor-pointer' + (i === 0 ? ' selected' : '');
-    img.dataset.idx = i;
-    img.onclick = function() {
-      document.querySelectorAll('.avatar-choose-img').forEach(i => i.classList.remove('selected'));
-      this.classList.add('selected');
-    };
-    avatarListDiv.appendChild(img);
-  });
-  const themeListDiv = document.getElementById('theme-choose-list');
-  themeListDiv.innerHTML = '';
-  themeList.forEach((t, i) => {
-    const span = document.createElement('span');
-    span.className = 'theme-choose-sample rounded-full border-2 border-gray-300 cursor-pointer w-7 h-7 inline-block' + (i === 0 ? ' selected' : '');
-    span.dataset.idx = i;
-    span.style.background = t.color;
-    span.onclick = function() {
-      document.querySelectorAll('.theme-choose-sample').forEach(s => s.classList.remove('selected'));
-      this.classList.add('selected');
-    };
-    themeListDiv.appendChild(span);
-  });
+  const avatarListDiv = $('avatar-choose-list');
+  if (avatarListDiv) {
+    avatarListDiv.innerHTML = '';
+    avatarList.forEach((url, i) => {
+      const img = document.createElement('img');
+      img.src = url;
+      img.className = 'avatar-choose-img rounded-full border-2 border-gray-300 cursor-pointer' + (i === 0 ? ' selected' : '');
+      img.dataset.idx = i;
+      img.onclick = function() {
+        $qa('.avatar-choose-img').forEach(i => i.classList.remove('selected'));
+        this.classList.add('selected');
+      };
+      avatarListDiv.appendChild(img);
+    });
+  }
+  const themeListDiv = $('theme-choose-list');
+  if (themeListDiv) {
+    themeListDiv.innerHTML = '';
+    themeList.forEach((t, i) => {
+      const span = document.createElement('span');
+      span.className = 'theme-choose-sample rounded-full border-2 border-gray-300 cursor-pointer w-7 h-7 inline-block' + (i === 0 ? ' selected' : '');
+      span.dataset.idx = i;
+      span.style.background = t.color;
+      span.onclick = function() {
+        $qa('.theme-choose-sample').forEach(s => s.classList.remove('selected'));
+        this.classList.add('selected');
+      };
+      themeListDiv.appendChild(span);
+    });
+  }
 }
 function selectProfile(idx) {
   currentProfileIndex = idx;
   localStorage.setItem('currentProfileIndex', idx);
-  document.getElementById('profile-modal').classList.remove('visible');
+  if ($('profile-modal')) $('profile-modal').classList.remove('visible');
   updateProfileHeader();
 }
 function deleteProfile(idx) {
@@ -127,42 +141,49 @@ function deleteProfile(idx) {
 }
 function updateProfileHeader() {
   const profile = profiles[currentProfileIndex];
-  document.getElementById('profile-avatar').style.backgroundImage = profile?.avatar
-    ? `url('${profile.avatar}')`
-    : `url('${avatarList[0]}')`;
-  document.getElementById('profile-avatar').style.backgroundSize = 'cover';
-  document.getElementById('profile-name').textContent = profile?.name || 'Profile';
+  if ($('profile-avatar')) {
+    $('profile-avatar').style.backgroundImage = profile?.avatar
+      ? `url('${profile.avatar}')`
+      : `url('${avatarList[0]}')`;
+    $('profile-avatar').style.backgroundSize = 'cover';
+  }
+  if ($('profile-name')) $('profile-name').textContent = profile?.name || 'Profile';
 }
 updateProfileHeader();
-document.getElementById('profile-btn').onclick = () => showProfileSelection();
+if ($('profile-btn')) $('profile-btn').onclick = () => showProfileSelection();
 
 // --- Cookie Banner ---
 function showCookieBanner() {
   if (!localStorage.getItem('cookiesAccepted')) {
-    const banner = document.getElementById('cookie-banner');
+    const banner = $('cookie-banner');
     if (banner) {
       banner.classList.add('show');
       banner.classList.remove('hidden');
-      document.getElementById('accept-cookies').onclick = () => {
-        localStorage.setItem('cookiesAccepted', 'true');
-        banner.classList.remove('show');
-      };
+      const acceptBtn = $('accept-cookies');
+      if (acceptBtn) {
+        acceptBtn.onclick = () => {
+          localStorage.setItem('cookiesAccepted', 'true');
+          banner.classList.remove('show');
+        };
+      }
     }
   }
 }
 
 // --- Sound Toggle ---
-const soundBtn = document.getElementById('sound-toggle-btn');
-const volumeIcon = document.getElementById('volume-icon');
-const muteIcon = document.getElementById('mute-icon');
+const soundBtn = $('sound-toggle-btn');
+const volumeIcon = $('volume-icon');
+const muteIcon = $('mute-icon');
 let soundEnabled = localStorage.getItem('soundEnabled') !== 'false';
 function updateSoundIcon() {
   if (soundEnabled) {
-    volumeIcon.classList.remove('hidden');
-    muteIcon.classList.add('hidden');
+    if (volumeIcon) volumeIcon.classList.remove('hidden');
+    if (muteIcon) muteIcon.classList.add('hidden');
+    if ($('sound-tooltip')) $('sound-tooltip').textContent = 'Mute Sound';
   } else {
-    volumeIcon.classList.add('hidden');
-    muteIcon.classList.remove('hidden');
+    if (volumeIcon) volumeIcon.classList.add('hidden');
+    if (muteIcon) muteIcon.classList.remove('hidden');
+    if ($('sound-tooltip')) $('sound-tooltip').textContent = 'Unmute Sound';
   }
 }
 if (soundBtn) {
@@ -177,24 +198,19 @@ if (soundBtn) {
 // --- In-Game Currency ---
 let nounCoins = Number(localStorage.getItem('nounCoins')) || 0;
 function updateCoinsDisplay() {
-  document.getElementById('noun-coins').textContent = nounCoins;
+  if ($('noun-coins')) $('noun-coins').textContent = nounCoins;
   localStorage.setItem('nounCoins', nounCoins);
 }
 updateCoinsDisplay();
 function awardCoins(amount) {
   nounCoins += amount;
   updateCoinsDisplay();
-  
-  // Play coin sound if enabled
-  if (soundEnabled) {
-    playSoundEffect('coin');
-  }
 }
 
 // --- Shop Modal ---
-document.getElementById('open-shop').onclick = () => document.getElementById('shop-modal').classList.add('visible');
-document.getElementById('close-shop').onclick = () => document.getElementById('shop-modal').classList.remove('visible');
-document.querySelectorAll('.shop-item').forEach(btn => {
+if ($('open-shop')) $('open-shop').onclick = () => $('shop-modal') && $('shop-modal').classList.add('visible');
+if ($('close-shop')) $('close-shop').onclick = () => $('shop-modal') && $('shop-modal').classList.remove('visible');
+$qa('.shop-item').forEach(btn => {
   btn.onclick = function() {
     const cost = Number(this.dataset.cost);
     if (nounCoins >= cost) {
@@ -211,7 +227,8 @@ document.querySelectorAll('.shop-item').forEach(btn => {
 const animals = ['Lion', 'Wolf', 'Crow', 'Dolphin', 'Elephant', 'Bee', 'Fish', 'Frog', 'Horse', 'Owl'];
 let stickers = JSON.parse(localStorage.getItem('stickers')) || {};
 function updateStickerBook() {
-  const container = document.getElementById('stickerbook-content');
+  const container = $('stickerbook-content');
+  if (!container) return;
   container.innerHTML = '';
   animals.forEach(animal => {
     const div = document.createElement('div');
@@ -221,23 +238,26 @@ function updateStickerBook() {
     container.appendChild(div);
   });
 }
-document.getElementById('open-stickerbook').onclick = () => {
+if ($('open-stickerbook')) $('open-stickerbook').onclick = () => {
   updateStickerBook();
-  document.getElementById('stickerbook-modal').classList.add('visible');
+  if ($('stickerbook-modal')) $('stickerbook-modal').classList.add('visible');
 };
-document.getElementById('close-stickerbook').onclick = () => document.getElementById('stickerbook-modal').classList.remove('visible');
+if ($('close-stickerbook')) $('close-stickerbook').onclick = () => $('stickerbook-modal') && $('stickerbook-modal').classList.remove('visible');
 function collectSticker(animal) {
   stickers[animal] = true;
   localStorage.setItem('stickers', JSON.stringify(stickers));
 }
 
 // --- Settings Modal ---
-document.getElementById('open-settings').onclick = () => document.getElementById('settings-modal').classList.add('visible');
-document.getElementById('close-settings').onclick = () => document.getElementById('settings-modal').classList.remove('visible');
-const dyslexiaCheckbox = document.getElementById('dyslexia-mode');
-dyslexiaCheckbox.checked = localStorage.getItem('dyslexia') === 'true';
+if ($('open-settings')) $('open-settings').onclick = () => $('settings-modal') && $('settings-modal').classList.add('visible');
+if ($('close-settings')) $('close-settings').onclick = () => $('settings-modal') && $('settings-modal').classList.remove('visible');
+const dyslexiaCheckbox = $('dyslexia-mode');
+if (dyslexiaCheckbox) {
+  dyslexiaCheckbox.checked = localStorage.getItem('dyslexia') === 'true';
+  dyslexiaCheckbox.onchange = updateFont;
+}
 function updateFont() {
-  if (dyslexiaCheckbox.checked) {
+  if (dyslexiaCheckbox && dyslexiaCheckbox.checked) {
     document.body.classList.add('dyslexia-font');
     localStorage.setItem('dyslexia', 'true');
   } else {
@@ -245,20 +265,21 @@ function updateFont() {
     localStorage.setItem('dyslexia', 'false');
   }
 }
-dyslexiaCheckbox.onchange = updateFont;
 updateFont();
-const colorblindCheckbox = document.getElementById('colorblind-mode');
-colorblindCheckbox.checked = localStorage.getItem('colorblind') === 'true';
-colorblindCheckbox.onchange = () => localStorage.setItem('colorblind', colorblindCheckbox.checked ? 'true' : 'false');
+const colorblindCheckbox = $('colorblind-mode');
+if (colorblindCheckbox) {
+  colorblindCheckbox.checked = localStorage.getItem('colorblind') === 'true';
+  colorblindCheckbox.onchange = () => localStorage.setItem('colorblind', colorblindCheckbox.checked ? 'true' : 'false');
+}
 
 // --- Daily Challenge ---
-document.getElementById('daily-challenge-btn').onclick = () => {
-  document.getElementById('daily-challenge-modal').classList.add('visible');
-  document.getElementById('daily-challenge-question').textContent = "Answer 5 questions in 30 seconds for a bonus badge!";
+if ($('daily-challenge-btn')) $('daily-challenge-btn').onclick = () => {
+  if ($('daily-challenge-modal')) $('daily-challenge-modal').classList.add('visible');
+  if ($('daily-challenge-question')) $('daily-challenge-question').textContent = "Answer 5 questions in 30 seconds for a bonus badge!";
 };
-document.getElementById('close-daily-challenge').onclick = () => document.getElementById('daily-challenge-modal').classList.remove('visible');
-document.getElementById('start-daily-challenge').onclick = () => {
-  document.getElementById('daily-challenge-modal').classList.remove('visible');
+if ($('close-daily-challenge')) $('close-daily-challenge').onclick = () => $('daily-challenge-modal') && $('daily-challenge-modal').classList.remove('visible');
+if ($('start-daily-challenge')) $('start-daily-challenge').onclick = () => {
+  if ($('daily-challenge-modal')) $('daily-challenge-modal').classList.remove('visible');
   startQuiz(true); // Start in challenge mode
 };
 
@@ -282,7 +303,8 @@ function showDidYouKnowPopup() {
 
 // --- Fireworks/Confetti ---
 function launchFireworks() {
-  const container = document.getElementById('fireworks-container');
+  const container = $('fireworks-container');
+  if (!container) return;
   for (let i = 0; i < 12; i++) {
     const firework = document.createElement('div');
     firework.className = 'firework';
@@ -292,20 +314,6 @@ function launchFireworks() {
     container.appendChild(firework);
     setTimeout(() => firework.remove(), 1000);
   }
-  
-  // Play firework sound if enabled
-  if (soundEnabled) {
-    playSoundEffect('firework');
-  }
-}
-
-// --- Sound Effects ---
-function playSoundEffect(type) {
-  if (!soundEnabled) return;
-  
-  // You can implement actual sound playing here
-  // For example using the Web Audio API or HTML5 Audio
-  console.log(`Playing sound: ${type}`);
 }
 
 // --- Quiz Logic with Timer and Progress Bar ---
@@ -353,14 +361,15 @@ function startQuiz(challengeMode = false) {
 
 function renderQuizQuestion() {
   const q = quizQuestions[currentQuestion];
-  document.getElementById('current-question').textContent = currentQuestion + 1;
-  document.getElementById('total-questions').textContent = quizQuestions.length;
-  document.getElementById('score').textContent = score;
-  document.getElementById('streak').textContent = streak;
+  if ($('current-question')) $('current-question').textContent = currentQuestion + 1;
+  if ($('total-questions')) $('total-questions').textContent = quizQuestions.length;
+  if ($('score')) $('score').textContent = score;
+  if ($('streak')) $('streak').textContent = streak;
   updateStreakStars();
 
   // Render question and options
-  const questionArea = document.getElementById('question-area');
+  const questionArea = $('question-area');
+  if (!questionArea) return;
   questionArea.innerHTML = `
     <h2 class="text-xl font-bold mb-4">${q.question}</h2>
     <div id="options-list" class="mb-4"></div>
@@ -371,18 +380,20 @@ function renderQuizQuestion() {
   `;
 
   // Render options
-  const optionsList = document.getElementById('options-list');
-  q.options.forEach((opt, idx) => {
-    const btn = document.createElement('button');
-    btn.className = 'option-button w-full mb-2 py-2 px-3 rounded';
-    btn.textContent = opt;
-    btn.onclick = () => handleOptionClick(idx, btn);
-    optionsList.appendChild(btn);
-  });
+  const optionsList = $('options-list');
+  if (optionsList) {
+    q.options.forEach((opt, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-button w-full mb-2 py-2 px-3 rounded';
+      btn.textContent = opt;
+      btn.onclick = () => handleOptionClick(idx, btn);
+      optionsList.appendChild(btn);
+    });
+  }
 
   // Setup hint button
-  const hintBtn = document.getElementById('hint-button');
-  hintBtn.onclick = showHint;
+  const hintBtn = $('hint-button');
+  if (hintBtn) hintBtn.onclick = showHint;
 
   // Start timer
   startTimer(QUESTION_TIME);
@@ -391,52 +402,33 @@ function renderQuizQuestion() {
 function handleOptionClick(selectedIdx, btn) {
   clearInterval(timerInterval);
   const q = quizQuestions[currentQuestion];
-  const optionButtons = document.querySelectorAll('.option-button');
+  const optionButtons = $qa('.option-button');
   optionButtons.forEach(b => b.disabled = true);
 
   if (selectedIdx === q.answer) {
     btn.classList.add('correct');
     score++;
     streak++;
-    
-    // Award coins and possibly collect sticker
-    const coinReward = isChallengeMode ? 3 : 2;
-    awardCoins(coinReward);
-    
-    // Collect sticker if this is the first time answering correctly
+    awardCoins(isChallengeMode ? 3 : 2);
     if (!stickers[q.animal]) {
       collectSticker(q.animal);
       showDidYouKnowPopup();
     }
-    
-    // Show fireworks for correct answer
-    if (streak >= 3) {
-      launchFireworks();
-    }
-    
-    // Play correct sound
-    if (soundEnabled) {
-      playSoundEffect('correct');
-    }
+    if (streak >= 3) launchFireworks();
   } else {
     btn.classList.add('incorrect');
     optionButtons[q.answer].classList.add('correct');
     streak = 0;
-    
-    // Play incorrect sound
-    if (soundEnabled) {
-      playSoundEffect('incorrect');
-    }
   }
-  
-  document.getElementById('score').textContent = score;
-  document.getElementById('streak').textContent = streak;
+
+  if ($('score')) $('score').textContent = score;
+  if ($('streak')) $('streak').textContent = streak;
   updateStreakStars();
-  document.getElementById('next-btn').classList.remove('hidden');
-  document.getElementById('next-btn').onclick = nextQuestion;
-  
-  // Disable hint button after answering
-  document.getElementById('hint-button').disabled = true;
+  if ($('next-btn')) {
+    $('next-btn').classList.remove('hidden');
+    $('next-btn').onclick = nextQuestion;
+  }
+  if ($('hint-button')) $('hint-button').disabled = true;
 }
 
 function nextQuestion() {
@@ -449,22 +441,17 @@ function nextQuestion() {
 }
 
 function showQuizEnd() {
-  const questionArea = document.getElementById('question-area');
+  const questionArea = $('question-area');
+  if (!questionArea) return;
   questionArea.innerHTML = `
     <h2 class="text-2xl font-bold mb-4">Quiz Complete!</h2>
     <p class="mb-2">Your score: <span class="font-bold">${score}</span>/${quizQuestions.length}</p>
-    <p class="mb-4">You earned <span class="font-bold">${score * (isChallengeMode ? 3 : 2)}</span> coins!</p>
     <button id="restart-btn" class="bg-green-500 text-white px-4 py-2 rounded">Play Again</button>
   `;
-  document.getElementById('timer-text').textContent = '';
-  document.getElementById('timer-bar-fill').style.width = '0%';
-  
-  // Show fireworks for good scores
-  if (score >= quizQuestions.length * 0.7) {
-    launchFireworks();
-  }
-  
-  document.getElementById('restart-btn').onclick = () => startQuiz(false);
+  if ($('timer-text')) $('timer-text').textContent = '';
+  if ($('timer-bar-fill')) $('timer-bar-fill').style.width = '0%';
+  const restartBtn = $('restart-btn');
+  if (restartBtn) restartBtn.onclick = () => startQuiz(false);
 }
 
 // --- Timer and Progress Bar ---
@@ -484,42 +471,40 @@ function startTimer(seconds) {
 }
 
 function updateTimerUI(timeLeft, total) {
-  document.getElementById('timer-text').textContent = `${timeLeft}s`;
-  const percent = (timeLeft / total) * 100;
-  const fill = document.getElementById('timer-bar-fill');
-  fill.style.width = percent + '%';
-  fill.classList.remove('warning', 'danger');
-  if (timeLeft <= 5) {
-    fill.classList.add('danger');
-  } else if (timeLeft <= 10) {
-    fill.classList.add('warning');
+  if ($('timer-text')) $('timer-text').textContent = `${timeLeft}s`;
+  const fill = $('timer-bar-fill');
+  if (fill) {
+    const percent = (timeLeft / total) * 100;
+    fill.style.width = percent + '%';
+    fill.classList.remove('warning', 'danger');
+    if (timeLeft <= 5) {
+      fill.classList.add('danger');
+    } else if (timeLeft <= 10) {
+      fill.classList.add('warning');
+    }
   }
 }
 
 function handleTimeUp() {
-  // Disable all options and show correct answer
   const q = quizQuestions[currentQuestion];
-  const optionButtons = document.querySelectorAll('.option-button');
+  const optionButtons = $qa('.option-button');
   optionButtons.forEach((btn, idx) => {
     btn.disabled = true;
     if (idx === q.answer) btn.classList.add('correct');
   });
   streak = 0;
-  document.getElementById('streak').textContent = streak;
+  if ($('streak')) $('streak').textContent = streak;
   updateStreakStars();
-  document.getElementById('next-btn').classList.remove('hidden');
-  document.getElementById('next-btn').onclick = nextQuestion;
-  document.getElementById('hint-button').disabled = true;
-  
-  // Play timeout sound
-  if (soundEnabled) {
-    playSoundEffect('timeout');
+  if ($('next-btn')) {
+    $('next-btn').classList.remove('hidden');
+    $('next-btn').onclick = nextQuestion;
   }
+  if ($('hint-button')) $('hint-button').disabled = true;
 }
 
 // --- Streak Stars ---
 function updateStreakStars() {
-  const stars = document.querySelectorAll('.streak-stars .star');
+  const stars = $qa('.streak-stars .star');
   for (let i = 0; i < stars.length; i++) {
     if (i < streak) {
       stars[i].classList.add('active');
@@ -531,48 +516,26 @@ function updateStreakStars() {
 
 // --- Hint System ---
 function showHint() {
-  // Check if user has enough coins
   if (nounCoins < 2) {
     alert("You need 2 coins to use a hint!");
     return;
   }
-  
-  // Deduct coins
   nounCoins -= 2;
   updateCoinsDisplay();
-  
   const q = quizQuestions[currentQuestion];
-  const optionButtons = document.querySelectorAll('.option-button');
-  
-  // Disable hint button
-  document.getElementById('hint-button').disabled = true;
-  
-  // Eliminate two wrong options
-  let eliminated = 0;
+  const optionButtons = $qa('.option-button');
+  if ($('hint-button')) $('hint-button').disabled = true;
   let availableWrongOptions = [];
-  
-  // Find all wrong options
   optionButtons.forEach((btn, idx) => {
-    if (idx !== q.answer) {
-      availableWrongOptions.push(idx);
-    }
+    if (idx !== q.answer) availableWrongOptions.push(idx);
   });
-  
-  // Shuffle wrong options
   availableWrongOptions.sort(() => Math.random() - 0.5);
-  
-  // Eliminate two wrong options
   for (let i = 0; i < Math.min(2, availableWrongOptions.length); i++) {
     const wrongIdx = availableWrongOptions[i];
     optionButtons[wrongIdx].classList.add('disabled');
     optionButtons[wrongIdx].disabled = true;
   }
-  
-  // Play hint sound
-  if (soundEnabled) {
-    playSoundEffect('hint');
-  }
 }
 
-// Start quiz after splash/profile
+// --- Start quiz after splash/profile ---
 setTimeout(() => startQuiz(false), 1200);
