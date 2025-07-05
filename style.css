@@ -14,7 +14,7 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* Reduced motion for accessibility */
+/* Accessibility: Reduce motion for those who prefer it */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: 0.01ms !important;
