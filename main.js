@@ -1,10 +1,10 @@
-// ====== Utility ======
+// ===== Utility =====
 function $(id) { return document.getElementById(id); }
 function show(el) { el && el.classList.remove('hidden'); }
 function hide(el) { el && el.classList.add('hidden'); }
 function setText(id, value) { if ($(id)) $(id).innerHTML = value; }
 
-// ====== Global State ======
+// ===== Global State =====
 let LANG = 'en';
 let STRINGS = {};
 let quizSet = [];
@@ -13,8 +13,10 @@ let userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}') || {};
 let settings = JSON.parse(localStorage.getItem('settings') || '{}') || {};
 let users = JSON.parse(localStorage.getItem('users') || '{}') || {};
 let isDaily = false;
+let quizInProgress = false;
+let isMuted = false;
 
-// ====== Load Strings and Init ======
+// ===== Load Strings and Init =====
 fetch('strings.json')
   .then(res => res.json())
   .then(strings => {
@@ -24,15 +26,15 @@ fetch('strings.json')
     setupEventListeners();
     hide($('splash-screen'));
     show($('start-screen'));
+    hide($('quiz-content'));
   });
 
-// ====== Language Switching ======
+// ===== Language Switching =====
 function updateAllStrings() {
   const S = STRINGS[LANG];
   setText('app-title', S.appTitle);
   setText('welcome-title', S.welcomeTitle);
   setText('welcome-desc', S.welcomeDesc);
-  setText('daily-title', S.dailyTitle);
   setText('start-quiz-btn', S.startQuiz);
   setText('start-daily-btn', S.startDailyQuiz);
   setText('login-btn', S.login);
@@ -42,23 +44,25 @@ function updateAllStrings() {
   setText('profile-modal-title', S.profile);
   setText('settings-modal-title', S.settings);
   setText('leaderboard-modal-title', S.leaderboard);
-  setText('save-settings', S.save);
-  setText('reset-progress-btn', S.resetProgress);
   setText('save-btn', S.save);
   setText('cancel-profile-edit', S.cancel);
+  setText('reset-progress-btn', S.resetProgress);
   setText('auth-modal-title', S.login);
   setText('auth-submit', S.login);
   setText('auth-switch', S.dontHaveAccount);
+  setText('of', S.of);
   // Selects
   if ($('language-selector')) $('language-selector').value = LANG;
   if ($('language-setting')) $('language-setting').value = LANG;
+  // If quiz in progress, update question in new language
+  if (quizInProgress) showQuestion();
 }
 
-// ====== Quiz Logic ======
+// ===== Quiz Logic =====
 function startQuiz(daily = false) {
   isDaily = daily;
+  quizInProgress = true;
   hide($('start-screen'));
-  hide($('daily-challenge'));
   show($('quiz-content'));
   quizSet = getQuizSet();
   current = 0; score = 0; streak = 0;
@@ -78,12 +82,14 @@ function showQuestion() {
   setText('streak', streak);
   setText('current-question', current + 1);
   setText('total-questions', quizSet.length);
+
   // Render image if present
   let html = '';
   if (q.image) html += `<img src="${q.image}" alt="Question Image">`;
   html += `<h2>${q.question}</h2><div id="options-list"></div>`;
   $('question-area').innerHTML = html;
-  // Shuffle options
+
+  // Randomize options
   const opts = q.options.map((opt, i) => ({opt, idx: i}));
   for (let i = opts.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -93,46 +99,53 @@ function showQuestion() {
     const btn = document.createElement('button');
     btn.className = 'option-button';
     btn.textContent = opt;
-    btn.onclick = () => handleAnswer(idx, btn);
+    btn.onclick = () => handleAnswer(idx, btn, opts);
     $('options-list').appendChild(btn);
   });
+  hideFunFact();
   startTimer(20);
 }
-function handleAnswer(idx, btn) {
+function handleAnswer(idx, btn, opts) {
   clearInterval(timer);
   const q = quizSet[current];
   document.querySelectorAll('.option-button').forEach(b => b.disabled = true);
+
+  // Find the correct answer's new index after shuffle
+  const correctOpt = opts.find(o => o.idx === q.answer);
   if (idx === q.answer) {
     btn.classList.add('correct');
     score++; streak++;
     playSound('correct-sound');
   } else {
     btn.classList.add('incorrect');
-    document.querySelectorAll('.option-button').forEach(b => {
-      if (b.textContent === q.options[q.answer]) b.classList.add('correct');
-    });
+    document.querySelectorAll('.option-button')[opts.indexOf(correctOpt)].classList.add('correct');
     streak = 0;
     playSound('wrong-sound');
   }
   setText('score', score);
   setText('streak', streak);
-  showFunFact(q.explanation);
+  showFunFact(q.funFact, q.explanation);
   setTimeout(() => {
     current++;
     if (current < quizSet.length) showQuestion();
     else showQuizEnd();
-  }, 1800);
+  }, 2000);
 }
 function showQuizEnd() {
+  quizInProgress = false;
   $('question-area').innerHTML =
     `<h2>Quiz Complete!</h2>
     <p>Your score: <span class="font-bold">${score}</span>/${quizSet.length}</p>
-    <button id="restart-btn" class="option-button" style="width:auto;min-width:120px;">Play Again</button>`;
+    <button id="restart-btn" class="option-button" style="width:auto;min-width:120px;">Play Again</button>
+    <button id="return-home-btn" class="option-button" style="width:auto;min-width:120px;">Return Home</button>`;
   setText('timer-text', '');
   $('timer-bar-fill').style.width = '0%';
   $('restart-btn').onclick = () => startQuiz(isDaily);
+  $('return-home-btn').onclick = () => {
+    hide($('quiz-content'));
+    show($('start-screen'));
+  };
   hideFunFact();
-  // Update stats, badges, etc.
   showSnackbar("Quiz complete!");
 }
 function startTimer(seconds) {
@@ -168,25 +181,24 @@ function handleTimeUp() {
   streak = 0;
   setText('streak', streak);
   playSound('wrong-sound');
-  showFunFact(q.explanation);
+  showFunFact(q.funFact, q.explanation);
   setTimeout(() => {
     current++;
     if (current < quizSet.length) showQuestion();
     else showQuizEnd();
-  }, 1800);
+  }, 2000);
 }
-function showFunFact(fact) {
-  if (!fact) return hideFunFact();
-  $('fun-fact-box').textContent = fact;
+function showFunFact(fact, explanation) {
+  if (!fact && !explanation) return hideFunFact();
+  $('fun-fact-box').innerHTML = `<strong>Fun Fact:</strong> ${fact || ''}<br><span>${explanation || ''}</span>`;
   show($('fun-fact-box'));
-  setTimeout(hideFunFact, 1600);
 }
 function hideFunFact() {
   hide($('fun-fact-box'));
-  $('fun-fact-box').textContent = '';
+  $('fun-fact-box').innerHTML = '';
 }
 
-// ====== Event Listeners and UI ======
+// ===== Event Listeners and UI =====
 function setupEventListeners() {
   // Language selector
   $('language-selector').onchange = function() {
@@ -222,7 +234,7 @@ function setupEventListeners() {
   $('sound-toggle-btn').onclick = toggleSound;
 }
 
-// ====== Auth Logic (Demo, Local) ======
+// ===== Auth Logic (Demo, Local) =====
 function setAuthMode(mode) {
   setText('auth-modal-title', STRINGS[LANG][mode]);
   setText('auth-submit', STRINGS[LANG][mode]);
@@ -248,12 +260,10 @@ function handleAuth(e) {
     localStorage.setItem('userProfile', JSON.stringify(userProfile));
     showSnackbar("Login successful!");
     hide($('auth-modal'));
-    // Optionally update UI with user profile
   }
 }
 
-// ====== Sound Logic ======
-let isMuted = false;
+// ===== Sound Logic =====
 function toggleSound() {
   isMuted = !isMuted;
   $('sound-toggle-btn').setAttribute('aria-pressed', isMuted);
@@ -274,7 +284,7 @@ function playSound(id) {
   }
 }
 
-// ====== Snackbar ======
+// ===== Snackbar =====
 function showSnackbar(message, duration = 2000) {
   const sb = $('snackbar');
   sb.textContent = message;
