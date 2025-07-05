@@ -1,23 +1,21 @@
 :root {
-  --color-primary: #1976d2;
-  --color-bg: #fff;
-  --color-text: #222;
-  --color-accent: #e3f2fd;
-  --color-btn-hover: #1976d2;
-  --color-btn-text: #fff;
-  --color-card: #fff;
-  --color-funfact-bg: #fffde7;
-  --color-funfact-border: #ffd600;
-  --color-funfact-text: #7c6512;
-  --color-danger: #e53935;
-  --color-warning: #ffa726;
-  --color-success: #43a047;
+  --primary: #1976d2;
+  --accent: #e3f2fd;
+  --danger: #e53935;
+  --warning: #ffa726;
+  --success: #43a047;
+  --bg: #fff;
+  --text: #222;
+  --card: #fff;
+  --funfact-bg: #fffde7;
+  --funfact-border: #ffd600;
+  --funfact-text: #7c6512;
 }
 
 body {
   font-family: "Inter", Arial, sans-serif;
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: var(--bg);
+  color: var(--text);
   margin: 0;
   min-height: 100vh;
   transition: background 0.3s, color 0.3s;
@@ -37,8 +35,8 @@ body {
   z-index: 10;
 }
 .header h1 {
-  font-size: 1.6em;
-  color: var(--color-primary);
+  font-size: 1.5em;
+  color: var(--primary);
   margin: 0;
 }
 .header-btns {
@@ -46,8 +44,8 @@ body {
   gap: 0.7em;
 }
 .header-btns button {
-  background: var(--color-accent);
-  color: var(--color-primary);
+  background: var(--accent);
+  color: var(--primary);
   border: none;
   border-radius: 999px;
   font-weight: 600;
@@ -57,8 +55,8 @@ body {
   transition: background 0.18s, color 0.18s;
 }
 .header-btns button:hover, .header-btns button:focus-visible {
-  background: var(--color-btn-hover);
-  color: var(--color-btn-text);
+  background: var(--primary);
+  color: #fff;
 }
 
 .splash-screen {
@@ -74,7 +72,7 @@ body {
 }
 
 .quiz-container {
-  background: var(--color-card);
+  background: var(--card);
   border-radius: 18px;
   box-shadow: 0 8px 40px rgba(60,60,60,0.12);
   max-width: 420px;
@@ -103,16 +101,16 @@ body {
 }
 #timer-bar-fill {
   height: 100%;
-  background: var(--color-primary);
+  background: var(--primary);
   border-radius: 5px;
   width: 100%;
   transition: width 0.3s, background 0.2s;
 }
 #timer-bar-fill.warning {
-  background: var(--color-warning);
+  background: var(--warning);
 }
 #timer-bar-fill.danger {
-  background: var(--color-danger);
+  background: var(--danger);
 }
 #timer-text {
   position: absolute;
@@ -120,7 +118,7 @@ body {
   top: -1.2em;
   font-size: 1em;
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--primary);
 }
 
 .question-meta {
@@ -137,16 +135,16 @@ body {
   border-radius: 999px;
   font-size: 1.1em;
   font-weight: 600;
-  background: var(--color-accent);
-  color: var(--color-primary);
+  background: var(--accent);
+  color: var(--primary);
   padding: 0.8em 1.2em;
   cursor: pointer;
   transition: background 0.18s, color 0.18s, box-shadow 0.18s;
   box-shadow: 0 1px 4px rgba(25,118,210,0.06);
 }
 .option-button:hover, .option-button:focus-visible {
-  background: var(--color-btn-hover);
-  color: var(--color-btn-text);
+  background: var(--primary);
+  color: #fff;
 }
 .option-button.correct {
   background: #c8e6c9;
@@ -162,13 +160,13 @@ body {
 }
 
 .fun-fact {
-  background: var(--color-funfact-bg);
-  border-left: 5px solid var(--color-funfact-border);
+  background: var(--funfact-bg);
+  border-left: 5px solid var(--funfact-border);
   padding: 0.85rem 1.2rem;
   margin: 1.1rem 0 0.7rem 0;
   border-radius: 0.7rem;
   font-size: 1.04rem;
-  color: var(--color-funfact-text);
+  color: var(--funfact-text);
   box-shadow: 0 1px 6px rgba(255,214,0,0.07);
 }
 .fun-fact.hidden {
@@ -293,13 +291,13 @@ body {
   font-size: 1em;
   padding: 0.6em 1.5em;
   cursor: pointer;
-  background: var(--color-accent);
-  color: var(--color-primary);
+  background: var(--accent);
+  color: var(--primary);
   transition: background 0.18s, color 0.18s;
 }
 .save-btn:hover, .reset-btn:hover {
-  background: var(--color-btn-hover);
-  color: var(--color-btn-text);
+  background: var(--primary);
+  color: #fff;
 }
 .cancel-btn {
   background: #f5f5f5;
@@ -317,8 +315,8 @@ body {
 .profile-accessibility button {
   border: none;
   border-radius: 50%;
-  background: var(--color-accent);
-  color: var(--color-primary);
+  background: var(--accent);
+  color: var(--primary);
   font-size: 1.2em;
   width: 2.1em;
   height: 2.1em;
@@ -326,8 +324,8 @@ body {
   transition: background 0.18s, color 0.18s;
 }
 .profile-accessibility button:hover {
-  background: var(--color-btn-hover);
-  color: var(--color-btn-text);
+  background: var(--primary);
+  color: #fff;
 }
 
 /* ===== Settings Modal ===== */
@@ -338,21 +336,21 @@ body {
   font-weight: 600;
   font-size: 1em;
   padding: 0.5em 1.3em;
-  background: var(--color-accent);
-  color: var(--color-primary);
+  background: var(--accent);
+  color: var(--primary);
   box-shadow: 0 1px 4px rgba(25,118,210,0.06);
   cursor: pointer;
   transition: background 0.18s, color 0.18s, box-shadow 0.18s, transform 0.1s;
   margin: 0.1em 0.3em 0.1em 0;
 }
 .toggle-btn.active, .theme-btn.active {
-  background: var(--color-btn-hover);
-  color: var(--color-btn-text);
+  background: var(--primary);
+  color: #fff;
   box-shadow: 0 4px 16px rgba(25,118,210,0.12);
   transform: translateY(-1px) scale(1.03);
 }
 .toggle-btn:focus-visible, .theme-btn:focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 .reset-btn {
@@ -381,14 +379,14 @@ select {
   margin-bottom: 0.7em;
 }
 input:focus, select:focus {
-  border: 1.5px solid var(--color-primary);
+  border: 1.5px solid var(--primary);
   box-shadow: 0 1px 8px rgba(25,118,210,0.10);
 }
 
 /* ===== Sound Toggle ===== */
 #sound-toggle-btn {
-  background: var(--color-accent);
-  color: var(--color-primary);
+  background: var(--accent);
+  color: var(--primary);
   font-weight: 600;
   border: none;
   border-radius: 999px;
@@ -401,8 +399,8 @@ input:focus, select:focus {
   align-items: center;
 }
 #sound-toggle-btn:hover, #sound-toggle-btn:focus-visible {
-  background: var(--color-btn-hover);
-  color: var(--color-btn-text);
+  background: var(--primary);
+  color: #fff;
 }
 #volume-icon, #mute-icon {
   font-size: 1.2em;
