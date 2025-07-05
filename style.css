@@ -1,129 +1,56 @@
-body {
-    font-family: "Inter", sans-serif;
-    background: linear-gradient(45deg, #FFD700, #FFA07A, #ADD8E6, #90EE90);
-    background-size: 400% 400%;
-    animation: gradientAnimation 15s ease infinite;
-    color: #333;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-}
-@keyframes gradientAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-header {
-    background: rgba(255,255,255,0.9);
-    -webkit-backdrop-filter: blur(5px);
-    backdrop-filter: blur(5px);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+/* Modal Overlay and Content */
+.modal-overlay {
     position: fixed;
-    top: 0; left: 0; width: 100%;
-    z-index: 10;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.7);
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 2vw;
-}
-.quiz-container {
-    background: rgba(255,255,255,0.97);
-    border-radius: 1.5rem;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.13);
-    margin: 0 auto;
-    max-width: 500px;
-    width: 100%;
-    padding: 2rem 1.5rem;
-    position: relative;
-}
-#splash-screen {
-    position: absolute;
-    inset: 0;
-    background: rgba(255,255,255,0.98);
-    border-radius: 1.5rem;
-    display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    z-index: 20;
-}
-#quiz-content {
-    min-height: 300px;
-}
-.option-button {
-    display: block;
-    width: 100%;
-    margin: 0.5rem 0;
-    padding: 1rem 1.5rem;
-    background: #e0f2f7;
-    border: 2px solid #a7d9ee;
-    color: #2c3e50;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
-    outline: none;
-    text-align: left;
-}
-.option-button:hover:not(:disabled),
-.option-button:focus-visible:not(:disabled) {
-    background: #d1ecf1;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-    transform: translateY(-1px) scale(1.01);
-}
-.option-button:active:not(:disabled) {
-    background: #a7d9ee;
-}
-.option-button.correct {
-    background: #d4edda;
-    border-color: #28a745;
-    color: #155724;
-}
-.option-button.incorrect {
-    background: #f8d7da;
-    border-color: #dc3545;
-    color: #721c24;
-}
-.option-button:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
+    z-index: 2000;
+    opacity: 0;
     pointer-events: none;
-}
-.timer-bar {
-    background: #e0e0e0;
-    border-radius: 5px;
-    height: 10px;
-    overflow: hidden;
-    margin-bottom: 0.5rem;
-}
-.timer-bar-fill {
-    height: 100%;
-    background: #4CAF50;
-    width: 100%;
-    transition: width 1s linear, background 0.3s;
-}
-.timer-bar-fill.warning { background: #FFC107; }
-.timer-bar-fill.danger  { background: #DC3545; }
-.streak-stars .star {
-    color: #FFD700;
-    font-size: 1.3em;
-    opacity: 0.3;
     transition: opacity 0.3s;
 }
-.streak-stars .star.active { opacity: 1; }
-footer {
-    background: rgba(255,255,255,0.7);
-    color: #444;
-    font-size: 0.98em;
-    width: 100%;
+.modal-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+.modal-content {
+    background: #fff;
+    padding: 2rem 1.5rem 1.5rem 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.22);
+    max-width: 95vw;
+    width: 400px;
     text-align: center;
-    padding: 1rem 0;
-    margin-top: auto;
+    position: relative;
+    outline: none;
+    transform: translateY(-24px);
+    opacity: 0;
+    transition: transform 0.3s, opacity 0.3s;
+}
+.modal-overlay.visible .modal-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+#close-modal-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.7rem;
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+#close-modal-btn:hover {
+    color: #f44336;
 }
 @media (max-width: 600px) {
-    .quiz-container { padding: 1rem 0.5rem; border-radius: 1rem; }
-    header { flex-direction: column; gap: 0.5rem; }
-    .option-button { font-size: 1rem; padding: 0.75rem 1rem; }
+    .modal-content {
+        padding: 1.2rem 0.5rem 1rem 0.5rem;
+        width: 95vw;
+    }
 }
