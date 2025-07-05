@@ -4,97 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collective Nouns Quiz for Kids</title>
-    <meta name="description" content="Fun and interactive collective nouns quiz for kids! Test your knowledge of animal group names and collect stickers.">
-    <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2Faecc661b69309290f600.ico?alt=media&token=1283a192-a304-4ecd-8f69-26f4abd0407d" type="image/x-icon">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="min-h-screen flex flex-col bg-gradient-to-tr from-yellow-200 via-blue-100 to-green-100">
-
-    <!-- Header -->
-    <header class="w-full py-3 px-2 flex flex-col sm:flex-row justify-between items-center fixed top-0 left-0 z-20 bg-white/80 backdrop-blur shadow">
-        <h1 class="text-xl sm:text-2xl font-bold text-blue-700">Collective Nouns Quiz</h1>
-        <div class="flex flex-wrap items-center gap-2 mt-2 sm:mt-0">
-            <button id="profile-btn" aria-label="Open profile menu" class="flex items-center gap-2 bg-indigo-100 px-2 py-1 rounded shadow focus:outline-none focus:ring-2 focus:ring-blue-400">
-                <span id="profile-avatar" class="w-7 h-7 rounded-full bg-gray-200" aria-label="User avatar"></span>
-                <span id="profile-name" class="font-semibold text-indigo-800">Profile</span>
-            </button>
-            <button id="sound-toggle-btn" aria-label="Toggle sound" class="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                <svg id="volume-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <title>Unmute</title>
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                </svg>
-                <svg id="mute-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <title>Mute</title>
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M9 19H4a1 1 0 01-1-1V6a1 1 0 011-1h5l5-5v14l-5-5zm0 0l-5 5M9 5l5 5" />
-                </svg>
-            </button>
-            <div id="currency-display" class="flex items-center font-semibold text-yellow-600 bg-yellow-100 px-2 py-1 rounded shadow" aria-label="Noun coins">
-                🪙 <span id="noun-coins">0</span>
-            </div>
-            <button id="daily-challenge-btn" aria-label="Open daily challenge" class="bg-pink-400 hover:bg-pink-500 text-white px-3 py-1 rounded font-bold shadow focus:outline-none focus:ring-2 focus:ring-pink-400">Daily</button>
-            <button id="open-shop" aria-label="Open shop" class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded font-bold shadow focus:outline-none focus:ring-2 focus:ring-yellow-400">Shop</button>
-            <button id="open-stickerbook" aria-label="Open sticker book" class="bg-green-400 hover:bg-green-500 text-white px-3 py-1 rounded font-bold shadow focus:outline-none focus:ring-2 focus:ring-green-400">Stickers</button>
-            <button id="open-settings" aria-label="Open settings" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-3 py-1 rounded font-bold shadow focus:outline-none focus:ring-2 focus:ring-gray-400">⚙️</button>
-        </div>
+<body>
+    <header>
+        <h1>Collective Nouns Quiz</h1>
+        <button id="profile-btn">Profile</button>
+        <button id="open-settings">Settings</button>
+        <button id="open-shop">Shop</button>
+        <button id="open-stickerbook">Stickers</button>
+        <button id="daily-challenge-btn">Daily</button>
     </header>
-
-    <!-- Main Quiz Area -->
-    <main class="flex flex-col items-center justify-center flex-grow w-full px-2 pt-24 pb-4">
-        <div id="quiz-container" class="quiz-container p-4 sm:p-8 rounded-xl shadow-xl w-full max-w-xs sm:max-w-md md:max-w-2xl bg-white/90 relative">
-            <div id="splash-screen" class="absolute inset-0 bg-white/90 rounded-xl flex flex-col items-center justify-center z-50">
-                <img src="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2F1676172615227.gif?alt=media&token=c3f8a658-e590-4324-a37c-ab3b6f0abff8" alt="Quiz loading animation" class="w-20 h-20 mb-4">
-                <p class="text-lg font-semibold text-blue-600 animate-pulse">Loading Quiz...</p>
+    <main>
+        <div id="splash-screen">Loading...</div>
+        <div id="quiz-content" class="hidden">
+            <div>
+                <span>Score: <span id="score">0</span></span>
+                <span>Streak: <span id="streak">0</span></span>
             </div>
-            <div id="quiz-content" class="hidden" aria-live="polite">
-                <div class="flex justify-between items-center mb-4">
-                    <p class="text-lg font-semibold">Score: <span id="score" class="pop-animation">0</span></p>
-                    <p class="text-lg font-semibold flex items-center">
-                        Streak: <span id="streak" class="pop-animation mr-1">0</span>
-                        <span class="streak-stars flex" aria-label="Streak stars">
-                            <span class="star">⭐</span>
-                            <span class="star">⭐</span>
-                            <span class="star">⭐</span>
-                            <span class="star">⭐</span>
-                            <span class="star">⭐</span>
-                        </span>
-                    </p>
-                </div>
-                <div class="mb-4">
-                    <div class="flex items-center justify-between mb-1">
-                        <span class="text-sm font-medium text-gray-700">Question <span id="current-question">1</span> of <span id="total-questions">4</span></span>
-                        <span id="timer-text" class="text-sm font-bold text-blue-600">20s</span>
-                    </div>
-                    <div class="timer-bar w-full" aria-hidden="true">
-                        <div id="timer-bar-fill" class="timer-bar-fill"></div>
-                    </div>
-                </div>
-                <div id="question-area"></div>
-            </div>
+            <div id="question-area"></div>
         </div>
     </main>
-
-    <!-- Example Modal overlays (add your actual modal content here) -->
-    <div id="profile-modal" class="modal-overlay"><div class="modal-content">Profile Modal<button class="btn-modal">Close</button></div></div>
-    <div id="settings-modal" class="modal-overlay"><div class="modal-content">Settings Modal<button class="btn-modal">Close</button></div></div>
-    <div id="shop-modal" class="modal-overlay"><div class="modal-content">Shop Modal<button class="btn-modal">Close</button></div></div>
-    <div id="stickerbook-modal" class="modal-overlay"><div class="modal-content">Stickerbook Modal<button class="btn-modal">Close</button></div></div>
-    <div id="daily-challenge-modal" class="modal-overlay"><div class="modal-content">Daily Challenge Modal<button class="btn-modal">Close</button></div></div>
-
-    <!-- Cookie Banner -->
-    <div id="cookie-banner" class="fixed bottom-0 left-0 w-full bg-gray-900 text-white text-center py-3 px-4 z-[2000] hidden">
-      We use cookies to improve your experience. By continuing, you agree to our 
-      <a href="/privacy-policy.html" class="underline">privacy policy</a>.
-      <button id="accept-cookies" class="ml-4 bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white font-semibold focus:outline-none focus:ring-2 focus:ring-green-400">Accept</button>
-    </div>
-
-    <footer class="w-full mt-auto py-4 px-2 bg-white/70 text-center text-sm text-gray-700">
-      <span>&copy; 2025 NounVerse. Made with ❤️ for kids. | 
-        <a href="/privacy-policy.html" class="underline text-blue-600">Privacy</a>
-      </span>
+    <footer>
+        &copy; 2025 NounVerse. GNU GPL Licensed.
     </footer>
-
     <script src="main.js"></script>
 </body>
 </html>
