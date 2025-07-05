@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', function() {
   }, 1000);
 });
 
-// --- Profile System with Avatar and Theme ---
+// --- Profile System ---
 const avatarList = [
   "https://api.dicebear.com/6.x/personas/svg?seed=Cat",
   "https://api.dicebear.com/6.x/personas/svg?seed=Dog",
@@ -26,15 +26,20 @@ const themeList = [
 let profiles = JSON.parse(localStorage.getItem('profiles')) || [];
 let currentProfileIndex = Number(localStorage.getItem('currentProfileIndex')) || 0;
 
+// Profile Modal Logic
 function showProfileSelection() {
   document.getElementById('profile-modal').classList.add('visible');
   renderProfileList();
-  document.getElementById('add-profile-btn').onclick = addProfile;
+  document.getElementById('add-profile-btn').onclick = showAddProfileModal;
   document.getElementById('close-profile').onclick = () => document.getElementById('profile-modal').classList.remove('visible');
 }
 function renderProfileList() {
   const profileList = document.getElementById('profile-list');
   profileList.innerHTML = '';
+  if (profiles.length === 0) {
+    profileList.innerHTML = `<div class="text-gray-500 text-center">No profiles yet. Add one!</div>`;
+    return;
+  }
   profiles.forEach((profile, idx) => {
     const div = document.createElement('div');
     div.className = 'profile-card' + (idx === currentProfileIndex ? ' selected-profile' : '');
@@ -52,58 +57,59 @@ function renderProfileList() {
     profileList.appendChild(div);
   });
 }
-function addProfile() {
-  let name = prompt('Enter explorer name:');
-  if (!name) return;
-  let avatar = avatarList[0];
-  let theme = themeList[0].color;
-
-  // Avatar selection
-  let avatarHTML = '<div class="avatar-choose-list">';
+function showAddProfileModal() {
+  document.getElementById('profile-modal').classList.remove('visible');
+  document.getElementById('add-profile-modal').classList.add('visible');
+  renderAvatarThemeChoices();
+  document.getElementById('add-profile-form').onsubmit = function(e) {
+    e.preventDefault();
+    const name = document.getElementById('profile-name-input').value.trim();
+    if (!name) return;
+    const selectedAvatar = document.querySelector('.avatar-choose-img.selected');
+    const selectedTheme = document.querySelector('.theme-choose-sample.selected');
+    profiles.push({
+      name,
+      avatar: avatarList[selectedAvatar ? selectedAvatar.dataset.idx : 0],
+      theme: themeList[selectedTheme ? selectedTheme.dataset.idx : 0].color
+    });
+    localStorage.setItem('profiles', JSON.stringify(profiles));
+    localStorage.setItem('currentProfileIndex', profiles.length - 1);
+    document.getElementById('add-profile-modal').classList.remove('visible');
+    showProfileSelection();
+    updateProfileHeader();
+  };
+  document.getElementById('cancel-add-profile').onclick = function() {
+    document.getElementById('add-profile-modal').classList.remove('visible');
+    showProfileSelection();
+  };
+}
+function renderAvatarThemeChoices() {
+  const avatarListDiv = document.getElementById('avatar-choose-list');
+  avatarListDiv.innerHTML = '';
   avatarList.forEach((url, i) => {
-    avatarHTML += `<img src="${url}" class="avatar-choose-img" data-idx="${i}">`;
-  });
-  avatarHTML += '</div>';
-  let themeHTML = '<div>';
-  themeList.forEach((t, i) => {
-    themeHTML += `<span class="profile-theme-sample" style="background:${t.color};cursor:pointer;" data-idx="${i}" title="${t.name}"></span>`;
-  });
-  themeHTML += '</div>';
-
-  let modal = document.createElement('div');
-  modal.className = 'modal-overlay visible';
-  modal.innerHTML = `
-    <div class="modal-content w-full max-w-xs">
-      <h2 class="text-lg font-bold mb-2">Choose Avatar</h2>
-      ${avatarHTML}
-      <h2 class="text-lg font-bold mt-2 mb-2">Choose Theme</h2>
-      ${themeHTML}
-      <button id="confirm-add-profile" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md mt-3">Confirm</button>
-    </div>
-  `;
-  document.body.appendChild(modal);
-
-  let selectedAvatar = 0, selectedTheme = 0;
-  modal.querySelectorAll('.avatar-choose-img').forEach(img => {
+    const img = document.createElement('img');
+    img.src = url;
+    img.className = 'avatar-choose-img rounded-full border-2 border-gray-300 cursor-pointer' + (i === 0 ? ' selected' : '');
+    img.dataset.idx = i;
     img.onclick = function() {
-      selectedAvatar = Number(this.dataset.idx);
-      modal.querySelectorAll('.avatar-choose-img').forEach(i => i.classList.remove('selected'));
+      document.querySelectorAll('.avatar-choose-img').forEach(i => i.classList.remove('selected'));
       this.classList.add('selected');
     };
+    avatarListDiv.appendChild(img);
   });
-  modal.querySelectorAll('.profile-theme-sample').forEach(span => {
+  const themeListDiv = document.getElementById('theme-choose-list');
+  themeListDiv.innerHTML = '';
+  themeList.forEach((t, i) => {
+    const span = document.createElement('span');
+    span.className = 'theme-choose-sample rounded-full border-2 border-gray-300 cursor-pointer w-7 h-7 inline-block' + (i === 0 ? ' selected' : '');
+    span.dataset.idx = i;
+    span.style.background = t.color;
     span.onclick = function() {
-      selectedTheme = Number(this.dataset.idx);
-      modal.querySelectorAll('.profile-theme-sample').forEach(s => s.style.outline = '');
-      this.style.outline = '2px solid #4A90E2';
+      document.querySelectorAll('.theme-choose-sample').forEach(s => s.classList.remove('selected'));
+      this.classList.add('selected');
     };
+    themeListDiv.appendChild(span);
   });
-  modal.querySelector('#confirm-add-profile').onclick = function() {
-    profiles.push({ name, avatar: avatarList[selectedAvatar], theme: themeList[selectedTheme].color });
-    localStorage.setItem('profiles', JSON.stringify(profiles));
-    document.body.removeChild(modal);
-    renderProfileList();
-  };
 }
 function selectProfile(idx) {
   currentProfileIndex = idx;
@@ -112,7 +118,7 @@ function selectProfile(idx) {
   updateProfileHeader();
 }
 function deleteProfile(idx) {
-  if (!confirm('Delete this explorer?')) return;
+  if (!confirm('Delete this profile?')) return;
   profiles.splice(idx, 1);
   if (currentProfileIndex >= profiles.length) currentProfileIndex = 0;
   localStorage.setItem('profiles', JSON.stringify(profiles));
@@ -124,6 +130,7 @@ function updateProfileHeader() {
   document.getElementById('profile-avatar').style.backgroundImage = profile?.avatar
     ? `url('${profile.avatar}')`
     : `url('${avatarList[0]}')`;
+  document.getElementById('profile-avatar').style.backgroundSize = 'cover';
   document.getElementById('profile-name').textContent = profile?.name || 'Profile';
 }
 updateProfileHeader();
@@ -153,11 +160,9 @@ function updateSoundIcon() {
   if (soundEnabled) {
     volumeIcon.classList.remove('hidden');
     muteIcon.classList.add('hidden');
-    document.getElementById('sound-tooltip').textContent = 'Mute Sound';
   } else {
     volumeIcon.classList.add('hidden');
     muteIcon.classList.remove('hidden');
-    document.getElementById('sound-tooltip').textContent = 'Unmute Sound';
   }
 }
 if (soundBtn) {
@@ -284,9 +289,97 @@ function launchFireworks() {
   }
 }
 
-// --- Example: Connect features to your quiz logic ---
-// When a user answers correctly:
-// awardCoins(2);
-// collectSticker(animalName);
-// showDidYouKnowPopup();
-// launchFireworks();
+// --- Quiz Logic ---
+const quizQuestions = [
+  {
+    question: "What is a group of lions called?",
+    options: ["Pride", "Flock", "School", "Pack"],
+    answer: 0
+  },
+  {
+    question: "What is a group of crows called?",
+    options: ["Murder", "Gaggle", "Pod", "Swarm"],
+    answer: 0
+  },
+  {
+    question: "What is a group of dolphins called?",
+    options: ["Pod", "Troop", "Army", "Parliament"],
+    answer: 0
+  },
+  {
+    question: "What is a group of bees called?",
+    options: ["Swarm", "Flock", "Herd", "Pack"],
+    answer: 0
+  }
+];
+
+let currentQuestion = 0;
+let score = 0;
+let streak = 0;
+
+function renderQuizQuestion() {
+  const q = quizQuestions[currentQuestion];
+  const quizContent = document.getElementById('quiz-content');
+  quizContent.innerHTML = `
+    <div class="mb-6">
+      <h2 class="text-xl font-bold mb-4">${q.question}</h2>
+      <div id="options-list"></div>
+    </div>
+    <div class="flex justify-end">
+      <button id="next-btn" class="bg-blue-500 text-white px-4 py-2 rounded hidden">Next</button>
+    </div>
+    <div class="mt-4 text-center text-lg font-semibold">Score: <span id="score">${score}</span> | Streak: <span id="streak">${streak}</span></div>
+  `;
+
+  const optionsList = document.getElementById('options-list');
+  q.options.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-button w-full mb-2 py-2 px-3 rounded';
+    btn.textContent = opt;
+    btn.onclick = () => handleOptionClick(idx, btn);
+    optionsList.appendChild(btn);
+  });
+}
+
+function handleOptionClick(selectedIdx, btn) {
+  const q = quizQuestions[currentQuestion];
+  const optionButtons = document.querySelectorAll('.option-button');
+  optionButtons.forEach(b => b.disabled = true);
+
+  if (selectedIdx === q.answer) {
+    btn.classList.add('correct');
+    score++;
+    streak++;
+    awardCoins(2);
+    showDidYouKnowPopup();
+    launchFireworks();
+  } else {
+    btn.classList.add('incorrect');
+    optionButtons[q.answer].classList.add('correct');
+    streak = 0;
+  }
+  document.getElementById('score').textContent = score;
+  document.getElementById('streak').textContent = streak;
+  document.getElementById('next-btn').classList.remove('hidden');
+  document.getElementById('next-btn').onclick = nextQuestion;
+}
+
+function nextQuestion() {
+  currentQuestion++;
+  if (currentQuestion < quizQuestions.length) {
+    renderQuizQuestion();
+  } else {
+    showQuizEnd();
+  }
+}
+
+function showQuizEnd() {
+  document.getElementById('quiz-content').innerHTML = `
+    <h2 class="text-2xl font-bold mb-4">Quiz Complete!</h2>
+    <p class="mb-2">Your score: <span class="font-bold">${score}</span>/${quizQuestions.length}</p>
+    <button onclick="location.reload()" class="bg-green-500 text-white px-4 py-2 rounded">Restart</button>
+  `;
+}
+
+// Start quiz after splash/profile
+setTimeout(renderQuizQuestion, 1200);
