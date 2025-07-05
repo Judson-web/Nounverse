@@ -13,8 +13,8 @@ body {
 #settings-modal .bg-white,
 #profile-modal .bg-white {
   background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 4px 24px rgba(60,60,60,0.10), 0 1.5px 6px rgba(60,60,60,0.08);
+  border-radius: 20px;
+  box-shadow: 0 8px 40px rgba(60,60,60,0.18);
   transition: box-shadow 0.2s;
 }
 
@@ -24,7 +24,8 @@ body {
 #save-settings,
 #close-settings-modal,
 #close-profile-modal,
-#sound-toggle-btn {
+#sound-toggle-btn,
+.material-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -52,10 +53,12 @@ body {
 .button:hover:not(:disabled),
 #save-settings:hover,
 #sound-toggle-btn:hover,
+.material-btn:hover,
 .option-button:focus-visible,
 .button:focus-visible,
 #save-settings:focus-visible,
-#sound-toggle-btn:focus-visible {
+#sound-toggle-btn:focus-visible,
+.material-btn:focus-visible {
   background: #1976d2;
   color: #fff;
   box-shadow: 0 4px 16px rgba(25,118,210,0.12);
@@ -64,7 +67,8 @@ body {
 .option-button:active:not(:disabled),
 .button:active:not(:disabled),
 #save-settings:active,
-#sound-toggle-btn:active {
+#sound-toggle-btn:active,
+.material-btn:active {
   background: #1565c0;
   color: #fff;
 }
@@ -83,11 +87,26 @@ body {
   cursor: not-allowed;
   pointer-events: none;
 }
+.material-btn.bg-blue-600 {
+  background: #1976d2;
+  color: #fff;
+}
+.material-btn.bg-blue-600:hover {
+  background: #1565c0;
+}
+.material-btn.bg-gray-200 {
+  background: #f5f5f5;
+  color: #374151;
+}
+.material-btn.bg-gray-200:hover {
+  background: #e0e0e0;
+}
 
 /* ===== Material Inputs ===== */
 input[type="number"],
 input[type="text"],
-input[type="checkbox"] {
+input[type="checkbox"],
+.material-input {
   font-size: 1rem;
   border-radius: 8px;
   border: 1.5px solid #bdbdbd;
@@ -97,7 +116,8 @@ input[type="checkbox"] {
   outline: none;
 }
 input[type="number"]:focus,
-input[type="text"]:focus {
+input[type="text"]:focus,
+.material-input:focus {
   border: 1.5px solid #1976d2;
   box-shadow: 0 1px 8px rgba(25,118,210,0.10);
 }
@@ -126,11 +146,11 @@ input[type="checkbox"] {
 }
 #settings-modal .bg-white,
 #profile-modal .bg-white {
-  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  padding: 2.5rem 1.5rem 2rem 1.5rem;
   min-width: 270px;
   max-width: 92vw;
   position: relative;
-  border-radius: 18px;
+  border-radius: 20px;
   box-shadow: 0 8px 40px rgba(60,60,60,0.18);
 }
 #settings-modal h2,
@@ -168,14 +188,63 @@ input[type="checkbox"] {
   background: #1565c0;
 }
 
-/* ===== Material Profile Modal Content ===== */
-#profile-content p {
-  margin: 0.7em 0 0.7em 0;
-  font-size: 1.08em;
-  color: #374151;
+/* ===== Material Profile Section ===== */
+#profile-modal .bg-white {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 320px;
+  max-width: 98vw;
 }
-#profile-content strong {
+#profile-avatar {
+  border: 3px solid #e3e3e3;
+  box-shadow: 0 2px 12px rgba(25,118,210,0.10);
+  background: #fff;
+  margin-bottom: 0.3em;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  display: block;
+}
+.profile-stat-card {
+  background: #f5f5f5;
+  border-radius: 12px;
+  padding: 0.6em 1.2em;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 4px rgba(60,60,60,0.04);
+  font-size: 1.08em;
+  min-width: 70px;
+  justify-content: center;
+  margin: 0 0.2em;
+}
+.profile-stat-card .material-icons {
+  vertical-align: middle;
+}
+#profile-form label {
   color: #1976d2;
+  font-weight: 500;
+}
+#profile-form .w-full {
+  margin-bottom: 0.2em;
+}
+#profile-form .flex.gap-3.mt-5 {
+  margin-top: 1.2em;
+}
+
+/* ===== Material Icons ===== */
+.material-icons {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
 }
 
 /* ===== Material Timer Bar ===== */
@@ -230,7 +299,7 @@ input[type="checkbox"] {
   font-size: 1.5em;
 }
 
-/* ===== Material Mute/Unmute Button ===== */
+/* ===== Mute/Unmute Button ===== */
 #sound-toggle-btn {
   background: #e3f2fd;
   color: #1976d2;
@@ -281,9 +350,13 @@ input[type="checkbox"] {
     padding: 1em 0.5em 1em 0.5em;
     min-width: unset;
   }
+  #profile-modal .bg-white {
+    min-width: unset;
+    padding: 1.2em 0.5em 1.2em 0.5em;
+  }
 }
 
-/* ===== DARK MODE (Material Style) ===== */
+/* ===== Dark Mode (Material Style) ===== */
 body.dark {
   background: linear-gradient(45deg, #23272f 0%, #2d3748 100%);
   color: #e3e3e3;
@@ -299,7 +372,8 @@ body.dark #profile-modal .bg-white {
 body.dark .option-button,
 body.dark .button,
 body.dark #save-settings,
-body.dark #sound-toggle-btn {
+body.dark #sound-toggle-btn,
+body.dark .material-btn {
   background: #283046;
   color: #90caf9;
   box-shadow: 0 2px 8px rgba(90,180,255,0.08);
@@ -308,10 +382,12 @@ body.dark .option-button:hover,
 body.dark .button:hover,
 body.dark #save-settings:hover,
 body.dark #sound-toggle-btn:hover,
+body.dark .material-btn:hover,
 body.dark .option-button:focus-visible,
 body.dark .button:focus-visible,
 body.dark #save-settings:focus-visible,
-body.dark #sound-toggle-btn:focus-visible {
+body.dark #sound-toggle-btn:focus-visible,
+body.dark .material-btn:focus-visible {
   background: #1976d2;
   color: #fff;
 }
@@ -352,6 +428,26 @@ body.dark #close-profile-modal:hover {
   background: #b71c1c;
   color: #fff;
 }
-body.dark #profile-content strong {
+body.dark .profile-stat-card {
+  background: #283046;
+  color: #90caf9;
+}
+body.dark .material-btn {
+  background: #283046;
+  color: #90caf9;
+}
+body.dark .material-btn:hover, body.dark .material-btn:focus-visible {
+  background: #1976d2;
+  color: #fff;
+}
+body.dark .material-input {
+  background: #23272f;
+  color: #e3e3e3;
+  border: 1.5px solid #374151;
+}
+body.dark .material-input:focus {
+  border: 1.5px solid #90caf9;
+}
+body.dark #profile-form label {
   color: #90caf9;
 }
