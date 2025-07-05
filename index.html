@@ -6,8 +6,8 @@
     <title>Collective Nouns Quiz for Kids</title>
     <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2Faecc661b69309290f600.ico?alt=media&token=1283a192-a304-4ecd-8f69-26f4abd0407d" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-gradient-to-tr from-yellow-200 via-blue-100 to-green-100 min-h-screen flex flex-col">
 
@@ -44,11 +44,37 @@
                 <img src="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2F1676172615227.gif?alt=media&token=c3f8a658-e590-4324-a37c-ab3b6f0abff8" alt="Loading animation" class="w-20 h-20 mb-4">
                 <p class="text-lg font-semibold text-blue-600 animate-pulse">Loading Quiz...</p>
             </div>
-            <div id="quiz-content" class="hidden"></div>
+            <div id="quiz-content" class="hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <p class="text-lg font-semibold">Score: <span id="score" class="pop-animation">0</span></p>
+                    <p class="text-lg font-semibold flex items-center">
+                        Streak: <span id="streak" class="pop-animation mr-1">0</span>
+                        <span class="streak-stars flex">
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                        </span>
+                    </p>
+                </div>
+                <!-- Progress Bar and Timer -->
+                <div class="mb-4">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-sm font-medium text-gray-700">Question <span id="current-question">1</span> of <span id="total-questions">4</span></span>
+                        <span id="timer-text" class="text-sm font-bold text-blue-600">20s</span>
+                    </div>
+                    <div class="timer-bar w-full">
+                        <div id="timer-bar-fill" class="timer-bar-fill"></div>
+                    </div>
+                </div>
+                <!-- Quiz question and options will be rendered here by JS -->
+                <div id="question-area"></div>
+            </div>
         </div>
     </main>
 
-    <!-- Profile Modal (Optimized for Mobile) -->
+    <!-- Profile Modal -->
     <div id="profile-modal" class="modal-overlay">
       <div class="modal-content w-full max-w-xs sm:max-w-md">
         <h2 class="text-xl font-bold mb-2">Select Your Profile</h2>
@@ -58,7 +84,7 @@
       </div>
     </div>
 
-    <!-- Add Profile Modal (Optimized for Mobile) -->
+    <!-- Add Profile Modal -->
     <div id="add-profile-modal" class="modal-overlay">
       <div class="modal-content w-full max-w-xs sm:max-w-md">
         <h2 class="text-lg font-bold mb-2">Create Profile</h2>
@@ -125,7 +151,7 @@
       <button id="accept-cookies" class="ml-4 bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white font-semibold">Accept</button>
     </div>
 
-    <!-- Footer (from original code) -->
+    <!-- Footer -->
     <footer class="w-full mt-auto py-4 px-2 bg-white/70 text-center text-sm text-gray-700">
       <span>&copy; 2025 NounVerse. Made with ❤️ for kids. | <a href="#" class="underline text-blue-600">Privacy</a></span>
     </footer>
