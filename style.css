@@ -317,7 +317,7 @@ body {
   color: #fff;
 }
 
-/* Accessibility buttons vibrant */
+/* Accessibility buttons vibrant and theme buttons */
 .profile-accessibility button {
   background: linear-gradient(135deg, #fbbf24 0%, #3b82f6 100%);
   color: #fff;
