@@ -53,30 +53,41 @@
   <div id="profile-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
     <div class="modal-content">
       <button id="close-profile-modal" class="close-btn" aria-label="Close">&times;</button>
+      <h2 id="profile-modal-title" style="text-align:center; margin-bottom:0.5em;">Your Profile</h2>
       <div class="profile-avatar-section">
-        <img id="profile-avatar" src="https://mui.com/static/images/avatar/1.jpg" alt="Profile Avatar">
+        <img id="profile-avatar" src="https://mui.com/static/images/avatar/1.jpg" alt="Profile Avatar" tabindex="0">
         <input type="file" id="avatar-upload" accept="image/*" class="hidden" />
         <div class="avatar-btns">
-          <button id="edit-avatar-btn" type="button">Change Photo</button>
-          <button id="emoji-avatar-btn" type="button" title="Pick Emoji Avatar">😀</button>
+          <button id="edit-avatar-btn" type="button" aria-label="Change Photo">Change Photo</button>
+          <button id="emoji-avatar-btn" type="button" title="Pick Emoji Avatar" aria-label="Pick Emoji Avatar">😀</button>
         </div>
       </div>
       <form id="profile-form" autocomplete="off">
-        <label>Display Name
-          <input id="profile-display-name" type="text" maxlength="24" autocomplete="off" />
+        <label>
+          <span class="material-icons" aria-hidden="true">badge</span>
+          Display Name
+          <input id="profile-display-name" type="text" maxlength="24" autocomplete="off" placeholder="Your name" required />
         </label>
-        <label>Username
-          <input id="profile-username" type="text" readonly />
+        <label>
+          <span class="material-icons" aria-hidden="true">alternate_email</span>
+          Username
+          <input id="profile-username" type="text" readonly tabindex="-1" />
         </label>
         <div class="profile-row">
-          <label>Birthday
+          <label>
+            <span class="material-icons" aria-hidden="true">cake</span>
+            Birthday
             <input id="profile-birthday" type="date" />
           </label>
-          <label>Age
+          <label>
+            <span class="material-icons" aria-hidden="true">calendar_today</span>
+            Age
             <input id="profile-age" type="number" min="1" max="120" />
           </label>
         </div>
-        <label>Pronouns
+        <label>
+          <span class="material-icons" aria-hidden="true">waving_hand</span>
+          Pronouns
           <select id="profile-pronouns">
             <option value="">Prefer not to say</option>
             <option value="she/her">She/Her</option>
@@ -87,10 +98,14 @@
           <input id="profile-pronouns-custom" type="text" class="hidden" maxlength="24" placeholder="Enter your pronouns" />
         </label>
         <div class="profile-row">
-          <label>Favorite Color
+          <label>
+            <span class="material-icons" aria-hidden="true">palette</span>
+            Favorite Color
             <input id="profile-fav-color" type="color" value="#1976d2" />
           </label>
-          <label>Favorite Animal
+          <label>
+            <span class="material-icons" aria-hidden="true">pets</span>
+            Favorite Animal
             <select id="profile-fav-animal">
               <option value="">Select...</option>
               <option value="Lion">Lion</option>
@@ -104,31 +119,35 @@
             </select>
           </label>
         </div>
-        <label>Custom Greeting
+        <label>
+          <span class="material-icons" aria-hidden="true">emoji_emotions</span>
+          Custom Greeting
           <input id="profile-greeting" type="text" maxlength="48" placeholder="e.g. Ready for a quiz adventure!" />
         </label>
-        <div class="profile-stats">
+        <div class="profile-stats" aria-label="Your Quiz Stats">
           <div>
-            <span class="material-icons">star</span>
+            <span class="material-icons" aria-hidden="true">star</span>
             <span id="profile-score">0</span>
-            <span>Score</span>
+            <span>Best Score</span>
           </div>
           <div>
-            <span class="material-icons">whatshot</span>
+            <span class="material-icons" aria-hidden="true">whatshot</span>
             <span id="profile-streak">0</span>
-            <span>Streak</span>
+            <span>Best Streak</span>
           </div>
           <div>
-            <span class="material-icons">quiz</span>
+            <span class="material-icons" aria-hidden="true">quiz</span>
             <span id="profile-quizzes">0</span>
             <span>Quizzes</span>
           </div>
         </div>
-        <div class="profile-badges">
-          <span title="First Quiz"><span class="material-icons">emoji_events</span></span>
-          <span title="Streak 5"><span class="material-icons">military_tech</span></span>
+        <div class="profile-badges" aria-label="Badges">
+          <span title="First Quiz"><span class="material-icons" aria-hidden="true">emoji_events</span></span>
+          <span title="Streak 5"><span class="material-icons" aria-hidden="true">military_tech</span></span>
         </div>
-        <label>Profile PIN
+        <label>
+          <span class="material-icons" aria-hidden="true">lock</span>
+          Profile PIN
           <input id="profile-pin" type="password" maxlength="6" autocomplete="off" placeholder="Optional" />
           <span class="profile-pin-note">(for parental lock)</span>
         </label>
@@ -136,10 +155,10 @@
           <button type="submit" class="save-btn">Save</button>
           <button type="button" id="cancel-profile-edit" class="cancel-btn">Cancel</button>
         </div>
-        <div class="profile-accessibility">
-          <button type="button" id="profile-accessibility-font" title="Font Size">A</button>
-          <button type="button" id="profile-accessibility-theme" title="Theme">🌗</button>
-          <button type="button" id="profile-accessibility-language" title="Language">🌐</button>
+        <div class="profile-accessibility" aria-label="Accessibility Shortcuts">
+          <button type="button" id="profile-accessibility-font" title="Font Size" aria-label="Change Font Size">A</button>
+          <button type="button" id="profile-accessibility-theme" title="Theme" aria-label="Change Theme">🌗</button>
+          <button type="button" id="profile-accessibility-language" title="Language" aria-label="Change Language">🌐</button>
         </div>
       </form>
     </div>
