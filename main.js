@@ -85,6 +85,9 @@ window.addEventListener('DOMContentLoaded', function() {
         alert('Required elements missing from HTML!');
         return;
     }
+    // Load dark mode preference on startup
+    loadDarkModePreference();
+
     setTimeout(() => {
         splash.style.display = 'none';
         quizContent.classList.remove('hidden');
@@ -234,11 +237,14 @@ const settingsModal = document.getElementById('settings-modal');
 const closeSettingsBtn = document.getElementById('close-settings-modal');
 const timerSettingInput = document.getElementById('timer-setting');
 const saveSettingsBtn = document.getElementById('save-settings');
+const darkModeToggle = document.getElementById('dark-mode-toggle');
 
 if (settingsBtn && settingsModal) {
     settingsBtn.onclick = () => {
         // Set current timer value in input
         if (timerSettingInput) timerSettingInput.value = timeTotal;
+        // Set current dark mode value in checkbox
+        if (darkModeToggle) darkModeToggle.checked = document.body.classList.contains('dark');
         settingsModal.classList.remove('hidden');
     };
 }
@@ -254,6 +260,16 @@ if (saveSettingsBtn && settingsModal) {
                 timeTotal = val;
             }
         }
+        // Save dark mode preference
+        if (darkModeToggle) {
+            if (darkModeToggle.checked) {
+                document.body.classList.add('dark');
+                localStorage.setItem('darkMode', 'true');
+            } else {
+                document.body.classList.remove('dark');
+                localStorage.setItem('darkMode', 'false');
+            }
+        }
         settingsModal.classList.add('hidden');
     };
 }
@@ -261,6 +277,26 @@ if (saveSettingsBtn && settingsModal) {
 settingsModal?.addEventListener('click', (e) => {
     if (e.target === settingsModal) settingsModal.classList.add('hidden');
 });
+
+// Dark Mode logic: live toggle (even before save)
+if (darkModeToggle) {
+    darkModeToggle.addEventListener('change', function() {
+        if (this.checked) {
+            document.body.classList.add('dark');
+        } else {
+            document.body.classList.remove('dark');
+        }
+    });
+}
+function loadDarkModePreference() {
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark');
+        if (darkModeToggle) darkModeToggle.checked = true;
+    } else {
+        document.body.classList.remove('dark');
+        if (darkModeToggle) darkModeToggle.checked = false;
+    }
+}
 
 // ====== Sound Toggle Logic ======
 const soundToggleBtn = document.getElementById('sound-toggle-btn');
