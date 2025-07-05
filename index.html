@@ -16,6 +16,46 @@
         .star.active { opacity: 1 !important; }
         .star { opacity: 0.3; transition: opacity 0.3s; }
         .option-button:focus-visible { outline: 3px solid #4A90E2; outline-offset: 2px; }
+        .option-button {
+            display: block;
+            width: 100%;
+            margin: 0.5rem 0;
+            padding: 1rem 1.5rem;
+            background: #e0f2f7;
+            border: 2px solid #a7d9ee;
+            color: #2c3e50;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+            outline: none;
+            text-align: left;
+        }
+        .option-button:hover:not(:disabled),
+        .option-button:focus-visible:not(:disabled) {
+            background: #d1ecf1;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            transform: translateY(-1px) scale(1.01);
+        }
+        .option-button:active:not(:disabled) {
+            background: #a7d9ee;
+        }
+        .option-button.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        .option-button.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        .option-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col bg-gradient-to-tr from-yellow-200 via-blue-100 to-green-100">
@@ -35,11 +75,13 @@
     <!-- Main Quiz Area -->
     <main class="flex flex-col items-center justify-center flex-grow w-full px-4 pt-28 pb-8">
         <div id="quiz-container" class="quiz-container p-6 sm:p-10 rounded-2xl shadow-2xl w-full max-w-xl bg-white/90 relative">
+            <!-- Splash Screen -->
             <div id="splash-screen" class="absolute inset-0 bg-white/90 rounded-2xl flex flex-col items-center justify-center z-50">
                 <img src="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2F1676172615227.gif?alt=media&token=c3f8a658-e590-4324-a37c-ab3b6f0abff8" alt="Quiz loading animation" class="w-20 h-20 mb-4">
                 <p class="text-lg font-semibold text-blue-600 animate-pulse">Loading Quiz...</p>
             </div>
 
+            <!-- Quiz Content -->
             <div id="quiz-content" class="hidden" aria-live="polite">
                 <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
                     <div>
@@ -67,7 +109,18 @@
                         <div id="timer-bar-fill" class="timer-bar-fill bg-green-500 h-2 rounded"></div>
                     </div>
                 </div>
-                <div id="question-area"></div>
+                <div id="question-area">
+                    <!-- JS will inject the question and options here, for example: -->
+                    <!--
+                    <h2 class="mb-4 text-xl font-bold">What is a group of lions called?</h2>
+                    <div id="options-list" class="flex flex-col gap-3">
+                        <button class="option-button" aria-label="Pride">Pride</button>
+                        <button class="option-button" aria-label="Flock">Flock</button>
+                        <button class="option-button" aria-label="School">School</button>
+                        <button class="option-button" aria-label="Pack">Pack</button>
+                    </div>
+                    -->
+                </div>
             </div>
         </div>
     </main>
