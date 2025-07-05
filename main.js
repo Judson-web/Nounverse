@@ -1,14 +1,148 @@
 // --- Splash Screen Logic ---
 window.addEventListener('DOMContentLoaded', function() {
   setTimeout(function() {
-    const splash = document.getElementById('splash-screen');
-    if (splash) splash.style.display = 'none';
-    const quizContent = document.getElementById('quiz-content');
-    if (quizContent) quizContent.classList.remove('hidden');
+    document.getElementById('splash-screen').style.display = 'none';
+    document.getElementById('quiz-content').classList.remove('hidden');
     showProfileSelection();
     showCookieBanner();
-  }, 1200);
+  }, 1000);
 });
+
+// --- Profile System with Avatar and Theme ---
+const avatarList = [
+  "https://api.dicebear.com/6.x/personas/svg?seed=Cat",
+  "https://api.dicebear.com/6.x/personas/svg?seed=Dog",
+  "https://api.dicebear.com/6.x/personas/svg?seed=Fox",
+  "https://api.dicebear.com/6.x/personas/svg?seed=Tiger",
+  "https://api.dicebear.com/6.x/personas/svg?seed=Lion",
+  "https://api.dicebear.com/6.x/personas/svg?seed=Rabbit"
+];
+const themeList = [
+  { name: "Blue", color: "#3b82f6" },
+  { name: "Green", color: "#22c55e" },
+  { name: "Pink", color: "#ec4899" },
+  { name: "Orange", color: "#f59e42" }
+];
+let profiles = JSON.parse(localStorage.getItem('profiles')) || [];
+let currentProfileIndex = Number(localStorage.getItem('currentProfileIndex')) || 0;
+
+function showProfileSelection() {
+  document.getElementById('profile-modal').classList.add('visible');
+  renderProfileList();
+  document.getElementById('add-profile-btn').onclick = addProfile;
+  document.getElementById('close-profile').onclick = () => document.getElementById('profile-modal').classList.remove('visible');
+}
+function renderProfileList() {
+  const profileList = document.getElementById('profile-list');
+  profileList.innerHTML = '';
+  profiles.forEach((profile, idx) => {
+    const div = document.createElement('div');
+    div.className = 'profile-card' + (idx === currentProfileIndex ? ' selected-profile' : '');
+    div.innerHTML = `
+      <img src="${profile.avatar || avatarList[0]}" alt="Avatar">
+      <span class="font-semibold">${profile.name}</span>
+      <span class="profile-theme-sample" style="background:${profile.theme || themeList[0].color}"></span>
+      <button class="delete-profile-btn" title="Delete Profile">&times;</button>
+    `;
+    div.onclick = () => selectProfile(idx);
+    div.querySelector('.delete-profile-btn').onclick = (e) => {
+      e.stopPropagation();
+      deleteProfile(idx);
+    };
+    profileList.appendChild(div);
+  });
+}
+function addProfile() {
+  let name = prompt('Enter explorer name:');
+  if (!name) return;
+  let avatar = avatarList[0];
+  let theme = themeList[0].color;
+
+  // Avatar selection
+  let avatarHTML = '<div class="avatar-choose-list">';
+  avatarList.forEach((url, i) => {
+    avatarHTML += `<img src="${url}" class="avatar-choose-img" data-idx="${i}">`;
+  });
+  avatarHTML += '</div>';
+  let themeHTML = '<div>';
+  themeList.forEach((t, i) => {
+    themeHTML += `<span class="profile-theme-sample" style="background:${t.color};cursor:pointer;" data-idx="${i}" title="${t.name}"></span>`;
+  });
+  themeHTML += '</div>';
+
+  let modal = document.createElement('div');
+  modal.className = 'modal-overlay visible';
+  modal.innerHTML = `
+    <div class="modal-content w-full max-w-xs">
+      <h2 class="text-lg font-bold mb-2">Choose Avatar</h2>
+      ${avatarHTML}
+      <h2 class="text-lg font-bold mt-2 mb-2">Choose Theme</h2>
+      ${themeHTML}
+      <button id="confirm-add-profile" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md mt-3">Confirm</button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  let selectedAvatar = 0, selectedTheme = 0;
+  modal.querySelectorAll('.avatar-choose-img').forEach(img => {
+    img.onclick = function() {
+      selectedAvatar = Number(this.dataset.idx);
+      modal.querySelectorAll('.avatar-choose-img').forEach(i => i.classList.remove('selected'));
+      this.classList.add('selected');
+    };
+  });
+  modal.querySelectorAll('.profile-theme-sample').forEach(span => {
+    span.onclick = function() {
+      selectedTheme = Number(this.dataset.idx);
+      modal.querySelectorAll('.profile-theme-sample').forEach(s => s.style.outline = '');
+      this.style.outline = '2px solid #4A90E2';
+    };
+  });
+  modal.querySelector('#confirm-add-profile').onclick = function() {
+    profiles.push({ name, avatar: avatarList[selectedAvatar], theme: themeList[selectedTheme].color });
+    localStorage.setItem('profiles', JSON.stringify(profiles));
+    document.body.removeChild(modal);
+    renderProfileList();
+  };
+}
+function selectProfile(idx) {
+  currentProfileIndex = idx;
+  localStorage.setItem('currentProfileIndex', idx);
+  document.getElementById('profile-modal').classList.remove('visible');
+  updateProfileHeader();
+}
+function deleteProfile(idx) {
+  if (!confirm('Delete this explorer?')) return;
+  profiles.splice(idx, 1);
+  if (currentProfileIndex >= profiles.length) currentProfileIndex = 0;
+  localStorage.setItem('profiles', JSON.stringify(profiles));
+  localStorage.setItem('currentProfileIndex', currentProfileIndex);
+  renderProfileList();
+}
+function updateProfileHeader() {
+  const profile = profiles[currentProfileIndex];
+  document.getElementById('profile-avatar').style.backgroundImage = profile?.avatar
+    ? `url('${profile.avatar}')`
+    : `url('${avatarList[0]}')`;
+  document.getElementById('profile-name').textContent = profile?.name || 'Profile';
+}
+updateProfileHeader();
+document.getElementById('profile-btn').onclick = () => showProfileSelection();
+
+// --- Cookie Banner ---
+function showCookieBanner() {
+  if (!localStorage.getItem('cookiesAccepted')) {
+    const banner = document.getElementById('cookie-banner');
+    if (banner) {
+      banner.classList.add('show');
+      banner.classList.remove('hidden');
+      document.getElementById('accept-cookies').onclick = () => {
+        localStorage.setItem('cookiesAccepted', 'true');
+        banner.classList.remove('show');
+      };
+    }
+  }
+}
 
 // --- Sound Toggle ---
 const soundBtn = document.getElementById('sound-toggle-btn');
@@ -33,21 +167,6 @@ if (soundBtn) {
     updateSoundIcon();
   };
   updateSoundIcon();
-}
-
-// --- Cookie Banner ---
-function showCookieBanner() {
-  if (!localStorage.getItem('cookiesAccepted')) {
-    const banner = document.getElementById('cookie-banner');
-    if (banner) {
-      banner.classList.add('show');
-      banner.classList.remove('hidden');
-      document.getElementById('accept-cookies').onclick = () => {
-        localStorage.setItem('cookiesAccepted', 'true');
-        banner.classList.remove('show');
-      };
-    }
-  }
 }
 
 // --- In-Game Currency ---
@@ -133,67 +252,6 @@ document.getElementById('start-daily-challenge').onclick = () => {
   // Start your challenge mode here!
 };
 
-// --- Profile Modal ---
-document.getElementById('profile-btn').onclick = () => showProfileSelection();
-document.getElementById('close-profile').onclick = () => document.getElementById('profile-modal').classList.remove('visible');
-
-let profiles = JSON.parse(localStorage.getItem('profiles')) || [];
-let currentProfileIndex = Number(localStorage.getItem('currentProfileIndex')) || 0;
-
-function showProfileSelection() {
-  document.getElementById('profile-modal').classList.add('visible');
-  renderProfileList();
-  document.getElementById('add-profile-btn').onclick = addProfile;
-}
-function renderProfileList() {
-  const profileList = document.getElementById('profile-list');
-  profileList.innerHTML = '';
-  profiles.forEach((profile, idx) => {
-    const div = document.createElement('div');
-    div.className = 'profile-card' + (idx === currentProfileIndex ? ' selected-profile' : '');
-    div.innerHTML = `
-      <img src="${profile.avatar || 'https://api.dicebear.com/6.x/personas/svg?seed=' + encodeURIComponent(profile.name)}" alt="Avatar">
-      <span class="font-semibold">${profile.name}</span>
-      <button class="delete-profile-btn" title="Delete Profile">&times;</button>
-    `;
-    div.onclick = () => selectProfile(idx);
-    div.querySelector('.delete-profile-btn').onclick = (e) => {
-      e.stopPropagation();
-      deleteProfile(idx);
-    };
-    profileList.appendChild(div);
-  });
-}
-function addProfile() {
-  const name = prompt('Enter explorer name:');
-  if (!name) return;
-  profiles.push({ name, avatar: '' });
-  localStorage.setItem('profiles', JSON.stringify(profiles));
-  renderProfileList();
-}
-function selectProfile(idx) {
-  currentProfileIndex = idx;
-  localStorage.setItem('currentProfileIndex', idx);
-  document.getElementById('profile-modal').classList.remove('visible');
-  updateProfileHeader();
-}
-function deleteProfile(idx) {
-  if (!confirm('Delete this explorer?')) return;
-  profiles.splice(idx, 1);
-  if (currentProfileIndex >= profiles.length) currentProfileIndex = 0;
-  localStorage.setItem('profiles', JSON.stringify(profiles));
-  localStorage.setItem('currentProfileIndex', currentProfileIndex);
-  renderProfileList();
-}
-function updateProfileHeader() {
-  const profile = profiles[currentProfileIndex];
-  document.getElementById('profile-avatar').style.backgroundImage = profile?.avatar
-    ? `url('${profile.avatar}')`
-    : `url('https://api.dicebear.com/6.x/personas/svg?seed=${encodeURIComponent(profile?.name || "Explorer")}')`;
-  document.getElementById('profile-name').textContent = profile?.name || 'Profile';
-}
-updateProfileHeader();
-
 // --- Fun Fact Popups ---
 const funFacts = [
   "A group of flamingos is called a 'flamboyance'!",
@@ -232,4 +290,3 @@ function launchFireworks() {
 // collectSticker(animalName);
 // showDidYouKnowPopup();
 // launchFireworks();
-  
