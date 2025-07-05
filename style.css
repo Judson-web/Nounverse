@@ -7,81 +7,212 @@ body {
   color: #222;
 }
 
-/* ===== Option Buttons ===== */
+/* ===== Material Card/Container ===== */
+.quiz-container,
+.bg-white,
+#settings-modal .bg-white,
+#profile-modal .bg-white {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(60,60,60,0.10), 0 1.5px 6px rgba(60,60,60,0.08);
+  transition: box-shadow 0.2s;
+}
+
+/* ===== Material Buttons ===== */
+.option-button,
+.button,
+#save-settings,
+#close-settings-modal,
+#close-profile-modal,
+#sound-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  outline: none;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  padding: 0.9em 1.6em;
+  background: #e3f2fd;
+  color: #1976d2;
+  box-shadow: 0 2px 8px rgba(25,118,210,0.06);
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s, color 0.18s, transform 0.1s;
+  margin: 0.5em 0;
+  min-width: 120px;
+}
 .option-button {
-  display: block;
   width: 100%;
   margin: 0.5rem 0;
-  padding: 1rem 1.5rem;
-  background: #e0f2f7;
-  border: 2px solid #a7d9ee;
-  color: #2c3e50;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
-  outline: none;
   text-align: left;
+  justify-content: flex-start;
 }
 .option-button:hover:not(:disabled),
-.option-button:focus-visible:not(:disabled) {
-  background: #d1ecf1;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-  transform: translateY(-1px) scale(1.01);
+.button:hover:not(:disabled),
+#save-settings:hover,
+#sound-toggle-btn:hover,
+.option-button:focus-visible,
+.button:focus-visible,
+#save-settings:focus-visible,
+#sound-toggle-btn:focus-visible {
+  background: #1976d2;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(25,118,210,0.12);
+  transform: translateY(-1px) scale(1.03);
 }
-.option-button:active:not(:disabled) {
-  background: #a7d9ee;
+.option-button:active:not(:disabled),
+.button:active:not(:disabled),
+#save-settings:active,
+#sound-toggle-btn:active {
+  background: #1565c0;
+  color: #fff;
 }
 .option-button.correct {
-  background: #d4edda;
-  border-color: #28a745;
-  color: #155724;
+  background: #c8e6c9;
+  color: #256029;
+  border: none;
 }
 .option-button.incorrect {
-  background: #f8d7da;
-  border-color: #dc3545;
-  color: #721c24;
+  background: #ffcdd2;
+  color: #b71c1c;
+  border: none;
 }
 .option-button:disabled {
-  opacity: 0.7;
+  opacity: 0.6;
   cursor: not-allowed;
   pointer-events: none;
 }
 
-/* ===== Timer Bar ===== */
-.timer-bar {
-  width: 100%;
-  height: 8px;
-  background: #e0e0e0;
-  border-radius: 4px;
-  margin-bottom: 1em;
-  overflow: hidden;
+/* ===== Material Inputs ===== */
+input[type="number"],
+input[type="text"],
+input[type="checkbox"] {
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1.5px solid #bdbdbd;
+  padding: 0.5em 0.8em;
+  background: #fafafa;
+  transition: border 0.2s, box-shadow 0.2s;
+  outline: none;
 }
-#timer-bar-fill {
-  height: 8px;
-  background: #38bdf8;
-  border-radius: 4px;
-  width: 100%;
-  transition: width 0.3s;
+input[type="number"]:focus,
+input[type="text"]:focus {
+  border: 1.5px solid #1976d2;
+  box-shadow: 0 1px 8px rgba(25,118,210,0.10);
 }
-#timer-bar-fill.warning {
-  background: #fbbf24;
-}
-#timer-bar-fill.danger {
-  background: #ef4444;
+input[type="checkbox"] {
+  accent-color: #1976d2;
+  width: 1.2em;
+  height: 1.2em;
+  margin-right: 0.5em;
 }
 
-/* ===== Fun Fact Box ===== */
+/* ===== Material Modal Overlay ===== */
+#settings-modal,
+#profile-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(40, 40, 40, 0.32);
+  backdrop-filter: blur(1.5px);
+}
+#settings-modal.hidden,
+#profile-modal.hidden {
+  display: none;
+}
+#settings-modal .bg-white,
+#profile-modal .bg-white {
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  min-width: 270px;
+  max-width: 92vw;
+  position: relative;
+  border-radius: 18px;
+  box-shadow: 0 8px 40px rgba(60,60,60,0.18);
+}
+#settings-modal h2,
+#profile-modal h2 {
+  margin-top: 0;
+  letter-spacing: 0.01em;
+  color: #1976d2;
+  font-weight: 700;
+}
+#close-settings-modal,
+#close-profile-modal {
+  position: absolute;
+  top: 0.7rem;
+  right: 1.1rem;
+  background: transparent;
+  color: #888;
+  font-size: 1.7rem;
+  box-shadow: none;
+  padding: 0.1em 0.3em;
+  border-radius: 50%;
+  min-width: unset;
+}
+#close-settings-modal:hover,
+#close-profile-modal:hover {
+  background: #e57373;
+  color: #fff;
+}
+#save-settings {
+  background: #1976d2;
+  color: #fff;
+  margin-top: 1.2em;
+  min-width: 120px;
+}
+#save-settings:hover {
+  background: #1565c0;
+}
+
+/* ===== Material Profile Modal Content ===== */
+#profile-content p {
+  margin: 0.7em 0 0.7em 0;
+  font-size: 1.08em;
+  color: #374151;
+}
+#profile-content strong {
+  color: #1976d2;
+}
+
+/* ===== Material Timer Bar ===== */
+.timer-bar {
+  width: 100%;
+  height: 9px;
+  background: #e3e3e3;
+  border-radius: 5px;
+  margin-bottom: 1em;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(25,118,210,0.08);
+}
+#timer-bar-fill {
+  height: 100%;
+  background: #1976d2;
+  border-radius: 5px;
+  width: 100%;
+  transition: width 0.3s, background 0.2s;
+}
+#timer-bar-fill.warning {
+  background: #ffa726;
+}
+#timer-bar-fill.danger {
+  background: #e53935;
+}
+
+/* ===== Material Fun Fact Box ===== */
 .fun-fact,
 #fun-fact-box {
-  background: #fffbe7;
-  border-left: 4px solid #ffd700;
-  padding: 0.75rem 1rem;
-  margin: 1rem 0 0.5rem 0;
-  border-radius: 0.5rem;
-  font-size: 1rem;
+  background: #fffde7;
+  border-left: 5px solid #ffd600;
+  padding: 0.85rem 1.2rem;
+  margin: 1.1rem 0 0.7rem 0;
+  border-radius: 0.7rem;
+  font-size: 1.04rem;
   color: #7c6512;
+  box-shadow: 0 1px 6px rgba(255,214,0,0.07);
 }
 #fun-fact-box.hidden {
   display: none;
@@ -99,100 +230,21 @@ body {
   font-size: 1.5em;
 }
 
-/* ===== Modal Overlay (for settings, profile, etc.) ===== */
-#settings-modal,
-#profile-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0,0.4);
-}
-#settings-modal.hidden,
-#profile-modal.hidden {
-  display: none;
-}
-#settings-modal .bg-white,
-#profile-modal .bg-white {
-  background: #fff;
-  border-radius: 1rem;
-  padding: 2rem 1.5rem 1.5rem 1.5rem;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-  min-width: 260px;
-  max-width: 90vw;
-  position: relative;
-}
-#settings-modal h2,
-#profile-modal h2 {
-  margin-top: 0;
-}
-#close-settings-modal,
-#close-profile-modal {
-  position: absolute;
-  top: 0.6rem;
-  right: 1rem;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  color: #888;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-#close-settings-modal:hover,
-#close-profile-modal:hover {
-  color: #f87171;
-}
-#timer-setting {
-  font-size: 1rem;
-  padding: 0.3em 0.5em;
-  border: 1px solid #d1d5db;
-  border-radius: 0.35em;
-  width: 100%;
-  box-sizing: border-box;
-}
-#save-settings {
-  background: #2563eb;
-  color: #fff;
-  padding: 0.6em 1.2em;
-  border-radius: 0.5em;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-top: 1em;
-  transition: background 0.2s;
-}
-#save-settings:hover {
-  background: #1d4ed8;
-}
-
-/* ===== Profile Modal Content ===== */
-#profile-content p {
-  margin: 0.5em 0;
-  font-size: 1.05em;
-}
-#profile-content strong {
-  color: #2563eb;
-}
-
-/* ===== Mute/Unmute Button ===== */
+/* ===== Material Mute/Unmute Button ===== */
 #sound-toggle-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.4em;
-  background: #bfdbfe;
-  color: #1e3a8a;
+  background: #e3f2fd;
+  color: #1976d2;
+  font-weight: 600;
   border: none;
-  border-radius: 0.5em;
+  border-radius: 999px;
   padding: 0.45em 1em;
   font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(25,118,210,0.06);
+  gap: 0.4em;
+  transition: background 0.18s, color 0.18s;
 }
 #sound-toggle-btn:hover, #sound-toggle-btn:focus-visible {
-  background: #60a5fa;
+  background: #1976d2;
   color: #fff;
 }
 #volume-icon, #mute-icon {
@@ -209,9 +261,9 @@ body {
 
 /* ===== Settings Modal: Dark Mode Toggle Checkbox ===== */
 #dark-mode-toggle {
+  accent-color: #1976d2;
   width: 1.2em;
   height: 1.2em;
-  accent-color: #2563eb;
 }
 
 /* ===== Visually Hidden (for accessibility) ===== */
@@ -231,60 +283,75 @@ body {
   }
 }
 
-/* ===== DARK MODE ===== */
+/* ===== DARK MODE (Material Style) ===== */
 body.dark {
   background: linear-gradient(45deg, #23272f 0%, #2d3748 100%);
-  color: #f3f4f6;
+  color: #e3e3e3;
 }
 body.dark .quiz-container,
 body.dark .bg-white,
 body.dark #settings-modal .bg-white,
 body.dark #profile-modal .bg-white {
   background: #23272f !important;
-  color: #f3f4f6;
+  color: #e3e3e3;
+  box-shadow: 0 8px 40px rgba(40,40,40,0.22);
 }
-body.dark .option-button {
-  background: #2d3748;
-  color: #f3f4f6;
-  border-color: #4b5563;
+body.dark .option-button,
+body.dark .button,
+body.dark #save-settings,
+body.dark #sound-toggle-btn {
+  background: #283046;
+  color: #90caf9;
+  box-shadow: 0 2px 8px rgba(90,180,255,0.08);
+}
+body.dark .option-button:hover,
+body.dark .button:hover,
+body.dark #save-settings:hover,
+body.dark #sound-toggle-btn:hover,
+body.dark .option-button:focus-visible,
+body.dark .button:focus-visible,
+body.dark #save-settings:focus-visible,
+body.dark #sound-toggle-btn:focus-visible {
+  background: #1976d2;
+  color: #fff;
 }
 body.dark .option-button.correct {
-  background: #22543d;
-  color: #c6f6d5;
-  border-color: #38a169;
+  background: #388e3c;
+  color: #c8e6c9;
 }
 body.dark .option-button.incorrect {
-  background: #742a2a;
-  color: #feb2b2;
-  border-color: #e53e3e;
+  background: #c62828;
+  color: #ffcdd2;
 }
 body.dark .fun-fact,
 body.dark #fun-fact-box {
   background: #1a202c;
-  color: #ecc94b;
-  border-color: #ecc94b;
+  color: #ffd600;
+  border-color: #ffd600;
+  box-shadow: 0 1px 6px rgba(255,214,0,0.13);
 }
 body.dark #timer-bar-fill {
-  background: #4299e1;
+  background: #90caf9;
 }
 body.dark .timer-bar {
-  background: #4b5563;
+  background: #374151;
 }
 body.dark #save-settings {
-  background: #2b6cb0;
-  color: #f3f4f6;
+  background: #1976d2;
+  color: #fff;
 }
 body.dark #save-settings:hover {
-  background: #2563eb;
+  background: #1565c0;
 }
 body.dark #close-settings-modal,
 body.dark #close-profile-modal {
-  color: #ccc;
+  color: #bbb;
 }
 body.dark #close-settings-modal:hover,
 body.dark #close-profile-modal:hover {
-  color: #f87171;
+  background: #b71c1c;
+  color: #fff;
 }
 body.dark #profile-content strong {
-  color: #63b3ed;
+  color: #90caf9;
 }
