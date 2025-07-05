@@ -14,7 +14,7 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* Accessibility: Reduce motion for those who prefer it */
+/* Reduced motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -67,7 +67,8 @@ header {
     outline: none;
     box-sizing: border-box;
 }
-.option-button:hover:not(:disabled) {
+.option-button:hover:not(:disabled),
+.option-button:focus-visible:not(:disabled) {
     background: #d1ecf1;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.07);
@@ -77,13 +78,17 @@ header {
     transform: translateY(0);
     box-shadow: none;
 }
+.option-button:focus-visible {
+    outline: 3px solid #4A90E2;
+    outline-offset: 2px;
+}
 .option-button.correct {
-    background: #b8e6c1; /* Improved contrast */
+    background: #b8e6c1;
     border-color: #218838;
     color: #155724;
 }
 .option-button.incorrect {
-    background: #f5b7b1; /* Improved contrast */
+    background: #f5b7b1;
     border-color: #c82333;
     color: #721c24;
 }
