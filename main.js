@@ -82,7 +82,6 @@ let pendingDarkMode = localStorage.getItem('darkMode') === 'true';
 
 // ====== DOMContentLoaded ======
 window.addEventListener('DOMContentLoaded', function() {
-    // Apply dark mode from localStorage
     if (localStorage.getItem('darkMode') === 'true') {
         document.body.classList.add('dark');
     } else {
@@ -90,7 +89,6 @@ window.addEventListener('DOMContentLoaded', function() {
     }
     updateProfileInfo();
 
-    // Splash and quiz content
     const splash = document.getElementById('splash-screen');
     const quizContent = document.getElementById('quiz-content');
     if (!splash || !quizContent) {
@@ -333,7 +331,7 @@ function playSound(id) {
     }
 }
 
-// ====== Profile Modal Logic (Material Design, Avatar, Edit, Save/Cancel) ======
+// ====== Profile Modal Logic ======
 const profileModal = document.getElementById('profile-modal');
 const profileBtn = document.getElementById('profile-btn');
 const closeProfileBtn = document.getElementById('close-profile-modal');
@@ -392,4 +390,24 @@ if (profileForm) {
 // Avatar upload logic
 if (editAvatarBtn && avatarUpload) {
     editAvatarBtn.addEventListener('click', () => avatarUpload.click());
-    avatarUpload.addEventListener('change', function
+    avatarUpload.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                userProfile.avatar = e.target.result;
+                if (profileAvatar) profileAvatar.src = userProfile.avatar;
+                localStorage.setItem('userProfile', JSON.stringify(userProfile));
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+// Update stats in profile modal when score/streak changes
+function updateProfileStatsLive() {
+    if (profileModal && !profileModal.classList.contains('hidden')) {
+        if (profileScore) profileScore.textContent = score;
+        if (profileStreak) profileStreak.textContent = streak;
+    }
+}
