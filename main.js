@@ -1,8 +1,22 @@
 // ====== User Profile Data ======
 let userProfile = JSON.parse(localStorage.getItem('userProfile')) || {
-    name: 'Guest',
+    displayName: 'Guest',
+    username: '',
+    birthday: '',
     age: '',
-    avatar: 'https://mui.com/static/images/avatar/1.jpg'
+    pronouns: '',
+    pronounsCustom: '',
+    favColor: '#1976d2',
+    favAnimal: '',
+    greeting: '',
+    avatar: 'https://mui.com/static/images/avatar/1.jpg',
+    pin: '',
+    stats: {
+        quizzes: 0,
+        bestScore: 0,
+        bestStreak: 0
+    },
+    badges: []
 };
 
 // ====== Settings Defaults ======
@@ -10,7 +24,7 @@ let settings = JSON.parse(localStorage.getItem('settings')) || {
     soundEffects: true,
     fontSize: 'medium',
     quizLength: 10,
-    theme: '', // '' means default (light)
+    theme: '',
     language: 'en',
     animations: true
 };
@@ -32,12 +46,14 @@ const quizQuestions = [
 // ====== Quiz State ======
 let current = 0, score = 0, streak = 0, timer = null;
 let timeTotal = 20;
+let quizSet = [];
 
 // ====== DOMContentLoaded ======
 window.addEventListener('DOMContentLoaded', function() {
     applySettings();
     updateProfileInfo();
     setupSettingsUI();
+    setupProfileUI();
     const splash = document.getElementById('splash-screen');
     const quizContent = document.getElementById('quiz-content');
     setTimeout(function() {
@@ -63,7 +79,6 @@ function getQuizSet() {
     return shuffled.slice(0, Number(settings.quizLength));
 }
 
-let quizSet = [];
 function showQuestion() {
     if (current === 0) quizSet = getQuizSet();
     var scoreEl = document.getElementById('score');
@@ -132,6 +147,16 @@ function showQuizEnd() {
     document.getElementById('timer-bar-fill').style.width = '0%';
     document.getElementById('restart-btn').onclick = function() { startQuiz(); };
     hideFunFact();
+
+    // Update stats and badges
+    userProfile.stats.quizzes = (userProfile.stats.quizzes || 0) + 1;
+    if (score > (userProfile.stats.bestScore || 0)) userProfile.stats.bestScore = score;
+    if (streak > (userProfile.stats.bestStreak || 0)) userProfile.stats.bestStreak = streak;
+    // Example badge logic:
+    if (userProfile.stats.quizzes === 1 && !userProfile.badges.includes('first-quiz')) userProfile.badges.push('first-quiz');
+    if (streak >= 5 && !userProfile.badges.includes('streak-5')) userProfile.badges.push('streak-5');
+    saveProfile();
+    updateProfileStatsLive();
 }
 
 function startTimer(seconds) {
@@ -332,13 +357,39 @@ var profileBtn = document.getElementById('profile-btn');
 var closeProfileBtn = document.getElementById('close-profile-modal');
 var profileForm = document.getElementById('profile-form');
 var cancelProfileEdit = document.getElementById('cancel-profile-edit');
-var profileNameInput = document.getElementById('profile-name-input');
-var profileAgeInput = document.getElementById('profile-age-input');
-var profileScore = document.getElementById('profile-score');
-var profileStreak = document.getElementById('profile-streak');
 var profileAvatar = document.getElementById('profile-avatar');
 var editAvatarBtn = document.getElementById('edit-avatar-btn');
+var emojiAvatarBtn = document.getElementById('emoji-avatar-btn');
 var avatarUpload = document.getElementById('avatar-upload');
+
+function updateProfileInfo() {
+    document.getElementById('profile-display-name').value = userProfile.displayName || '';
+    document.getElementById('profile-username').value = userProfile.username || generateUsername(userProfile.displayName);
+    document.getElementById('profile-birthday').value = userProfile.birthday || '';
+    document.getElementById('profile-age').value = userProfile.age || '';
+    document.getElementById('profile-pronouns').value = userProfile.pronouns || '';
+    document.getElementById('profile-pronouns-custom').value = userProfile.pronounsCustom || '';
+    document.getElementById('profile-pronouns-custom').classList.toggle('hidden', userProfile.pronouns !== 'custom');
+    document.getElementById('profile-fav-color').value = userProfile.favColor || '#1976d2';
+    document.getElementById('profile-fav-animal').value = userProfile.favAnimal || '';
+    document.getElementById('profile-greeting').value = userProfile.greeting || '';
+    document.getElementById('profile-pin').value = userProfile.pin || '';
+    if (profileAvatar) profileAvatar.src = userProfile.avatar || 'https://mui.com/static/images/avatar/1.jpg';
+    document.getElementById('profile-score').textContent = userProfile.stats.bestScore || 0;
+    document.getElementById('profile-streak').textContent = userProfile.stats.bestStreak || 0;
+    document.getElementById('profile-quizzes').textContent = userProfile.stats.quizzes || 0;
+    updateProfileBadges();
+}
+
+function updateProfileBadges() {
+    // Example: update badges in modal based on userProfile.badges
+    // You can expand this logic for more badges
+    // (For now, badges are static in HTML for demo)
+}
+
+function saveProfile() {
+    localStorage.setItem('userProfile', JSON.stringify(userProfile));
+}
 
 if (profileBtn && profileModal) {
     profileBtn.addEventListener('click', function() {
@@ -362,25 +413,27 @@ if (profileModal) {
     });
 }
 
-function updateProfileInfo() {
-    if (profileNameInput) profileNameInput.value = userProfile.name || '';
-    if (profileAgeInput) profileAgeInput.value = userProfile.age || '';
-    if (profileScore) profileScore.textContent = score;
-    if (profileStreak) profileStreak.textContent = streak;
-    if (profileAvatar) profileAvatar.src = userProfile.avatar || 'https://mui.com/static/images/avatar/1.jpg';
-}
-
+// Profile form logic
 if (profileForm) {
     profileForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        userProfile.name = profileNameInput.value.trim() || 'Guest';
-        userProfile.age = profileAgeInput.value.trim();
-        localStorage.setItem('userProfile', JSON.stringify(userProfile));
+        userProfile.displayName = document.getElementById('profile-display-name').value.trim() || 'Guest';
+        userProfile.username = document.getElementById('profile-username').value.trim() || generateUsername(userProfile.displayName);
+        userProfile.birthday = document.getElementById('profile-birthday').value;
+        userProfile.age = document.getElementById('profile-age').value;
+        userProfile.pronouns = document.getElementById('profile-pronouns').value;
+        userProfile.pronounsCustom = document.getElementById('profile-pronouns-custom').value;
+        userProfile.favColor = document.getElementById('profile-fav-color').value;
+        userProfile.favAnimal = document.getElementById('profile-fav-animal').value;
+        userProfile.greeting = document.getElementById('profile-greeting').value.trim();
+        userProfile.pin = document.getElementById('profile-pin').value.trim();
+        saveProfile();
         updateProfileInfo();
         profileModal.classList.add('hidden');
     });
 }
 
+// Avatar upload
 if (editAvatarBtn && avatarUpload) {
     editAvatarBtn.addEventListener('click', function() { avatarUpload.click(); });
     avatarUpload.addEventListener('change', function() {
@@ -390,26 +443,37 @@ if (editAvatarBtn && avatarUpload) {
             reader.onload = function(e) {
                 userProfile.avatar = e.target.result;
                 if (profileAvatar) profileAvatar.src = userProfile.avatar;
-                localStorage.setItem('userProfile', JSON.stringify(userProfile));
+                saveProfile();
             };
             reader.readAsDataURL(file);
         }
     });
 }
 
-function updateProfileStatsLive() {
-    if (profileModal && !profileModal.classList.contains('hidden')) {
-        if (profileScore) profileScore.textContent = score;
-        if (profileStreak) profileStreak.textContent = streak;
-    }
+// Emoji avatar picker (basic prompt for emoji)
+if (emojiAvatarBtn) {
+    emojiAvatarBtn.addEventListener('click', function() {
+        var emoji = prompt('Enter an emoji for your avatar:');
+        if (emoji && emoji.length <= 2) { // Accept 1 emoji char
+            // Create a data URL from emoji (SVG)
+            var svg = `<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><text x="50%" y="50%" font-size="60" text-anchor="middle" dominant-baseline="central">${emoji}</text></svg>`;
+            var dataUrl = 'data:image/svg+xml;base64,' + btoa(svg);
+            userProfile.avatar = dataUrl;
+            if (profileAvatar) profileAvatar.src = userProfile.avatar;
+            saveProfile();
+        }
+    });
 }
 
-// ====== Settings UI Setup (for toggles/buttons) ======
-function setupSettingsUI() {
-    fontSizeBtns.forEach(function(btn) {
-        btn.classList.toggle('active', btn.dataset.font === settings.fontSize);
-    });
-    themeBtns.forEach(function(btn) {
-        btn.classList.toggle('active', btn.dataset.theme === settings.theme);
-    });
-}
+// Birthday/age sync
+var birthdayInput = document.getElementById('profile-birthday');
+var ageInput = document.getElementById('profile-age');
+if (birthdayInput && ageInput) {
+    birthdayInput.addEventListener('change', function() {
+        if (birthdayInput.value) {
+            var birthDate = new Date(birthdayInput.value);
+            var today = new Date();
+            var years = today.getFullYear() - birthDate.getFullYear();
+            var m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) { years--; }
+            ageInp
