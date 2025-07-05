@@ -225,7 +225,9 @@ body {
 /* ===== Inputs ===== */
 input[type="number"],
 input[type="text"],
-input[type="checkbox"],
+input[type="password"],
+input[type="date"],
+input[type="color"],
 .material-input,
 select {
   font-size: 1rem;
@@ -238,6 +240,9 @@ select {
 }
 input[type="number"]:focus,
 input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
+input[type="color"]:focus,
 .material-input:focus,
 select:focus {
   border: 1.5px solid var(--color-primary);
@@ -274,6 +279,9 @@ input[type="checkbox"] {
   position: relative;
   border-radius: 20px;
   box-shadow: 0 8px 40px rgba(60,60,60,0.18);
+}
+#profile-modal .bg-white {
+  max-width: 440px;
 }
 #settings-modal h2,
 #profile-modal h2 {
@@ -343,6 +351,16 @@ input[type="checkbox"] {
 }
 #profile-form .flex.gap-3.mt-5 {
   margin-top: 1.2em;
+}
+
+/* ===== Badges ===== */
+#profile-modal .inline-block[title] {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.2em;
+}
+#profile-modal .inline-block:last-child {
+  margin-right: 0;
 }
 
 /* ===== Material Icons ===== */
