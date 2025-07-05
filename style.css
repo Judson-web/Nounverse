@@ -4,6 +4,7 @@ body {
   background: linear-gradient(45deg, #FFD700, #FFA07A, #ADD8E6, #90EE90);
   min-height: 100vh;
   margin: 0;
+  color: #222;
 }
 
 /* ===== Option Buttons ===== */
@@ -206,6 +207,13 @@ body {
   opacity: 0.75;
 }
 
+/* ===== Settings Modal: Dark Mode Toggle Checkbox ===== */
+#dark-mode-toggle {
+  width: 1.2em;
+  height: 1.2em;
+  accent-color: #2563eb;
+}
+
 /* ===== Visually Hidden (for accessibility) ===== */
 .visually-hidden {
   position: absolute !important;
@@ -221,4 +229,62 @@ body {
     padding: 1em 0.5em 1em 0.5em;
     min-width: unset;
   }
+}
+
+/* ===== DARK MODE ===== */
+body.dark {
+  background: linear-gradient(45deg, #23272f 0%, #2d3748 100%);
+  color: #f3f4f6;
+}
+body.dark .quiz-container,
+body.dark .bg-white,
+body.dark #settings-modal .bg-white,
+body.dark #profile-modal .bg-white {
+  background: #23272f !important;
+  color: #f3f4f6;
+}
+body.dark .option-button {
+  background: #2d3748;
+  color: #f3f4f6;
+  border-color: #4b5563;
+}
+body.dark .option-button.correct {
+  background: #22543d;
+  color: #c6f6d5;
+  border-color: #38a169;
+}
+body.dark .option-button.incorrect {
+  background: #742a2a;
+  color: #feb2b2;
+  border-color: #e53e3e;
+}
+body.dark .fun-fact,
+body.dark #fun-fact-box {
+  background: #1a202c;
+  color: #ecc94b;
+  border-color: #ecc94b;
+}
+body.dark #timer-bar-fill {
+  background: #4299e1;
+}
+body.dark .timer-bar {
+  background: #4b5563;
+}
+body.dark #save-settings {
+  background: #2b6cb0;
+  color: #f3f4f6;
+}
+body.dark #save-settings:hover {
+  background: #2563eb;
+}
+body.dark #close-settings-modal,
+body.dark #close-profile-modal {
+  color: #ccc;
+}
+body.dark #close-settings-modal:hover,
+body.dark #close-profile-modal:hover {
+  color: #f87171;
+}
+body.dark #profile-content strong {
+  color: #63b3ed;
 }
