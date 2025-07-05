@@ -40,7 +40,7 @@ window.addEventListener('DOMContentLoaded', function() {
     setupSettingsUI();
     const splash = document.getElementById('splash-screen');
     const quizContent = document.getElementById('quiz-content');
-    setTimeout(() => {
+    setTimeout(function() {
         splash.style.display = 'none';
         quizContent.classList.remove('hidden');
         startQuiz();
@@ -49,45 +49,45 @@ window.addEventListener('DOMContentLoaded', function() {
 
 // ====== Quiz Functions ======
 function startQuiz() {
-    current = 0; score = 0; streak = 0;
+    current = 0;
+    score = 0;
+    streak = 0;
     showQuestion();
 }
 
 function getQuizSet() {
     if (settings.quizLength === 'all' || settings.quizLength >= quizQuestions.length) {
-        return [...quizQuestions];
+        return quizQuestions.slice();
     }
-    const shuffled = [...quizQuestions].sort(() => Math.random() - 0.5);
+    var shuffled = quizQuestions.slice().sort(function() { return Math.random() - 0.5; });
     return shuffled.slice(0, Number(settings.quizLength));
 }
 
 let quizSet = [];
 function showQuestion() {
     if (current === 0) quizSet = getQuizSet();
-    const scoreEl = document.getElementById('score');
-    const streakEl = document.getElementById('streak');
-    const currentQ = document.getElementById('current-question');
-    const totalQ = document.getElementById('total-questions');
-    const area = document.getElementById('question-area');
+    var scoreEl = document.getElementById('score');
+    var streakEl = document.getElementById('streak');
+    var currentQ = document.getElementById('current-question');
+    var totalQ = document.getElementById('total-questions');
+    var area = document.getElementById('question-area');
     if (!scoreEl || !streakEl || !currentQ || !totalQ || !area) return;
 
-    const q = quizSet[current];
+    var q = quizSet[current];
     scoreEl.textContent = score;
     streakEl.textContent = streak;
     currentQ.textContent = current + 1;
     totalQ.textContent = quizSet.length;
 
-    area.innerHTML = `
-        <h2 class="mb-4 text-xl font-bold">${q.question}</h2>
-        <div id="options-list" class="flex flex-col gap-3"></div>
-    `;
-    const opts = document.getElementById('options-list');
-    q.options.forEach((opt, idx) => {
-        const btn = document.createElement('button');
+    area.innerHTML = '<h2 class="mb-4 text-xl font-bold">' + q.question + '</h2>' +
+        '<div id="options-list" class="flex flex-col gap-3"></div>';
+    var opts = document.getElementById('options-list');
+    q.options.forEach(function(opt, idx) {
+        var btn = document.createElement('button');
         btn.className = 'option-button';
         btn.textContent = opt;
         btn.setAttribute('aria-label', opt);
-        btn.onclick = () => handleAnswer(idx, btn);
+        btn.onclick = function() { handleAnswer(idx, btn); };
         opts.appendChild(btn);
     });
 
@@ -96,12 +96,13 @@ function showQuestion() {
 
 function handleAnswer(idx, btn) {
     clearInterval(timer);
-    const q = quizSet[current];
-    const allBtns = document.querySelectorAll('.option-button');
-    allBtns.forEach(b => b.disabled = true);
+    var q = quizSet[current];
+    var allBtns = document.querySelectorAll('.option-button');
+    allBtns.forEach(function(b) { b.disabled = true; });
     if (idx === q.answer) {
         btn.classList.add('correct');
-        score++; streak++;
+        score++;
+        streak++;
         playSound('correct-sound');
     } else {
         btn.classList.add('incorrect');
@@ -114,7 +115,7 @@ function handleAnswer(idx, btn) {
     updateProfileStatsLive();
     showFunFact(q.funFact);
 
-    setTimeout(() => {
+    setTimeout(function() {
         current++;
         if (current < quizSet.length) showQuestion();
         else showQuizEnd();
@@ -122,23 +123,22 @@ function handleAnswer(idx, btn) {
 }
 
 function showQuizEnd() {
-    const area = document.getElementById('question-area');
-    area.innerHTML = `
-        <h2 class="text-2xl font-bold mb-4">Quiz Complete!</h2>
-        <p class="mb-2">Your score: <span class="font-bold">${score}</span>/${quizSet.length}</p>
-        <button id="restart-btn" class="option-button" style="width:auto;min-width:120px;">Play Again</button>
-    `;
+    var area = document.getElementById('question-area');
+    area.innerHTML =
+        '<h2 class="text-2xl font-bold mb-4">Quiz Complete!</h2>' +
+        '<p class="mb-2">Your score: <span class="font-bold">' + score + '</span>/' + quizSet.length + '</p>' +
+        '<button id="restart-btn" class="option-button" style="width:auto;min-width:120px;">Play Again</button>';
     document.getElementById('timer-text').textContent = '';
     document.getElementById('timer-bar-fill').style.width = '0%';
-    document.getElementById('restart-btn').onclick = () => startQuiz();
+    document.getElementById('restart-btn').onclick = function() { startQuiz(); };
     hideFunFact();
 }
 
 function startTimer(seconds) {
-    let timeLeft = seconds;
+    var timeLeft = seconds;
     updateTimerUI(timeLeft, seconds);
     if (timer) clearInterval(timer);
-    timer = setInterval(() => {
+    timer = setInterval(function() {
         timeLeft--;
         updateTimerUI(timeLeft, seconds);
         if (timeLeft <= 0) {
@@ -147,22 +147,24 @@ function startTimer(seconds) {
         }
     }, 1000);
 }
+
 function updateTimerUI(timeLeft, total) {
-    const timerText = document.getElementById('timer-text');
-    const fill = document.getElementById('timer-bar-fill');
-    if (timerText) timerText.textContent = `${timeLeft}s`;
+    var timerText = document.getElementById('timer-text');
+    var fill = document.getElementById('timer-bar-fill');
+    if (timerText) timerText.textContent = timeLeft + 's';
     if (fill) {
-        const percent = (timeLeft / total) * 100;
+        var percent = (timeLeft / total) * 100;
         fill.style.width = percent + '%';
         fill.classList.remove('warning', 'danger');
         if (timeLeft <= 5) fill.classList.add('danger');
         else if (timeLeft <= 10) fill.classList.add('warning');
     }
 }
+
 function handleTimeUp() {
-    const q = quizSet[current];
-    const allBtns = document.querySelectorAll('.option-button');
-    allBtns.forEach((btn, idx) => {
+    var q = quizSet[current];
+    var allBtns = document.querySelectorAll('.option-button');
+    allBtns.forEach(function(btn, idx) {
         btn.disabled = true;
         if (idx === q.answer) btn.classList.add('correct');
     });
@@ -171,7 +173,7 @@ function handleTimeUp() {
     updateProfileStatsLive();
     playSound('wrong-sound');
     showFunFact(q.funFact);
-    setTimeout(() => {
+    setTimeout(function() {
         current++;
         if (current < quizSet.length) showQuestion();
         else showQuizEnd();
@@ -179,64 +181,67 @@ function handleTimeUp() {
 }
 
 function showFunFact(fact) {
-    const box = document.getElementById('fun-fact-box');
+    var box = document.getElementById('fun-fact-box');
     if (!box) return;
     if (!fact) { hideFunFact(); return; }
     box.textContent = "Fun Fact: " + fact;
     box.classList.remove('hidden');
     setTimeout(hideFunFact, 1600);
 }
+
 function hideFunFact() {
-    const box = document.getElementById('fun-fact-box');
+    var box = document.getElementById('fun-fact-box');
     if (!box) return;
     box.classList.add('hidden');
     box.textContent = '';
 }
 
 // ====== Settings Modal Logic ======
-const settingsBtn = document.getElementById('open-settings');
-const settingsModal = document.getElementById('settings-modal');
-const closeSettingsBtn = document.getElementById('close-settings-modal');
-const saveSettingsBtn = document.getElementById('save-settings');
-const resetProgressBtn = document.getElementById('reset-progress-btn');
-const settingsForm = document.getElementById('settings-form');
+var settingsBtn = document.getElementById('open-settings');
+var settingsModal = document.getElementById('settings-modal');
+var closeSettingsBtn = document.getElementById('close-settings-modal');
+var saveSettingsBtn = document.getElementById('save-settings');
+var resetProgressBtn = document.getElementById('reset-progress-btn');
+var settingsForm = document.getElementById('settings-form');
 
-const soundEffectsToggle = document.getElementById('sound-effects-toggle');
-const fontSizeBtns = document.querySelectorAll('.toggle-btn[data-font]');
-const quizLengthSetting = document.getElementById('quiz-length-setting');
-const themeBtns = document.querySelectorAll('.theme-btn');
-const languageSetting = document.getElementById('language-setting');
-const animationsToggle = document.getElementById('animations-toggle');
+var soundEffectsToggle = document.getElementById('sound-effects-toggle');
+var fontSizeBtns = document.querySelectorAll('.toggle-btn[data-font]');
+var quizLengthSetting = document.getElementById('quiz-length-setting');
+var themeBtns = document.querySelectorAll('.theme-btn');
+var languageSetting = document.getElementById('language-setting');
+var animationsToggle = document.getElementById('animations-toggle');
 
 if (settingsBtn && settingsModal) {
-    settingsBtn.onclick = () => {
+    settingsBtn.onclick = function() {
         soundEffectsToggle.checked = settings.soundEffects;
-        fontSizeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.font === settings.fontSize));
+        fontSizeBtns.forEach(function(btn) { btn.classList.toggle('active', btn.dataset.font === settings.fontSize); });
         quizLengthSetting.value = settings.quizLength;
-        themeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.theme === settings.theme));
+        themeBtns.forEach(function(btn) { btn.classList.toggle('active', btn.dataset.theme === settings.theme); });
         languageSetting.value = settings.language;
         animationsToggle.checked = settings.animations;
         settingsModal.classList.remove('hidden');
     };
 }
 if (closeSettingsBtn && settingsModal) {
-    closeSettingsBtn.onclick = () => settingsModal.classList.add('hidden');
+    closeSettingsBtn.onclick = function() { settingsModal.classList.add('hidden'); };
 }
-settingsModal?.addEventListener('click', (e) => {
-    if (e.target === settingsModal) settingsModal.classList.add('hidden');
-});
+if (settingsModal) {
+    settingsModal.addEventListener('click', function(e) {
+        if (e.target === settingsModal) settingsModal.classList.add('hidden');
+    });
+}
 
-fontSizeBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        fontSizeBtns.forEach(b => b.classList.remove('active'));
+fontSizeBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        fontSizeBtns.forEach(function(b) { b.classList.remove('active'); });
         btn.classList.add('active');
         settings.fontSize = btn.dataset.font;
     });
 });
 
-themeBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        themeBtns.forEach(b => b.classList.remove('active'));
+themeBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        themeBtns.forEach(function(b) { b.classList.remove('active'); });
         btn.classList.add('active');
         settings.theme = btn.dataset.theme;
     });
@@ -257,7 +262,7 @@ if (settingsForm) {
 }
 
 if (resetProgressBtn) {
-    resetProgressBtn.onclick = () => {
+    resetProgressBtn.onclick = function() {
         if (confirm("Are you sure you want to reset all progress? This cannot be undone.")) {
             localStorage.clear();
             location.reload();
@@ -277,14 +282,14 @@ function applySettings() {
 }
 
 // ====== Sound Toggle Logic ======
-let isMuted = false;
-const soundToggleBtn = document.getElementById('sound-toggle-btn');
-const volumeIcon = document.getElementById('volume-icon');
-const muteIcon = document.getElementById('mute-icon');
-const soundTooltip = document.getElementById('sound-tooltip');
+var isMuted = false;
+var soundToggleBtn = document.getElementById('sound-toggle-btn');
+var volumeIcon = document.getElementById('volume-icon');
+var muteIcon = document.getElementById('mute-icon');
+var soundTooltip = document.getElementById('sound-tooltip');
 
 if (soundToggleBtn) {
-    soundToggleBtn.addEventListener('click', () => {
+    soundToggleBtn.addEventListener('click', function() {
         isMuted = !isMuted;
         soundToggleBtn.setAttribute('aria-pressed', isMuted);
 
@@ -301,58 +306,61 @@ if (soundToggleBtn) {
         }
     });
 }
+
 function muteAllAudio() {
-    document.querySelectorAll('audio').forEach(audio => {
+    document.querySelectorAll('audio').forEach(function(audio) {
         audio.muted = true;
     });
 }
 function unmuteAllAudio() {
-    document.querySelectorAll('audio').forEach(audio => {
+    document.querySelectorAll('audio').forEach(function(audio) {
         audio.muted = false;
     });
 }
 function playSound(id) {
     if (isMuted || !settings.soundEffects) return;
-    const sound = document.getElementById(id);
+    var sound = document.getElementById(id);
     if (sound) {
         sound.currentTime = 0;
-        sound.play().catch(()=>{});
+        sound.play().catch(function(){});
     }
 }
 
 // ====== Profile Modal Logic ======
-const profileModal = document.getElementById('profile-modal');
-const profileBtn = document.getElementById('profile-btn');
-const closeProfileBtn = document.getElementById('close-profile-modal');
-const profileForm = document.getElementById('profile-form');
-const cancelProfileEdit = document.getElementById('cancel-profile-edit');
-const profileNameInput = document.getElementById('profile-name-input');
-const profileAgeInput = document.getElementById('profile-age-input');
-const profileScore = document.getElementById('profile-score');
-const profileStreak = document.getElementById('profile-streak');
-const profileAvatar = document.getElementById('profile-avatar');
-const editAvatarBtn = document.getElementById('edit-avatar-btn');
-const avatarUpload = document.getElementById('avatar-upload');
+var profileModal = document.getElementById('profile-modal');
+var profileBtn = document.getElementById('profile-btn');
+var closeProfileBtn = document.getElementById('close-profile-modal');
+var profileForm = document.getElementById('profile-form');
+var cancelProfileEdit = document.getElementById('cancel-profile-edit');
+var profileNameInput = document.getElementById('profile-name-input');
+var profileAgeInput = document.getElementById('profile-age-input');
+var profileScore = document.getElementById('profile-score');
+var profileStreak = document.getElementById('profile-streak');
+var profileAvatar = document.getElementById('profile-avatar');
+var editAvatarBtn = document.getElementById('edit-avatar-btn');
+var avatarUpload = document.getElementById('avatar-upload');
 
 if (profileBtn && profileModal) {
-    profileBtn.addEventListener('click', () => {
+    profileBtn.addEventListener('click', function() {
         updateProfileInfo();
         profileModal.classList.remove('hidden');
     });
 }
 if (closeProfileBtn && profileModal) {
-    closeProfileBtn.addEventListener('click', () => {
+    closeProfileBtn.addEventListener('click', function() {
         profileModal.classList.add('hidden');
     });
 }
 if (cancelProfileEdit && profileModal) {
-    cancelProfileEdit.addEventListener('click', () => {
+    cancelProfileEdit.addEventListener('click', function() {
         profileModal.classList.add('hidden');
     });
 }
-profileModal?.addEventListener('click', (e) => {
-    if (e.target === profileModal) profileModal.classList.add('hidden');
-});
+if (profileModal) {
+    profileModal.addEventListener('click', function(e) {
+        if (e.target === profileModal) profileModal.classList.add('hidden');
+    });
+}
 
 function updateProfileInfo() {
     if (profileNameInput) profileNameInput.value = userProfile.name || '';
@@ -374,11 +382,11 @@ if (profileForm) {
 }
 
 if (editAvatarBtn && avatarUpload) {
-    editAvatarBtn.addEventListener('click', () => avatarUpload.click());
+    editAvatarBtn.addEventListener('click', function() { avatarUpload.click(); });
     avatarUpload.addEventListener('change', function() {
-        const file = this.files[0];
+        var file = this.files[0];
         if (file && file.type.startsWith('image/')) {
-            const reader = new FileReader();
+            var reader = new FileReader();
             reader.onload = function(e) {
                 userProfile.avatar = e.target.result;
                 if (profileAvatar) profileAvatar.src = userProfile.avatar;
@@ -398,5 +406,10 @@ function updateProfileStatsLive() {
 
 // ====== Settings UI Setup (for toggles/buttons) ======
 function setupSettingsUI() {
-    fontSizeBtns.forEach(btn => {
-        btn.classList.toggle('active
+    fontSizeBtns.forEach(function(btn) {
+        btn.classList.toggle('active', btn.dataset.font === settings.fontSize);
+    });
+    themeBtns.forEach(function(btn) {
+        btn.classList.toggle('active', btn.dataset.theme === settings.theme);
+    });
+}
