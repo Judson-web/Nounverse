@@ -8,13 +8,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=OpenDyslexic" rel="stylesheet">
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center py-4 bg-gradient-to-tr from-yellow-200 via-blue-100 to-green-100">
+<body class="bg-gradient-to-tr from-yellow-200 via-blue-100 to-green-100 min-h-screen flex flex-col">
+
+    <!-- Header -->
     <header class="w-full py-3 px-2 flex flex-col sm:flex-row justify-between items-center fixed top-0 left-0 z-20 bg-white/80 backdrop-blur shadow">
         <h1 class="text-xl sm:text-2xl font-bold text-blue-700">Collective Nouns Quiz</h1>
         <div class="flex flex-wrap items-center gap-2 mt-2 sm:mt-0">
-            <button id="profile-btn" class="flex items-center gap-2 bg-indigo-100 px-2 py-1 rounded shadow">
+            <button id="profile-btn" class="flex items-center gap-2 bg-indigo-100 px-2 py-1 rounded shadow focus:outline-none">
                 <span id="profile-avatar" class="w-7 h-7 rounded-full bg-gray-200"></span>
                 <span id="profile-name" class="font-semibold text-indigo-800">Profile</span>
             </button>
@@ -36,6 +37,7 @@
         </div>
     </header>
 
+    <!-- Main Quiz Area -->
     <main class="flex flex-col items-center justify-center flex-grow w-full px-2 pt-24 pb-4">
         <div id="quiz-container" class="quiz-container p-4 sm:p-8 rounded-xl shadow-xl w-full max-w-xs sm:max-w-md md:max-w-2xl bg-white/90 relative">
             <div id="splash-screen" class="absolute inset-0 bg-white/90 rounded-xl flex flex-col items-center justify-center z-50">
@@ -46,13 +48,33 @@
         </div>
     </main>
 
-    <!-- Profile Modal -->
+    <!-- Profile Modal (Optimized for Mobile) -->
     <div id="profile-modal" class="modal-overlay">
       <div class="modal-content w-full max-w-xs sm:max-w-md">
-        <h2 class="text-xl font-bold mb-4">Choose Your Explorer</h2>
-        <div id="profile-list" class="grid grid-cols-1 gap-3 mb-4"></div>
-        <button id="add-profile-btn" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md mb-2">+ Add New Explorer</button>
+        <h2 class="text-xl font-bold mb-2">Select Your Profile</h2>
+        <div id="profile-list" class="grid grid-cols-1 gap-3 mb-2"></div>
+        <button id="add-profile-btn" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md mb-2">+ Add New Profile</button>
         <button id="close-profile" class="w-full bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg font-bold shadow">Close</button>
+      </div>
+    </div>
+
+    <!-- Add Profile Modal (Optimized for Mobile) -->
+    <div id="add-profile-modal" class="modal-overlay">
+      <div class="modal-content w-full max-w-xs sm:max-w-md">
+        <h2 class="text-lg font-bold mb-2">Create Profile</h2>
+        <form id="add-profile-form" class="flex flex-col gap-3">
+          <input id="profile-name-input" type="text" maxlength="16" required placeholder="Name" class="rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <div>
+            <label class="block font-semibold mb-1">Avatar</label>
+            <div id="avatar-choose-list" class="flex flex-wrap gap-2 justify-center"></div>
+          </div>
+          <div>
+            <label class="block font-semibold mb-1">Theme</label>
+            <div id="theme-choose-list" class="flex flex-wrap gap-2 justify-center"></div>
+          </div>
+          <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md mt-1">Create</button>
+          <button type="button" id="cancel-add-profile" class="w-full bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg font-bold shadow">Cancel</button>
+        </form>
       </div>
     </div>
 
@@ -102,7 +124,12 @@
       We use cookies to improve your experience. By continuing, you agree to our <a href="#" class="underline">cookie policy</a>.
       <button id="accept-cookies" class="ml-4 bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white font-semibold">Accept</button>
     </div>
-    <!-- Fun Fact Popups are created dynamically -->
+
+    <!-- Footer (from original code) -->
+    <footer class="w-full mt-auto py-4 px-2 bg-white/70 text-center text-sm text-gray-700">
+      <span>&copy; 2025 NounVerse. Made with ❤️ for kids. | <a href="#" class="underline text-blue-600">Privacy</a></span>
+    </footer>
+
     <script src="main.js"></script>
 </body>
 </html>
