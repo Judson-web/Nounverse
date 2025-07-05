@@ -1,134 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collective Nouns Quiz for Kids</title>
-    <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2Faecc661b69309290f600.ico?alt=media&token=1283a192-a304-4ecd-8f69-26f4abd0407d" type="image/x-icon">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: "Inter", sans-serif;
-            background: linear-gradient(45deg, #FFD700, #FFA07A, #ADD8E6, #90EE90);
-            min-height: 100vh;
-        }
-        .star.active { opacity: 1 !important; }
-        .star { opacity: 0.3; transition: opacity 0.3s; }
-        .option-button:focus-visible { outline: 3px solid #4A90E2; outline-offset: 2px; }
-        .option-button {
-            display: block;
-            width: 100%;
-            margin: 0.5rem 0;
-            padding: 1rem 1.5rem;
-            background: #e0f2f7;
-            border: 2px solid #a7d9ee;
-            color: #2c3e50;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
-            outline: none;
-            text-align: left;
-        }
-        .option-button:hover:not(:disabled),
-        .option-button:focus-visible:not(:disabled) {
-            background: #d1ecf1;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-            transform: translateY(-1px) scale(1.01);
-        }
-        .option-button:active:not(:disabled) {
-            background: #a7d9ee;
-        }
-        .option-button.correct {
-            background: #d4edda;
-            border-color: #28a745;
-            color: #155724;
-        }
-        .option-button.incorrect {
-            background: #f8d7da;
-            border-color: #dc3545;
-            color: #721c24;
-        }
-        .option-button:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collective Nouns Quiz for Kids</title>
+  <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2Faecc661b69309290f600.ico?alt=media&token=1283a192-a304-4ecd-8f69-26f4abd0407d" type="image/x-icon">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background: linear-gradient(45deg, #FFD700, #FFA07A, #ADD8E6, #90EE90);
+      min-height: 100vh;
+    }
+    .star.active { opacity: 1 !important; transform: scale(1.2); transition: transform 0.3s, opacity 0.3s; }
+    .star { opacity: 0.3; transition: opacity 0.3s, transform 0.3s; }
+    .option-button:focus-visible { outline: 3px solid #4A90E2; outline-offset: 2px; }
+    .option-button {
+      display: block;
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 1rem 1.5rem;
+      background: #e0f2f7;
+      border: 2px solid #a7d9ee;
+      color: #2c3e50;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+      outline: none;
+      text-align: left;
+    }
+    .option-button:hover:not(:disabled),
+    .option-button:focus-visible:not(:disabled) {
+      background: #d1ecf1;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+      transform: translateY(-1px) scale(1.01);
+    }
+    .option-button:active:not(:disabled) {
+      background: #a7d9ee;
+    }
+    .option-button.correct {
+      background: #d4edda;
+      border-color: #28a745;
+      color: #155724;
+    }
+    .option-button.incorrect {
+      background: #f8d7da;
+      border-color: #dc3545;
+      color: #721c24;
+    }
+    .option-button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    /* Fun Fact box */
+    .fun-fact {
+      background: #fffbe7;
+      border-left: 4px solid #ffd700;
+      padding: 0.75rem 1rem;
+      margin: 1rem 0 0.5rem 0;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      color: #7c6512;
+    }
+    /* Accessibility: visually hidden */
+    .visually-hidden {
+      position: absolute !important;
+      height: 1px; width: 1px;
+      overflow: hidden;
+      clip: rect(1px, 1px, 1px, 1px);
+      white-space: nowrap;
+    }
+  </style>
 </head>
 <body class="min-h-screen flex flex-col bg-gradient-to-tr from-yellow-200 via-blue-100 to-green-100">
 
-    <!-- Header -->
-    <header class="w-full py-4 px-4 flex flex-col sm:flex-row justify-between items-center fixed top-0 left-0 z-20 bg-white/80 backdrop-blur shadow">
-        <h1 class="text-2xl font-bold text-blue-700 mb-2 sm:mb-0">Collective Nouns Quiz</h1>
-        <div class="flex flex-wrap gap-2">
-            <button id="profile-btn" class="button bg-indigo-100 px-3 py-1 rounded shadow font-semibold text-indigo-800">Profile</button>
-            <button id="open-settings" class="button bg-gray-300 px-3 py-1 rounded shadow font-semibold text-gray-800">Settings</button>
-            <button id="open-shop" class="button bg-yellow-400 px-3 py-1 rounded shadow font-semibold text-white">Shop</button>
-            <button id="open-stickerbook" class="button bg-green-400 px-3 py-1 rounded shadow font-semibold text-white">Stickers</button>
-            <button id="daily-challenge-btn" class="button bg-pink-400 px-3 py-1 rounded shadow font-semibold text-white">Daily</button>
+  <!-- Accessibility: Skip to main content -->
+  <a href="#quiz-container" class="visually-hidden focus:not-sr-only">Skip to main content</a>
+
+  <!-- Header -->
+  <header class="w-full py-4 px-4 flex flex-col sm:flex-row justify-between items-center fixed top-0 left-0 z-20 bg-white/80 backdrop-blur shadow">
+    <h1 class="text-2xl font-bold text-blue-700 mb-2 sm:mb-0">Collective Nouns Quiz</h1>
+    <div class="flex flex-wrap gap-2">
+      <button id="profile-btn" class="button bg-indigo-100 px-3 py-1 rounded shadow font-semibold text-indigo-800" aria-haspopup="dialog" aria-controls="profile-modal">Profile</button>
+      <button id="open-settings" class="button bg-gray-300 px-3 py-1 rounded shadow font-semibold text-gray-800" aria-haspopup="dialog" aria-controls="settings-modal">Settings</button>
+      <button id="open-shop" class="button bg-yellow-400 px-3 py-1 rounded shadow font-semibold text-white" aria-haspopup="dialog" aria-controls="shop-modal">Shop</button>
+      <button id="open-stickerbook" class="button bg-green-400 px-3 py-1 rounded shadow font-semibold text-white" aria-haspopup="dialog" aria-controls="stickerbook-modal">Stickers</button>
+      <button id="daily-challenge-btn" class="button bg-pink-400 px-3 py-1 rounded shadow font-semibold text-white" aria-haspopup="dialog" aria-controls="daily-modal">Daily</button>
+      <button id="sound-toggle-btn" class="button bg-blue-200 px-3 py-1 rounded shadow font-semibold text-blue-800 flex items-center gap-1" aria-pressed="false" aria-label="Mute sound">
+        <span id="volume-icon" aria-hidden="true">🔊</span>
+        <span id="mute-icon" class="hidden" aria-hidden="true">🔇</span>
+        <span id="sound-tooltip" class="hidden sm:inline">Mute Sound</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Quiz Area -->
+  <main class="flex flex-col items-center justify-center flex-grow w-full px-4 pt-28 pb-8">
+    <div id="quiz-container" class="quiz-container p-6 sm:p-10 rounded-2xl shadow-2xl w-full max-w-xl bg-white/90 relative" tabindex="-1">
+      <!-- Splash Screen -->
+      <div id="splash-screen" class="absolute inset-0 bg-white/90 rounded-2xl flex flex-col items-center justify-center z-50">
+        <img src="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2F1676172615227.gif?alt=media&token=c3f8a658-e590-4324-a37c-ab3b6f0abff8" alt="Quiz loading animation" class="w-20 h-20 mb-4">
+        <p class="text-lg font-semibold text-blue-600 animate-pulse">Loading Quiz...</p>
+      </div>
+
+      <!-- Quiz Content -->
+      <div id="quiz-content" class="hidden" aria-live="polite">
+        <!-- Parental Control/Settings Modal Trigger (hidden for now) -->
+        <button id="parental-controls-btn" class="visually-hidden" aria-haspopup="dialog" aria-controls="parental-modal">Parental Controls</button>
+
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
+          <div>
+            <span class="text-lg font-semibold">Score: </span>
+            <span id="score" class="pop-animation text-lg font-bold text-green-700">0</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-lg font-semibold">Streak: </span>
+            <span id="streak" class="pop-animation text-lg font-bold text-yellow-700">0</span>
+            <span class="streak-stars flex gap-1 ml-2" aria-label="Streak stars">
+              <span class="star" aria-hidden="true">⭐</span>
+              <span class="star" aria-hidden="true">⭐</span>
+              <span class="star" aria-hidden="true">⭐</span>
+              <span class="star" aria-hidden="true">⭐</span>
+              <span class="star" aria-hidden="true">⭐</span>
+            </span>
+          </div>
         </div>
-    </header>
-
-    <!-- Main Quiz Area -->
-    <main class="flex flex-col items-center justify-center flex-grow w-full px-4 pt-28 pb-8">
-        <div id="quiz-container" class="quiz-container p-6 sm:p-10 rounded-2xl shadow-2xl w-full max-w-xl bg-white/90 relative">
-            <!-- Splash Screen -->
-            <div id="splash-screen" class="absolute inset-0 bg-white/90 rounded-2xl flex flex-col items-center justify-center z-50">
-                <img src="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2F1676172615227.gif?alt=media&token=c3f8a658-e590-4324-a37c-ab3b6f0abff8" alt="Quiz loading animation" class="w-20 h-20 mb-4">
-                <p class="text-lg font-semibold text-blue-600 animate-pulse">Loading Quiz...</p>
-            </div>
-
-            <!-- Quiz Content -->
-            <div id="quiz-content" class="hidden" aria-live="polite">
-                <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
-                    <div>
-                        <span class="text-lg font-semibold">Score: </span>
-                        <span id="score" class="pop-animation text-lg font-bold text-green-700">0</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-lg font-semibold">Streak: </span>
-                        <span id="streak" class="pop-animation text-lg font-bold text-yellow-700">0</span>
-                        <span class="streak-stars flex gap-1 ml-2">
-                            <span class="star">⭐</span>
-                            <span class="star">⭐</span>
-                            <span class="star">⭐</span>
-                            <span class="star">⭐</span>
-                            <span class="star">⭐</span>
-                        </span>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <div class="flex items-center justify-between mb-1">
-                        <span class="text-sm font-medium text-gray-700">Question <span id="current-question">1</span> of <span id="total-questions">4</span></span>
-                        <span id="timer-text" class="text-sm font-bold text-blue-600">20s</span>
-                    </div>
-                    <div class="timer-bar w-full bg-gray-200 rounded h-2">
-                        <div id="timer-bar-fill" class="timer-bar-fill bg-green-500 h-2 rounded"></div>
-                    </div>
-                </div>
-                <div id="question-area">
-                    <!-- JS will inject the question and options here, for example: -->
-                    <!--
-                    <h2 class="mb-4 text-xl font-bold">What is a group of lions called?</h2>
-                    <div id="options-list" class="flex flex-col gap-3">
-                        <button class="option-button" aria-label="Pride">Pride</button>
-                        <button class="option-button" aria-label="Flock">Flock</button>
-                        <button class="option-button" aria-label="School">School</button>
-                        <button class="option-button" aria-label="Pack">Pack</button>
-                    </div>
-                    -->
-                </div>
-            </div>
+        <div class="mb-4">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-sm font-medium text-gray-700">Question <span id="current-question">1</span> of <span id="total-questions">4</span></span>
+            <span id="timer-text" class="text-sm font-bold text-blue-600" aria-live="assertive">20s</span>
+          </div>
+          <div class="timer-bar w-full bg-gray-200 rounded h-2" aria-hidden="true">
+            <div id="timer-bar-fill" class="timer-bar-fill bg-green-500 h-2 rounded"></div>
+          </div>
         </div>
-    </main>
+        <div id="question-area">
+          <!-- JS will inject the question, options, and fun fact here -->
+        </div>
+        <div id="fun-fact-box" class="fun-fact hidden" aria-live="polite"></div>
+      </div>
+    </div>
+  </main>
 
-    <footer class="w-full mt-auto py-4 px-2 bg-white/70 text-center text-sm text-gray-700">
-        &copy; 2025 NounVerse. Made with ❤️ for kids. | 
-        <a href="/privacy-policy.html" class="underline text-blue-600">Privacy</a>
-    </footer>
-    <script src="main.js"></script>
+  <footer class="w-full mt-auto py-4 px-2 bg-white/70 text-center text-sm text-gray-700">
+    &copy; 2025 NounVerse. Made with ❤️ for kids. |
+    <a href="/privacy-policy.html" class="underline text-blue-600">Privacy</a> |
+    <a href="/accessibility.html" class="underline text-blue-600">Accessibility Statement</a>
+  </footer>
+
+  <!-- Modal Overlay (populated by JS) -->
+  <div id="modal-overlay" class="modal-overlay" tabindex="-1" aria-modal="true" role="dialog" aria-labelledby="modal-title" aria-describedby="modal-desc" hidden>
+    <div class="modal-content" tabindex="0">
+      <button id="close-modal-btn" aria-label="Close" style="position:absolute;top:10px;right:15px;font-size:1.5rem;background:none;border:none;cursor:pointer;">&times;</button>
+      <h2 id="modal-title" style="margin-bottom:1rem;">Modal Title</h2>
+      <div id="modal-desc">Modal content goes here.</div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
 </body>
 </html>
