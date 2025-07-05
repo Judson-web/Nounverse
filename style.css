@@ -1,4 +1,4 @@
-/* Modal Overlay and Content */
+/* ========= Modal Overlay and Content ========= */
 .modal-overlay {
     position: fixed;
     top: 0; left: 0;
@@ -53,4 +53,158 @@
         padding: 1.2rem 0.5rem 1rem 0.5rem;
         width: 95vw;
     }
+}
+
+/* ========= Option Buttons ========= */
+.option-button:focus-visible {
+    outline: 3px solid #4A90E2;
+    outline-offset: 2px;
+}
+.option-button {
+    display: block;
+    width: 100%;
+    margin: 0.5rem 0;
+    padding: 1rem 1.5rem;
+    background: #e0f2f7;
+    border: 2px solid #a7d9ee;
+    color: #2c3e50;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+    outline: none;
+    text-align: left;
+}
+.option-button:hover:not(:disabled),
+.option-button:focus-visible:not(:disabled) {
+    background: #d1ecf1;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    transform: translateY(-1px) scale(1.01);
+}
+.option-button:active:not(:disabled) {
+    background: #a7d9ee;
+}
+.option-button.correct {
+    background: #d4edda;
+    border-color: #28a745;
+    color: #155724;
+    animation: pop-correct 0.3s;
+}
+.option-button.incorrect {
+    background: #f8d7da;
+    border-color: #dc3545;
+    color: #721c24;
+    animation: shake 0.3s;
+}
+.option-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+@keyframes pop-correct {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+/* ========= Streak Stars ========= */
+.streak-stars .star {
+    font-size: 1.4rem;
+    opacity: 0.3;
+    transition: opacity 0.3s, transform 0.3s;
+    transform: scale(1);
+}
+.streak-stars .star.active {
+    opacity: 1 !important;
+    color: #FFD700;
+    transform: scale(1.2) rotate(-10deg);
+    text-shadow: 0 0 8px #ffe066;
+    animation: star-pop 0.4s;
+}
+@keyframes star-pop {
+    0% { transform: scale(1) rotate(0deg); }
+    60% { transform: scale(1.3) rotate(-10deg); }
+    100% { transform: scale(1.2) rotate(-10deg); }
+}
+
+/* ========= Timer Bar ========= */
+.timer-bar {
+    background: #e5e7eb;
+    border-radius: 1rem;
+    height: 0.5rem;
+    overflow: hidden;
+}
+.timer-bar-fill {
+    background: #38bdf8;
+    height: 100%;
+    border-radius: 1rem;
+    transition: width 0.4s, background 0.2s;
+}
+.timer-bar-fill.warning {
+    background: #facc15;
+}
+.timer-bar-fill.danger {
+    background: #f87171;
+}
+
+/* ========= Fun Fact Box ========= */
+.fun-fact {
+    background: #fffbe7;
+    border-left: 4px solid #ffd700;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0 0.5rem 0;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    color: #7c6512;
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.07);
+    transition: opacity 0.3s;
+    opacity: 1;
+}
+.fun-fact.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ========= Accessibility: Visually Hidden ========= */
+.visually-hidden {
+    position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap;
+}
+
+/* ========= Responsive Quiz Container ========= */
+.quiz-container {
+    box-sizing: border-box;
+    background: rgba(255,255,255,0.92);
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.10);
+}
+@media (max-width: 500px) {
+    .quiz-container {
+        padding: 1rem !important;
+        border-radius: 0.8rem;
+    }
+}
+
+/* ========= Misc ========= */
+body {
+    min-height: 100vh;
+    background: linear-gradient(45deg, #FFD700, #FFA07A, #ADD8E6, #90EE90);
+}
+header {
+    backdrop-filter: blur(4px);
+}
+footer {
+    backdrop-filter: blur(2px);
 }
