@@ -6,8 +6,9 @@ function $qa(sel) { return document.querySelectorAll(sel); }
 // --- Splash Screen Logic ---
 window.addEventListener('DOMContentLoaded', function() {
   setTimeout(function() {
+    // Only show profile modal, do NOT start quiz yet
     if ($('splash-screen')) $('splash-screen').style.display = 'none';
-    if ($('quiz-content')) $('quiz-content').classList.remove('hidden');
+    if ($('quiz-content')) $('quiz-content').classList.add('hidden');
     showProfileSelection();
     showCookieBanner();
   }, 1000);
@@ -162,8 +163,7 @@ function startQuizAfterProfileSelection() {
   startQuiz(false);
 }
 
-// --- Rest of your quiz, timer, hint, and other logic unchanged ---
-// Make sure to call startQuizAfterProfileSelection() only after profile selection or creation.
+// --- Quiz logic, timer, hint, etc. ---
+// (Insert your previous quiz logic code here, unchanged.)
+// Remove any setTimeout(() => startQuiz(false), ...); at the end of your script.
 
-// Example:
-// setTimeout(() => startQuiz(false), 1200); // REMOVE this line if present to prevent auto start before profile selection
