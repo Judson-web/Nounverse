@@ -30,6 +30,13 @@
     </div>
   </header>
 
+  <!-- Start Screen -->
+  <div id="start-screen" class="quiz-container" style="text-align:center;">
+    <h2>Welcome to the Collective Nouns Quiz!</h2>
+    <p>Test your knowledge of animal group names.<br>Ready to begin?</p>
+    <button id="start-quiz-btn" class="option-button" style="width:auto;min-width:140px;margin-top:2em;">Start Quiz</button>
+  </div>
+
   <!-- Main Quiz Area -->
   <main>
     <div id="quiz-content" class="quiz-container hidden">
@@ -214,14 +221,15 @@
     </div>
   </div>
 
-  <!-- Inbuilt, Contactable Dialog Box -->
+  <!-- Inbuilt, Animated, Accessible Dialog Box -->
   <div id="inbuilt-dialog" class="inbuilt-dialog hidden" role="dialog" aria-modal="true">
     <div class="inbuilt-dialog-content">
+      <div class="inbuilt-dialog-icon" style="font-size:2.1em;margin-bottom:0.2em;"></div>
       <div class="inbuilt-dialog-title" id="dialog-title"></div>
       <div class="inbuilt-dialog-message" id="dialog-message"></div>
       <div class="inbuilt-dialog-actions">
-        <button id="dialog-cancel" class="inbuilt-dialog-btn">Cancel</button>
-        <button id="dialog-confirm" class="inbuilt-dialog-btn">OK</button>
+        <button id="dialog-cancel" class="inbuilt-dialog-btn secondary">Cancel</button>
+        <button id="dialog-confirm" class="inbuilt-dialog-btn primary">OK</button>
       </div>
     </div>
   </div>
