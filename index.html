@@ -1,232 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Global Quiz App</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title id="app-title">Global Quiz App</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-  <!-- Splash Screen -->
-  <div id="splash-screen" class="splash-screen" role="alert" aria-live="polite">
-    <img src="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2F1676172615227.gif?alt=media&token=c3f8a658-e590-4324-a37c-ab3b6f0abff8" alt="Loading" style="width:80px;height:80px;margin-bottom:1em;">
-    <p class="text-lg font-semibold text-blue-600">Loading Quiz...</p>
-  </div>
-
   <!-- Header -->
   <header class="header">
-    <h1 id="app-title">Quiz App</h1>
-    <div class="header-btns">
-      <button id="profile-btn" aria-label="Profile"><span class="material-icons">person</span></button>
-      <button id="leaderboard-btn" aria-label="Leaderboard"><span class="material-icons">leaderboard</span></button>
+    <h1 id="app-title">Global Quiz App</h1>
+    <nav class="header-btns">
+      <button id="profile-btn" aria-label="Profile"><span class="material-icons">account_circle</span></button>
+      <button id="leaderboard-btn" aria-label="Leaderboard"><span class="material-icons">emoji_events</span></button>
       <button id="open-settings" aria-label="Settings"><span class="material-icons">settings</span></button>
-      <select id="language-selector" aria-label="Language Selector">
+      <select id="language-selector" aria-label="Select Language">
         <option value="en">English</option>
         <option value="es">Español</option>
         <option value="fr">Français</option>
-        <option value="hi">हिन्दी</option>
+        <option value="ml">മലയാളം</option>
       </select>
-      <button id="sound-toggle-btn" aria-pressed="false" aria-label="Toggle Sound">
-        <span id="volume-icon">🔊</span>
-        <span id="mute-icon" class="hidden">🔇</span>
+      <button id="sound-toggle-btn" aria-label="Sound" aria-pressed="false">
+        <span id="volume-icon" class="material-icons">volume_up</span>
+        <span id="mute-icon" class="material-icons hidden">volume_off</span>
       </button>
-    </div>
+    </nav>
   </header>
 
-  <!-- Daily Challenge -->
-  <div id="daily-challenge" class="quiz-container" style="text-align:center; margin-bottom:1.5em;">
-    <h2 id="daily-title">Daily Challenge</h2>
-    <button id="start-daily-btn" class="option-button" style="width:auto;min-width:140px;margin-top:1em;">Start Daily Quiz</button>
+  <!-- Splash Screen -->
+  <div class="splash-screen" id="splash-screen">
+    <span class="material-icons" style="font-size:3em;color:#1976d2;">quiz</span>
+    <div>Loading...</div>
   </div>
 
   <!-- Start Screen -->
-  <div id="start-screen" class="quiz-container" style="text-align:center;">
+  <main id="start-screen" class="quiz-container hidden">
     <h2 id="welcome-title">Welcome!</h2>
-    <p id="welcome-desc">Test your knowledge with global quizzes.<br>Ready to begin?</p>
-    <button id="start-quiz-btn" class="option-button" style="width:auto;min-width:140px;margin-top:2em;">Start Quiz</button>
-    <div style="margin-top:1.5em;">
-      <button id="login-btn" class="option-button" style="width:auto;min-width:100px;">Login</button>
-      <button id="signup-btn" class="option-button" style="width:auto;min-width:100px;">Sign Up</button>
-    </div>
-  </div>
-
-  <!-- Main Quiz Area -->
-  <main>
-    <div id="quiz-content" class="quiz-container hidden">
-      <div class="score-streak-bar" aria-live="polite">
-        <span id="score-label">Score: <span id="score">0</span></span>
-        <span id="streak-label">Streak: <span id="streak">0</span></span>
-      </div>
-      <div class="timer-bar" aria-hidden="true">
-        <span id="timer-text">20s</span>
-        <div id="timer-bar-fill"></div>
-      </div>
-      <div class="question-meta">
-        <span id="question-progress">Question <span id="current-question">1</span> of <span id="total-questions">10</span></span>
-      </div>
-      <div id="question-area"></div>
-      <div id="fun-fact-box" class="fun-fact hidden" aria-live="polite"></div>
+    <div id="welcome-desc" style="margin-bottom:2em;">Test your knowledge with global quizzes.<br>Ready to begin?</div>
+    <button id="start-quiz-btn" class="option-button" style="width:100%;margin-bottom:1em;">Start Quiz</button>
+    <button id="start-daily-btn" class="option-button" style="width:100%;">Start Daily Quiz</button>
+    <div style="margin-top:2em;">
+      <button id="login-btn" class="option-button" style="width:48%;">Login</button>
+      <button id="signup-btn" class="option-button" style="width:48%;">Sign Up</button>
     </div>
   </main>
 
+  <!-- Quiz Content -->
+  <section id="quiz-content" class="quiz-container hidden">
+    <div class="score-streak-bar">
+      <span id="score-label">Score: <span id="score">0</span></span>
+      <span id="streak-label">Streak: <span id="streak">0</span></span>
+    </div>
+    <div class="timer-bar">
+      <div id="timer-bar-fill"></div>
+      <span id="timer-text"></span>
+    </div>
+    <div class="question-meta">
+      <span id="current-question">1</span> <span id="of">of</span> <span id="total-questions">10</span>
+    </div>
+    <div id="question-area"></div>
+    <div id="fun-fact-box" class="fun-fact hidden"></div>
+  </section>
+
+  <!-- Snackbar/Toast -->
+  <div id="snackbar" class="snackbar hidden"></div>
+
   <!-- Profile Modal -->
-  <div id="profile-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
-    <div class="modal-content" style="max-width:380px;">
-      <button id="close-profile-modal" class="close-btn" aria-label="Close">&times;</button>
+  <div id="profile-modal" class="modal hidden" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-content">
+      <button class="close-btn" id="close-profile-modal" aria-label="Close"><span class="material-icons">close</span></button>
       <div class="profile-avatar-section">
-        <img id="profile-avatar" src="https://mui.com/static/images/avatar/1.jpg" alt="Profile Avatar" tabindex="0">
-        <div class="avatar-btns" style="margin-top:0.5em;">
-          <button id="edit-avatar-btn" type="button" aria-label="Change Photo"><span class="material-icons">photo_camera</span></button>
-          <button id="emoji-avatar-btn" type="button" aria-label="Pick Emoji Avatar"><span class="material-icons">emoji_emotions</span></button>
+        <img id="profile-avatar" src="https://api.dicebear.com/7.x/personas/svg" alt="Avatar" tabindex="0"/>
+        <div class="avatar-btns">
+          <button title="Change Avatar"><span class="material-icons">edit</span></button>
         </div>
       </div>
-      <form id="profile-form" autocomplete="off" style="margin-top:1em;">
-        <div class="profile-fields">
-          <label><span class="material-icons" aria-hidden="true">badge</span>
-            <input id="profile-display-name" type="text" maxlength="24" required autocomplete="nickname" placeholder="Display Name" />
-          </label>
-          <label><span class="material-icons" aria-hidden="true">alternate_email</span>
-            <input id="profile-username" type="text" readonly placeholder="Username" />
-          </label>
-          <label><span class="material-icons" aria-hidden="true">waving_hand</span>
-            <select id="profile-pronouns">
-              <option value="">Pronouns</option>
-              <option value="she/her">She/Her</option>
-              <option value="he/him">He/Him</option>
-              <option value="they/them">They/Them</option>
-              <option value="custom">Custom...</option>
-            </select>
-            <input id="profile-pronouns-custom" type="text" class="hidden" maxlength="24" placeholder="Custom pronouns" />
-          </label>
-          <label><span class="material-icons" aria-hidden="true">palette</span>
-            <input id="profile-fav-color" type="color" value="#1976d2" title="Favorite Color" style="width:2.2em;height:2.2em;padding:0;border:none;background:none;">
-            <span class="material-icons" aria-hidden="true" style="margin-left:0.7em;">pets</span>
-            <select id="profile-fav-animal">
-              <option value="">Animal</option>
-              <option value="Lion">Lion</option>
-              <option value="Dolphin">Dolphin</option>
-              <option value="Owl">Owl</option>
-              <option value="Flamingo">Flamingo</option>
-              <option value="Frog">Frog</option>
-              <option value="Kangaroo">Kangaroo</option>
-              <option value="Ant">Ant</option>
-              <option value="Other">Other</option>
-            </select>
-          </label>
-          <label><span class="material-icons" aria-hidden="true">short_text</span>
-            <input id="profile-greeting" type="text" maxlength="48" placeholder="Short bio or greeting" />
-          </label>
-        </div>
-        <div class="profile-stats" aria-label="Your Quiz Stats" style="margin:1em 0;">
-          <div><span class="material-icons" aria-hidden="true">star</span><span id="profile-score">0</span><span>Best Score</span></div>
-          <div><span class="material-icons" aria-hidden="true">whatshot</span><span id="profile-streak">0</span><span>Best Streak</span></div>
-          <div><span class="material-icons" aria-hidden="true">quiz</span><span id="profile-quizzes">0</span><span>Quizzes</span></div>
-        </div>
-        <div class="profile-badges" aria-label="Badges" style="display:flex; gap:0.5em; justify-content:center;">
-          <span title="First Quiz"><span class="material-icons" aria-hidden="true">emoji_events</span></span>
-          <span title="Streak 5"><span class="material-icons" aria-hidden="true">military_tech</span></span>
-        </div>
-        <div class="profile-actions" style="display:flex; gap:1em; margin-top:1.2em; justify-content:center;">
-          <button type="submit" class="save-btn">Save</button>
-          <button type="button" id="cancel-profile-edit" class="cancel-btn">Cancel</button>
-        </div>
-        <div class="profile-accessibility" aria-label="Theme & Accessibility" style="display:flex; gap:0.5em; margin-top:1.2em; justify-content:center;">
-          <button type="button" id="profile-theme-dark" title="Dark Theme" aria-label="Dark Theme"><span class="material-icons">dark_mode</span></button>
-          <button type="button" id="profile-theme-ocean" title="Ocean Theme" aria-label="Ocean Theme"><span class="material-icons">waves</span></button>
-          <button type="button" id="profile-theme-sunset" title="Sunset Theme" aria-label="Sunset Theme"><span class="material-icons">wb_sunny</span></button>
-          <button type="button" id="profile-accessibility-font" title="Font Size" aria-label="Change Font Size"><span class="material-icons">format_size</span></button>
-          <button type="button" id="profile-accessibility-language" title="Language" aria-label="Change Language"><span class="material-icons">language</span></button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Leaderboard Modal -->
-  <div id="leaderboard-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="leaderboard-modal-title">
-    <div class="modal-content" style="max-width:350px;">
-      <button id="close-leaderboard-modal" class="close-btn" aria-label="Close">&times;</button>
-      <h2 id="leaderboard-modal-title">Leaderboard</h2>
-      <ol id="leaderboard-list"></ol>
+      <h2 id="profile-modal-title">Profile</h2>
+      <div class="profile-fields">
+        <label><span class="material-icons">person</span><input type="text" id="profile-name" placeholder="Name"/></label>
+        <label><span class="material-icons">palette</span><input type="color" id="profile-color" /></label>
+      </div>
+      <div id="profile-greeting" tabindex="0"></div>
+      <div class="profile-stats">
+        <div>Score: <span id="profile-score">0</span></div>
+        <div>Streak: <span id="profile-streak">0</span></div>
+      </div>
+      <div class="profile-badges">
+        <span class="material-icons" title="Streak 5">whatshot</span>
+      </div>
+      <div class="profile-actions">
+        <button id="save-btn" class="save-btn">Save</button>
+        <button id="cancel-profile-edit" class="cancel-btn">Cancel</button>
+      </div>
     </div>
   </div>
 
   <!-- Settings Modal -->
-  <div id="settings-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title">
-    <div class="modal-content" style="max-width:350px;">
-      <button id="close-settings-modal" class="close-btn" aria-label="Close">&times;</button>
+  <div id="settings-modal" class="modal hidden" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-content">
+      <button class="close-btn" id="close-settings-modal" aria-label="Close"><span class="material-icons">close</span></button>
       <h2 id="settings-modal-title">Settings</h2>
-      <form id="settings-form" autocomplete="off">
-        <label><input type="checkbox" id="sound-effects-toggle" checked> Enable Sound Effects</label>
-        <div style="margin:1em 0;">
-          <span style="font-weight:600;">Font Size:</span>
-          <button type="button" class="toggle-btn" data-font="small">Small</button>
-          <button type="button" class="toggle-btn active" data-font="medium">Medium</button>
-          <button type="button" class="toggle-btn" data-font="large">Large</button>
-        </div>
-        <label>Number of Questions:
-          <select id="quiz-length-setting">
-            <option value="5">5</option>
-            <option value="10" selected>10</option>
-            <option value="15">15</option>
-            <option value="all">All</option>
-          </select>
-        </label>
-        <div style="margin:1em 0;">
-          <span style="font-weight:600;">Theme:</span>
-          <button type="button" class="toggle-btn theme-btn" data-theme="dark">Dark</button>
-          <button type="button" class="toggle-btn theme-btn" data-theme="ocean">Ocean</button>
-          <button type="button" class="toggle-btn theme-btn" data-theme="sunset">Sunset</button>
-        </div>
-        <label>Language:
-          <select id="language-setting">
-            <option value="en" selected>English</option>
-            <option value="es">Español</option>
-            <option value="fr">Français</option>
-            <option value="hi">हिन्दी</option>
-          </select>
-        </label>
-        <label><input type="checkbox" id="animations-toggle" checked> Enable Animations</label>
-        <button id="reset-progress-btn" type="button" class="reset-btn">Reset All Progress</button>
-        <button id="save-settings" type="submit" class="save-btn">Save</button>
-      </form>
+      <label for="language-setting">Language:</label>
+      <select id="language-setting">
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="ml">മലയാളം</option>
+      </select>
+      <button id="reset-progress-btn" class="reset-btn" style="margin-top:1.5em;">Reset All Progress</button>
     </div>
   </div>
 
-  <!-- Login/Signup Modal -->
-  <div id="auth-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
-    <div class="modal-content" style="max-width:340px;">
-      <button id="close-auth-modal" class="close-btn" aria-label="Close">&times;</button>
-      <h2 id="auth-modal-title">Login</h2>
-      <form id="auth-form" autocomplete="off">
-        <input id="auth-email" type="email" placeholder="Email" required>
-        <input id="auth-password" type="password" placeholder="Password" required>
-        <button id="auth-submit" type="submit" class="save-btn">Login</button>
-        <p id="auth-switch" style="text-align:center; margin-top:1em; cursor:pointer; color:var(--primary);">Don't have an account? Sign up</p>
-      </form>
-    </div>
-  </div>
-
-  <!-- Inbuilt, Animated, Accessible Dialog Box -->
-  <div id="inbuilt-dialog" class="inbuilt-dialog hidden" role="dialog" aria-modal="true">
-    <div class="inbuilt-dialog-content">
-      <div class="inbuilt-dialog-icon" style="font-size:2.1em;margin-bottom:0.2em;"></div>
-      <div class="inbuilt-dialog-title" id="dialog-title"></div>
-      <div class="inbuilt-dialog-message" id="dialog-message"></div>
-      <div class="inbuilt-dialog-actions">
-        <button id="dialog-cancel" class="inbuilt-dialog-btn secondary">Cancel</button>
-        <button id="dialog-confirm" class="inbuilt-dialog-btn primary">OK</button>
+  <!-- Leaderboard Modal -->
+  <div id="leaderboard-modal" class="modal hidden" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-content">
+      <button class="close-btn" id="close-leaderboard-modal" aria-label="Close"><span class="material-icons">close</span></button>
+      <h2 id="leaderboard-modal-title">Leaderboard</h2>
+      <div id="leaderboard-list">
+        <!-- Leaderboard entries will be rendered here -->
       </div>
     </div>
   </div>
 
-  <!-- Snackbar/Toast Notification -->
-  <div id="snackbar" class="snackbar hidden" aria-live="polite"></div>
+  <!-- Auth Modal (Login/Signup) -->
+  <div id="auth-modal" class="modal hidden" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-content">
+      <button class="close-btn" id="close-auth-modal" aria-label="Close"><span class="material-icons">close</span></button>
+      <h2 id="auth-modal-title">Login</h2>
+      <form id="auth-form" autocomplete="on">
+        <input id="auth-email" type="email" placeholder="Email" required autocomplete="username"/>
+        <input id="auth-password" type="password" placeholder="Password" required autocomplete="current-password"/>
+        <button id="auth-submit" class="save-btn" type="submit">Login</button>
+      </form>
+      <button id="auth-switch" class="option-button" style="margin-top:1em;">Don't have an account? Sign up</button>
+    </div>
+  </div>
 
-  <!-- Audio for feedback -->
-  <audio id="correct-sound" src="https://cdn.pixabay.com/audio/2022/10/16/audio_12c3fae3f2.mp3" preload="auto"></audio>
-  <audio id="wrong-sound" src="https://cdn.pixabay.com/audio/2022/10/16/audio_12c3fae3f2.mp3" preload="auto"></audio>
+  <!-- Sound Effects -->
+  <audio id="correct-sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b3b3b.mp3"></audio>
+  <audio id="wrong-sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_11b3b3b3b.mp3"></audio>
 
   <!-- Main JS -->
   <script src="main.js"></script>
