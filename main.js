@@ -62,6 +62,13 @@ const quizQuestions = [
     }
 ];
 
+// ====== User Profile Data ======
+const userProfile = {
+    name: 'Guest',
+    age: '-'
+    // You can add more fields here
+};
+
 // ====== Quiz Logic ======
 let current = 0, score = 0, streak = 0, timer = null;
 let timeTotal = 20; // Default timer value, can be changed in settings
@@ -299,4 +306,33 @@ function playSound(id) {
         sound.currentTime = 0;
         sound.play();
     }
+}
+
+// ====== Profile Modal Logic ======
+const profileBtn = document.getElementById('profile-btn');
+const profileModal = document.getElementById('profile-modal');
+const closeProfileBtn = document.getElementById('close-profile-modal');
+
+if (profileBtn && profileModal) {
+    profileBtn.addEventListener('click', () => {
+        updateProfileInfo();
+        profileModal.classList.remove('hidden');
+    });
+}
+if (closeProfileBtn && profileModal) {
+    closeProfileBtn.addEventListener('click', () => {
+        profileModal.classList.add('hidden');
+    });
+}
+// Optional: close modal when clicking outside content
+profileModal?.addEventListener('click', (e) => {
+    if (e.target === profileModal) profileModal.classList.add('hidden');
+});
+
+// Function to update profile info dynamically
+function updateProfileInfo() {
+    document.getElementById('profile-name').textContent = userProfile.name || 'Guest';
+    document.getElementById('profile-age').textContent = userProfile.age || '-';
+    document.getElementById('profile-score').textContent = score;  // current quiz score
+    document.getElementById('profile-streak').textContent = streak; // current streak
 }
