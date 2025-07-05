@@ -56,5 +56,7 @@ NounVerse is a fun, interactive web quiz game that helps kids learn collective n
 This project is licensed under the **GNU General Public License (GPL)**.  
 See the [LICENSE](LICENSE) file for details.
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/dc8a529a-1a3c-470a-a2bc-69744f7b217b/deploy-status)](https://app.netlify.com/projects/nounverse/deploys) 
+
 Enjoy learning with NounVerse!  
 If you have feedback or suggestions, open an issue or PR.
