@@ -8,7 +8,6 @@ let userProfile = JSON.parse(localStorage.getItem('userProfile')) || {
     displayName: 'Guest',
     username: '',
     birthday: '',
-    age: '',
     pronouns: '',
     pronounsCustom: '',
     favColor: '#1976d2',
@@ -56,7 +55,6 @@ const dom = {
     displayNameInput: $('profile-display-name'),
     usernameInput: $('profile-username'),
     birthdayInput: $('profile-birthday'),
-    ageInput: $('profile-age'),
     pronounsSelect: $('profile-pronouns'),
     pronounsCustomInput: $('profile-pronouns-custom'),
     favColorInput: $('profile-fav-color'),
@@ -66,7 +64,9 @@ const dom = {
     streakStat: $('profile-streak'),
     quizzesStat: $('profile-quizzes'),
     accessibilityFont: $('profile-accessibility-font'),
-    accessibilityTheme: $('profile-accessibility-theme'),
+    accessibilityThemeDark: $('profile-theme-dark'),
+    accessibilityThemeOcean: $('profile-theme-ocean'),
+    accessibilityThemeSunset: $('profile-theme-sunset'),
     accessibilityLanguage: $('profile-accessibility-language'),
     // Settings
     settingsBtn: $('open-settings'),
@@ -120,6 +120,7 @@ window.addEventListener('DOMContentLoaded', function() {
     updateProfileInfo();
     setupSettingsUI();
     setupProfileUI();
+    setupProfileThemeButtons();
     if (dom.splash) dom.splash.style.display = 'none';
 
     // Show start screen, hide quiz content
@@ -139,6 +140,13 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 
 // ===== Quiz Functions =====
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
 function startQuiz() {
     current = 0; score = 0; streak = 0;
     showQuestion();
@@ -158,15 +166,20 @@ function showQuestion() {
     dom.streak.textContent = streak;
     dom.currentQ.textContent = current + 1;
     dom.totalQ.textContent = quizSet.length;
+
+    // Shuffle options and keep track of correct answer index
+    const optionObjs = q.options.map((opt, idx) => ({opt, idx}));
+    shuffleArray(optionObjs);
+
     dom.questionArea.innerHTML = `<h2 class="mb-4 text-xl font-bold">${q.question}</h2>
       <div id="options-list" class="flex flex-col gap-3"></div>`;
     const opts = $('options-list');
-    q.options.forEach((opt, idx) => {
+    optionObjs.forEach(({opt, idx: origIdx}) => {
         const btn = document.createElement('button');
         btn.className = 'option-button';
         btn.textContent = opt;
         btn.setAttribute('aria-label', opt);
-        btn.onclick = () => handleAnswer(idx, btn);
+        btn.onclick = () => handleAnswer(origIdx, btn);
         opts.appendChild(btn);
     });
     startTimer(timeTotal);
@@ -182,7 +195,8 @@ function handleAnswer(idx, btn) {
         playSound('correct-sound');
     } else {
         btn.classList.add('incorrect');
-        document.querySelectorAll('.option-button')[q.answer].classList.add('correct');
+        // Find the button with the correct answer and highlight it
+        document.querySelectorAll('.option-button')[[...q.options.keys()].findIndex(i => i === q.answer)].classList.add('correct');
         streak = 0;
         playSound('wrong-sound');
     }
@@ -275,7 +289,6 @@ function updateProfileInfo() {
     dom.displayNameInput.value = userProfile.displayName || '';
     dom.usernameInput.value = userProfile.username || generateUsername(userProfile.displayName);
     dom.birthdayInput.value = userProfile.birthday || '';
-    dom.ageInput.value = userProfile.age || '';
     dom.pronounsSelect.value = userProfile.pronouns || '';
     dom.pronounsCustomInput.value = userProfile.pronounsCustom || '';
     dom.pronounsCustomInput.classList.toggle('hidden', userProfile.pronouns !== 'custom');
@@ -323,7 +336,6 @@ if (dom.profileForm) {
         userProfile.displayName = dom.displayNameInput.value.trim() || 'Guest';
         userProfile.username = dom.usernameInput.value.trim() || generateUsername(dom.displayNameInput.value);
         userProfile.birthday = dom.birthdayInput.value;
-        userProfile.age = dom.ageInput.value;
         userProfile.pronouns = dom.pronounsSelect.value;
         userProfile.pronounsCustom = dom.pronounsCustomInput.value;
         userProfile.favColor = dom.favColorInput.value;
@@ -366,23 +378,6 @@ if (dom.emojiAvatarBtn) {
     };
 }
 
-// Birthday/age sync
-if (dom.birthdayInput && dom.ageInput) {
-    dom.birthdayInput.onchange = function() {
-        if (dom.birthdayInput.value) {
-            const birthDate = new Date(dom.birthdayInput.value);
-            const today = new Date();
-            let years = today.getFullYear() - birthDate.getFullYear();
-            const m = today.getMonth() - birthDate.getMonth();
-            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) years--;
-            dom.ageInput.value = years > 0 ? years : '';
-        }
-    };
-    dom.ageInput.onchange = function() {
-        if (dom.ageInput.value) dom.birthdayInput.value = '';
-    };
-}
-
 // Pronouns custom input toggle
 if (dom.pronounsSelect && dom.pronounsCustomInput) {
     dom.pronounsSelect.onchange = function() {
@@ -402,17 +397,30 @@ if (dom.accessibilityFont) {
         setTimeout(() => document.querySelector('.toggle-btn[data-font]')?.focus(), 300);
     };
 }
-if (dom.accessibilityTheme) {
-    dom.accessibilityTheme.onclick = function() {
-        dom.settingsBtn.click();
-        setTimeout(() => document.querySelector('.theme-btn')?.focus(), 300);
-    };
-}
 if (dom.accessibilityLanguage) {
     dom.accessibilityLanguage.onclick = function() {
         dom.settingsBtn.click();
         setTimeout(() => dom.languageSetting?.focus(), 300);
     };
+}
+
+// ===== Instant Theme Change from Profile =====
+function setupProfileThemeButtons() {
+    const themeButtons = [
+        {btn: dom.accessibilityThemeDark, theme: 'dark'},
+        {btn: dom.accessibilityThemeOcean, theme: 'ocean'},
+        {btn: dom.accessibilityThemeSunset, theme: 'sunset'}
+    ];
+    themeButtons.forEach(({btn, theme}) => {
+        if (btn) {
+            btn.onclick = function() {
+                settings.theme = theme;
+                saveSettings();
+                applySettings();
+                showSnackbar(`Theme changed to ${theme.charAt(0).toUpperCase() + theme.slice(1)}`);
+            };
+        }
+    });
 }
 
 // Generate username from display name (simple slug)
@@ -487,131 +495,4 @@ if (dom.resetProgressBtn) {
 function applySettings() {
     document.body.classList.remove('dark', 'theme-ocean', 'theme-sunset');
     if (settings.theme === 'dark') document.body.classList.add('dark');
-    if (settings.theme === 'ocean') document.body.classList.add('theme-ocean');
-    if (settings.theme === 'sunset') document.body.classList.add('theme-sunset');
-    document.documentElement.style.fontSize =
-        settings.fontSize === 'small' ? '15px' :
-        settings.fontSize === 'large' ? '19px' : '17px';
-    document.body.classList.toggle('animations-off', !settings.animations);
-}
-
-// ===== Sound Toggle Logic =====
-let isMuted = false;
-
-if (dom.soundToggleBtn) {
-    dom.soundToggleBtn.onclick = function() {
-        isMuted = !isMuted;
-        dom.soundToggleBtn.setAttribute('aria-pressed', isMuted);
-        if (isMuted) {
-            dom.volumeIcon.classList.add('hidden');
-            dom.muteIcon.classList.remove('hidden');
-            if (dom.soundTooltip) dom.soundTooltip.textContent = "Unmute Sound";
-            muteAllAudio();
-        } else {
-            dom.volumeIcon.classList.remove('hidden');
-            dom.muteIcon.classList.add('hidden');
-            if (dom.soundTooltip) dom.soundTooltip.textContent = "Mute Sound";
-            unmuteAllAudio();
-        }
-    };
-}
-function muteAllAudio() {
-    document.querySelectorAll('audio').forEach(audio => { audio.muted = true; });
-}
-function unmuteAllAudio() {
-    document.querySelectorAll('audio').forEach(audio => { audio.muted = false; });
-}
-function playSound(id) {
-    if (isMuted || !settings.soundEffects) return;
-    const sound = $(id);
-    if (sound) {
-        sound.currentTime = 0;
-        sound.play().catch(()=>{});
-    }
-}
-
-// ===== UI Setup =====
-function setupSettingsUI() {
-    dom.fontSizeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.font === settings.fontSize));
-    dom.themeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.theme === settings.theme));
-}
-function setupProfileUI() {
-    if (dom.displayNameInput && dom.usernameInput) {
-        let debounce;
-        dom.displayNameInput.addEventListener('input', function() {
-            clearTimeout(debounce);
-            debounce = setTimeout(() => {
-                dom.usernameInput.value = generateUsername(dom.displayNameInput.value);
-            }, 200);
-        });
-    }
-}
-
-// ===== Inbuilt Dialog Logic (Upgraded) =====
-function trapFocus(element) {
-    const focusable = element.querySelectorAll('button, [tabindex]:not([tabindex="-1"])');
-    let first = focusable[0], last = focusable[focusable.length - 1];
-    element.onkeydown = function(e) {
-        if (e.key === 'Tab') {
-            if (e.shiftKey) { // Shift+Tab
-                if (document.activeElement === first) {
-                    last.focus();
-                    e.preventDefault();
-                }
-            } else { // Tab
-                if (document.activeElement === last) {
-                    first.focus();
-                    e.preventDefault();
-                }
-            }
-        }
-        if (e.key === 'Escape') {
-            element.classList.add('hidden');
-        }
-    };
-    setTimeout(() => first && first.focus(), 50);
-}
-function showDialog({icon, title, message, confirmText = "OK", cancelText = "Cancel", onConfirm, onCancel}) {
-    if (!dom.dialog) return;
-    if (dom.dialogIcon) dom.dialogIcon.textContent = icon || '';
-    dom.dialogTitle.textContent = title || '';
-    dom.dialogMessage.textContent = message || '';
-    dom.dialogConfirm.textContent = confirmText;
-    dom.dialogCancel.textContent = cancelText;
-    dom.dialogConfirm.classList.add('primary');
-    dom.dialogCancel.classList.add('secondary');
-    dom.dialog.classList.remove('hidden');
-    trapFocus(dom.dialog);
-
-    function cleanup() {
-        dom.dialog.classList.add('hidden');
-        dom.dialogConfirm.onclick = null;
-        dom.dialogCancel.onclick = null;
-        dom.dialog.onclick = null;
-        dom.dialog.onkeydown = null;
-    }
-    dom.dialogConfirm.onclick = function() {
-        cleanup();
-        if (onConfirm) onConfirm();
-    };
-    dom.dialogCancel.onclick = function() {
-        cleanup();
-        if (onCancel) onCancel();
-    };
-    dom.dialog.onclick = function(e) {
-        if (e.target === dom.dialog) cleanup();
-    };
-}
-
-// ===== Snackbar/Toast Notification =====
-function showSnackbar(message, duration = 2000) {
-    if (!dom.snackbar) return;
-    dom.snackbar.textContent = message;
-    dom.snackbar.classList.add('show');
-    dom.snackbar.classList.remove('hidden');
-    setTimeout(() => {
-        dom.snackbar.classList.remove('show');
-        setTimeout(() => dom.snackbar.classList.add('hidden'), 350);
-    }, duration);
-}
-
+    if (settings.theme === 'ocean') document.body.
