@@ -1,9 +1,9 @@
-// ====== Utility Shortcuts ======
+// ===== Utility Shortcuts =====
 function $(id) { return document.getElementById(id); }
 function saveProfile() { localStorage.setItem('userProfile', JSON.stringify(userProfile)); }
 function saveSettings() { localStorage.setItem('settings', JSON.stringify(settings)); }
 
-// ====== User Profile Data ======
+// ===== User Profile Data =====
 let userProfile = JSON.parse(localStorage.getItem('userProfile')) || {
     displayName: 'Guest',
     username: '',
@@ -20,7 +20,7 @@ let userProfile = JSON.parse(localStorage.getItem('userProfile')) || {
     badges: []
 };
 
-// ====== Settings Defaults ======
+// ===== Settings Defaults =====
 let settings = JSON.parse(localStorage.getItem('settings')) || {
     soundEffects: true,
     fontSize: 'medium',
@@ -30,7 +30,7 @@ let settings = JSON.parse(localStorage.getItem('settings')) || {
     animations: true
 };
 
-// ====== Cached DOM Elements ======
+// ===== Cached DOM Elements =====
 const dom = {
     splash: $('splash-screen'),
     quizContent: $('quiz-content'),
@@ -88,7 +88,7 @@ const dom = {
     soundTooltip: $('sound-tooltip')
 };
 
-// ====== Quiz Data ======
+// ===== Quiz Data =====
 const quizQuestions = [
     { question: "What is a group of lions called?", options: ["Pride", "Flock", "School", "Pack"], answer: 0, funFact: "A group of lions is called a 'pride' because they live together as a family group." },
     { question: "What is a group of crows called?", options: ["Murder", "Gaggle", "Pod", "Swarm"], answer: 0, funFact: "A group of crows is called a 'murder'—the name comes from old folk tales and superstitions!" },
@@ -102,11 +102,11 @@ const quizQuestions = [
     { question: "What is a group of ants called?", options: ["Colony", "Swarm", "Herd", "Pack"], answer: 0, funFact: "A group of ants is called a 'colony' because they live and work together underground." }
 ];
 
-// ====== Quiz State ======
+// ===== Quiz State =====
 let current = 0, score = 0, streak = 0, timer = null, quizSet = [];
 const timeTotal = 20;
 
-// ====== DOMContentLoaded ======
+// ===== DOMContentLoaded =====
 window.addEventListener('DOMContentLoaded', function() {
     applySettings();
     updateProfileInfo();
@@ -118,7 +118,7 @@ window.addEventListener('DOMContentLoaded', function() {
     startQuiz();
 });
 
-// ====== Quiz Functions ======
+// ===== Quiz Functions =====
 function startQuiz() {
     current = 0; score = 0; streak = 0;
     showQuestion();
@@ -249,7 +249,7 @@ function hideFunFact() {
     dom.funFactBox.textContent = '';
 }
 
-// ====== Profile Logic ======
+// ===== Profile Logic =====
 function updateProfileInfo() {
     dom.displayNameInput.value = userProfile.displayName || '';
     dom.usernameInput.value = userProfile.username || generateUsername(userProfile.displayName);
@@ -272,8 +272,6 @@ function updateProfileInfo() {
 function updateProfileBadges() {
     // Add dynamic badge logic here if you want to show/hide badges
 }
-
-function saveProfile() { localStorage.setItem('userProfile', JSON.stringify(userProfile)); }
 
 function updateProfileStatsLive() {
     dom.scoreStat.textContent = userProfile.stats.bestScore || 0;
@@ -403,7 +401,7 @@ function generateUsername(name) {
     return name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '').substring(0, 16) + Math.floor(Math.random() * 100);
 }
 
-// ====== Settings Modal Logic ======
+// ===== Settings Modal Logic =====
 if (dom.settingsBtn && dom.settingsModal) {
     dom.settingsBtn.onclick = function() {
         dom.soundEffectsToggle.checked = settings.soundEffects;
@@ -469,7 +467,7 @@ function applySettings() {
     document.body.classList.toggle('animations-off', !settings.animations);
 }
 
-// ====== Sound Toggle Logic ======
+// ===== Sound Toggle Logic =====
 let isMuted = false;
 if (dom.soundToggleBtn) {
     dom.soundToggleBtn.onclick = function() {
@@ -481,12 +479,4 @@ if (dom.soundToggleBtn) {
             if (dom.soundTooltip) dom.soundTooltip.textContent = "Unmute Sound";
             muteAllAudio();
         } else {
-            dom.volumeIcon.classList.remove('hidden');
-            dom.muteIcon.classList.add('hidden');
-            if (dom.soundTooltip) dom.soundTooltip.textContent = "Mute Sound";
-            unmuteAllAudio();
-        }
-    };
-}
-function muteAllAudio() {
-    document.querySelectorAll('audio')
+            dom.volumeIcon.classList
