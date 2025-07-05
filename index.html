@@ -58,13 +58,11 @@
 
   <!-- Profile Modal -->
   <div id="profile-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
-    <div class="modal-content">
+    <div class="modal-content" style="max-width:380px;">
       <button id="close-profile-modal" class="close-btn" aria-label="Close">&times;</button>
-      <h2 id="profile-modal-title" style="text-align:center; margin-bottom:0.5em;">Your Profile</h2>
-      <div class="profile-avatar-section" style="display:flex; flex-direction:column; align-items:center;">
-        <img id="profile-avatar" src="https://mui.com/static/images/avatar/1.jpg" alt="Profile Avatar" tabindex="0" style="border:3px solid var(--primary); width:80px; height:80px; object-fit:cover;">
-        <input type="file" id="avatar-upload" accept="image/*" class="hidden" />
-        <div class="avatar-btns" style="display:flex; gap:0.5em; margin-top:0.5em;">
+      <div class="profile-avatar-section">
+        <img id="profile-avatar" src="https://mui.com/static/images/avatar/1.jpg" alt="Profile Avatar" tabindex="0">
+        <div class="avatar-btns" style="margin-top:0.5em;">
           <button id="edit-avatar-btn" type="button" aria-label="Change Photo">
             <span class="material-icons">photo_camera</span>
           </button>
@@ -72,61 +70,48 @@
             <span class="material-icons">emoji_emotions</span>
           </button>
         </div>
-        <input id="profile-greeting" type="text" maxlength="48" placeholder="Short bio or greeting" aria-label="Profile Greeting" style="margin-top:0.7em; width:90%; text-align:center;" />
       </div>
-      <form id="profile-form" autocomplete="off">
+      <form id="profile-form" autocomplete="off" style="margin-top:1em;">
         <div class="profile-fields">
           <label>
             <span class="material-icons" aria-hidden="true">badge</span>
-            Display Name
-            <input id="profile-display-name" type="text" maxlength="24" required autocomplete="nickname" />
+            <input id="profile-display-name" type="text" maxlength="24" required autocomplete="nickname" placeholder="Display Name" />
           </label>
           <label>
             <span class="material-icons" aria-hidden="true">alternate_email</span>
-            Username
-            <input id="profile-username" type="text" readonly />
+            <input id="profile-username" type="text" readonly placeholder="Username" />
           </label>
-          <div class="profile-row">
-            <label>
-              <span class="material-icons" aria-hidden="true">cake</span>
-              Birthday
-              <input id="profile-birthday" type="date" />
-            </label>
-          </div>
           <label>
             <span class="material-icons" aria-hidden="true">waving_hand</span>
-            Pronouns
             <select id="profile-pronouns">
-              <option value="">Prefer not to say</option>
+              <option value="">Pronouns</option>
               <option value="she/her">She/Her</option>
               <option value="he/him">He/Him</option>
               <option value="they/them">They/Them</option>
               <option value="custom">Custom...</option>
             </select>
-            <input id="profile-pronouns-custom" type="text" class="hidden" maxlength="24" placeholder="Enter your pronouns" />
+            <input id="profile-pronouns-custom" type="text" class="hidden" maxlength="24" placeholder="Custom pronouns" />
           </label>
-          <div class="profile-row">
-            <label>
-              <span class="material-icons" aria-hidden="true">palette</span>
-              Favorite Color
-              <input id="profile-fav-color" type="color" value="#1976d2" />
-            </label>
-            <label>
-              <span class="material-icons" aria-hidden="true">pets</span>
-              Favorite Animal
-              <select id="profile-fav-animal">
-                <option value="">Select...</option>
-                <option value="Lion">Lion</option>
-                <option value="Dolphin">Dolphin</option>
-                <option value="Owl">Owl</option>
-                <option value="Flamingo">Flamingo</option>
-                <option value="Frog">Frog</option>
-                <option value="Kangaroo">Kangaroo</option>
-                <option value="Ant">Ant</option>
-                <option value="Other">Other</option>
-              </select>
-            </label>
-          </div>
+          <label>
+            <span class="material-icons" aria-hidden="true">palette</span>
+            <input id="profile-fav-color" type="color" value="#1976d2" title="Favorite Color" style="width:2.2em;height:2.2em;padding:0;border:none;background:none;">
+            <span class="material-icons" aria-hidden="true" style="margin-left:0.7em;">pets</span>
+            <select id="profile-fav-animal">
+              <option value="">Animal</option>
+              <option value="Lion">Lion</option>
+              <option value="Dolphin">Dolphin</option>
+              <option value="Owl">Owl</option>
+              <option value="Flamingo">Flamingo</option>
+              <option value="Frog">Frog</option>
+              <option value="Kangaroo">Kangaroo</option>
+              <option value="Ant">Ant</option>
+              <option value="Other">Other</option>
+            </select>
+          </label>
+          <label>
+            <span class="material-icons" aria-hidden="true">short_text</span>
+            <input id="profile-greeting" type="text" maxlength="48" placeholder="Short bio or greeting" />
+          </label>
         </div>
         <div class="profile-stats" aria-label="Your Quiz Stats" style="margin:1em 0;">
           <div>
@@ -153,10 +138,7 @@
           <button type="submit" class="save-btn">Save</button>
           <button type="button" id="cancel-profile-edit" class="cancel-btn">Cancel</button>
         </div>
-        <div class="profile-accessibility" aria-label="Accessibility Shortcuts" style="display:flex; gap:0.5em; margin-top:1.2em; justify-content:center;">
-          <button type="button" id="profile-accessibility-font" title="Font Size" aria-label="Change Font Size">
-            <span class="material-icons">format_size</span>
-          </button>
+        <div class="profile-accessibility" aria-label="Theme & Accessibility" style="display:flex; gap:0.5em; margin-top:1.2em; justify-content:center;">
           <button type="button" id="profile-theme-dark" title="Dark Theme" aria-label="Dark Theme">
             <span class="material-icons">dark_mode</span>
           </button>
@@ -165,6 +147,9 @@
           </button>
           <button type="button" id="profile-theme-sunset" title="Sunset Theme" aria-label="Sunset Theme">
             <span class="material-icons">wb_sunny</span>
+          </button>
+          <button type="button" id="profile-accessibility-font" title="Font Size" aria-label="Change Font Size">
+            <span class="material-icons">format_size</span>
           </button>
           <button type="button" id="profile-accessibility-language" title="Language" aria-label="Change Language">
             <span class="material-icons">language</span>
@@ -176,7 +161,7 @@
 
   <!-- Settings Modal -->
   <div id="settings-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title">
-    <div class="modal-content">
+    <div class="modal-content" style="max-width:350px;">
       <button id="close-settings-modal" class="close-btn" aria-label="Close">&times;</button>
       <h2 id="settings-modal-title">Settings</h2>
       <form id="settings-form" autocomplete="off">
@@ -184,8 +169,8 @@
           <input type="checkbox" id="sound-effects-toggle" checked>
           Enable Sound Effects
         </label>
-        <div>
-          <span>Font Size:</span>
+        <div style="margin:1em 0;">
+          <span style="font-weight:600;">Font Size:</span>
           <button type="button" class="toggle-btn" data-font="small">Small</button>
           <button type="button" class="toggle-btn active" data-font="medium">Medium</button>
           <button type="button" class="toggle-btn" data-font="large">Large</button>
@@ -199,8 +184,8 @@
             <option value="all">All</option>
           </select>
         </label>
-        <div>
-          <span>Theme:</span>
+        <div style="margin:1em 0;">
+          <span style="font-weight:600;">Theme:</span>
           <button type="button" class="toggle-btn theme-btn" data-theme="dark">Dark</button>
           <button type="button" class="toggle-btn theme-btn" data-theme="ocean">Ocean</button>
           <button type="button" class="toggle-btn theme-btn" data-theme="sunset">Sunset</button>
