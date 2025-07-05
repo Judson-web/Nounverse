@@ -12,15 +12,17 @@
   --funfact-text: #7c6512;
 }
 
+/* ===== Gradient Background ===== */
 body {
   font-family: "Inter", Arial, sans-serif;
-  background: var(--bg);
+  background: linear-gradient(135deg, #6ee7b7 0%, #3b82f6 100%);
   color: var(--text);
   margin: 0;
   min-height: 100vh;
   transition: background 0.3s, color 0.3s;
 }
 
+/* ===== Header ===== */
 .header {
   width: 100%;
   padding: 1em 1.5em;
@@ -59,6 +61,7 @@ body {
   color: #fff;
 }
 
+/* ===== Splash Screen ===== */
 .splash-screen {
   position: fixed;
   inset: 0;
@@ -71,6 +74,7 @@ body {
   font-size: 1.3em;
 }
 
+/* ===== Quiz Container ===== */
 .quiz-container {
   background: var(--card);
   border-radius: 18px;
@@ -84,6 +88,7 @@ body {
   display: none !important;
 }
 
+/* ===== Quiz UI ===== */
 .score-streak-bar {
   display: flex;
   justify-content: space-between;
