@@ -1,4 +1,4 @@
-/* ========= Modal Overlay and Content ========= */
+/* ===== Modal Overlay and Content ===== */
 .modal-overlay {
     position: fixed;
     top: 0; left: 0;
@@ -45,8 +45,9 @@
     cursor: pointer;
     transition: color 0.2s;
 }
-#close-modal-btn:hover {
+#close-modal-btn:hover, #close-modal-btn:focus-visible {
     color: #f44336;
+    outline: 2px solid #f44336;
 }
 @media (max-width: 600px) {
     .modal-content {
@@ -55,7 +56,7 @@
     }
 }
 
-/* ========= Option Buttons ========= */
+/* ===== Option Buttons ===== */
 .option-button:focus-visible {
     outline: 3px solid #4A90E2;
     outline-offset: 2px;
@@ -116,7 +117,7 @@
     100% { transform: translateX(0); }
 }
 
-/* ========= Streak Stars ========= */
+/* ===== Streak Stars ===== */
 .streak-stars .star {
     font-size: 1.4rem;
     opacity: 0.3;
@@ -136,7 +137,7 @@
     100% { transform: scale(1.2) rotate(-10deg); }
 }
 
-/* ========= Timer Bar ========= */
+/* ===== Timer Bar ===== */
 .timer-bar {
     background: #e5e7eb;
     border-radius: 1rem;
@@ -156,7 +157,7 @@
     background: #f87171;
 }
 
-/* ========= Fun Fact Box ========= */
+/* ===== Fun Fact Box ===== */
 .fun-fact {
     background: #fffbe7;
     border-left: 4px solid #ffd700;
@@ -174,7 +175,7 @@
     pointer-events: none;
 }
 
-/* ========= Accessibility: Visually Hidden ========= */
+/* ===== Accessibility: Visually Hidden ===== */
 .visually-hidden {
     position: absolute !important;
     height: 1px; width: 1px;
@@ -183,7 +184,7 @@
     white-space: nowrap;
 }
 
-/* ========= Responsive Quiz Container ========= */
+/* ===== Responsive Quiz Container ===== */
 .quiz-container {
     box-sizing: border-box;
     background: rgba(255,255,255,0.92);
@@ -197,7 +198,7 @@
     }
 }
 
-/* ========= Misc ========= */
+/* ===== Misc ===== */
 body {
     min-height: 100vh;
     background: linear-gradient(45deg, #FFD700, #FFA07A, #ADD8E6, #90EE90);
