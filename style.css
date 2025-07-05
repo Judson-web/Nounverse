@@ -244,14 +244,45 @@ body {
   padding: 0.4em;
   font-size: 1em;
 }
+
+/* ===== Compact Inline Profile Fields ===== */
+.profile-fields {
+  margin-bottom: 0.8em;
+}
+.profile-fields label,
+.profile-row label {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 0.5em;
+  font-size: 0.98em;
+}
+.profile-fields input[type="text"],
+.profile-fields input[type="number"],
+.profile-fields input[type="date"],
+.profile-fields input[type="color"],
+.profile-fields select,
+.profile-row input,
+.profile-row select {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 140px;
+  padding: 0.35em 0.6em;
+  font-size: 0.98em;
+  height: 2.1em;
+  border-radius: 7px;
+  border: 1px solid #bdbdbd;
+  background: #fafafa;
+  box-sizing: border-box;
+  margin-bottom: 0;
+}
 .profile-row {
   display: flex;
-  gap: 1em;
-  margin-bottom: 0.7em;
+  gap: 0.7em;
+  margin-bottom: 0.5em;
 }
-.profile-row label {
-  flex: 1;
-}
+
+/* ===== Profile Stats & Badges ===== */
 .profile-stats {
   display: flex;
   gap: 1.2em;
@@ -443,5 +474,21 @@ input:focus, select:focus {
     flex-direction: column;
     gap: 0.7em;
     padding: 0.7em 0.5em;
+  }
+  .profile-fields label,
+  .profile-row label {
+    font-size: 1em;
+    gap: 0.4em;
+  }
+  .profile-fields input,
+  .profile-row input,
+  .profile-fields select,
+  .profile-row select {
+    font-size: 1em;
+    max-width: 100px;
+    height: 2.2em;
+  }
+  .profile-row {
+    gap: 0.4em;
   }
 }
