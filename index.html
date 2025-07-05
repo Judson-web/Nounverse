@@ -87,16 +87,19 @@
       <h2 class="text-xl font-semibold mb-4">Settings</h2>
       <form id="settings-form">
         <div class="mb-4">
-          <label>
-            <input type="checkbox" id="sound-effects-toggle" checked />
-            Enable Sound Effects
+          <label class="switch">
+            <input type="checkbox" id="sound-effects-toggle" checked>
+            <span class="slider"></span>
+            <span>Enable Sound Effects</span>
           </label>
         </div>
         <div class="mb-4">
-          <label class="block mb-1 font-medium">Font Size:</label>
-          <label><input type="radio" name="font-size" value="small"> Small</label>
-          <label><input type="radio" name="font-size" value="medium" checked> Medium</label>
-          <label><input type="radio" name="font-size" value="large"> Large</label>
+          <span class="block mb-1 font-medium">Font Size:</span>
+          <div class="flex gap-3">
+            <button type="button" class="toggle-btn" data-font="small">Small</button>
+            <button type="button" class="toggle-btn active" data-font="medium">Medium</button>
+            <button type="button" class="toggle-btn" data-font="large">Large</button>
+          </div>
         </div>
         <div class="mb-4">
           <label class="block mb-1 font-medium">Number of Questions:</label>
@@ -109,31 +112,31 @@
         </div>
         <div class="mb-4">
           <label class="block mb-1 font-medium">Theme:</label>
-          <select id="theme-setting" class="border rounded px-2 py-1 w-full">
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-            <option value="ocean">Ocean</option>
-            <option value="sunset">Sunset</option>
-          </select>
+          <div class="flex gap-3">
+            <button type="button" class="toggle-btn theme-btn active" data-theme="light">Light</button>
+            <button type="button" class="toggle-btn theme-btn" data-theme="dark">Dark</button>
+            <button type="button" class="toggle-btn theme-btn" data-theme="ocean">Ocean</button>
+            <button type="button" class="toggle-btn theme-btn" data-theme="sunset">Sunset</button>
+          </div>
         </div>
         <div class="mb-4">
           <label class="block mb-1 font-medium">Language:</label>
           <select id="language-setting" class="border rounded px-2 py-1 w-full">
             <option value="en" selected>English</option>
             <option value="es">Español</option>
-            <!-- Add more as needed -->
           </select>
         </div>
         <div class="mb-4">
-          <label>
-            <input type="checkbox" id="animations-toggle" checked />
-            Enable Animations
+          <label class="switch">
+            <input type="checkbox" id="animations-toggle" checked>
+            <span class="slider"></span>
+            <span>Enable Animations</span>
           </label>
         </div>
         <div class="mb-4">
-          <button id="reset-progress-btn" type="button" class="button bg-red-500 text-white">Reset All Progress</button>
+          <button id="reset-progress-btn" type="button" class="material-btn enable-btn bg-red-500 text-white">Reset All Progress</button>
         </div>
-        <button id="save-settings" type="submit" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+        <button id="save-settings" type="submit" class="mt-4 material-btn enable-btn">Save</button>
       </form>
     </div>
   </div>
