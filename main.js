@@ -1,50 +1,77 @@
-// Quiz data
+// Quiz Data
 const quizQuestions = [
-    {
-        question: "What is a group of lions called?",
-        options: ["Pride", "Flock", "School", "Pack"],
-        answer: 0
-    },
-    {
-        question: "What is a group of crows called?",
-        options: ["Murder", "Gaggle", "Pod", "Swarm"],
-        answer: 0
-    },
-    {
-        question: "What is a group of dolphins called?",
-        options: ["Pod", "Troop", "Army", "Parliament"],
-        answer: 0
-    },
-    {
-        question: "What is a group of bees called?",
-        options: ["Swarm", "Flock", "Herd", "Pack"],
-        answer: 0
-    }
+    { question: "What is a group of lions called?", options: ["Pride", "Flock", "School", "Pack"], answer: 0 },
+    { question: "What is a group of crows called?", options: ["Murder", "Gaggle", "Pod", "Swarm"], answer: 0 },
+    { question: "What is a group of dolphins called?", options: ["Pod", "Troop", "Army", "Parliament"], answer: 0 },
+    { question: "What is a group of bees called?", options: ["Swarm", "Flock", "Herd", "Pack"], answer: 0 }
 ];
 
 let current = 0, score = 0, streak = 0, timer = null, timeTotal = 20;
+
+// Modal logic
+function showModal(title, content) {
+    let modalOverlay = document.getElementById('modal-overlay');
+    if (!modalOverlay) {
+        modalOverlay = document.createElement('div');
+        modalOverlay.id = 'modal-overlay';
+        modalOverlay.className = 'modal-overlay';
+        modalOverlay.innerHTML = `
+            <div class="modal-content" tabindex="0">
+                <button id="close-modal-btn" aria-label="Close" style="position:absolute;top:10px;right:15px;font-size:1.5rem;background:none;border:none;cursor:pointer;">&times;</button>
+                <h2 style="margin-bottom:1rem;">${title}</h2>
+                <div>${content}</div>
+            </div>
+        `;
+        document.body.appendChild(modalOverlay);
+    } else {
+        modalOverlay.querySelector('.modal-content h2').textContent = title;
+        modalOverlay.querySelector('.modal-content div').innerHTML = content;
+    }
+    modalOverlay.classList.add('visible');
+    modalOverlay.querySelector('.modal-content').focus();
+    document.getElementById('close-modal-btn').onclick = () => closeModal();
+    modalOverlay.onclick = (e) => { if (e.target === modalOverlay) closeModal(); };
+}
+function closeModal() {
+    const modalOverlay = document.getElementById('modal-overlay');
+    if (modalOverlay) modalOverlay.classList.remove('visible');
+}
 
 window.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         document.getElementById('splash-screen').style.display = 'none';
         document.getElementById('quiz-content').classList.remove('hidden');
         startQuiz();
-    }, 1000);
+    }, 900);
 
-    // Example: Sound toggle (if you wish to implement)
+    // Header button modals
+    document.getElementById('profile-btn').onclick = () =>
+        showModal('Profile', '<p>Profile management coming soon!</p>');
+    document.getElementById('open-settings').onclick = () =>
+        showModal('Settings', '<p>Settings panel coming soon!</p>');
+    document.getElementById('open-shop').onclick = () =>
+        showModal('Shop', '<p>Shop and rewards coming soon!</p>');
+    document.getElementById('open-stickerbook').onclick = () =>
+        showModal('Stickerbook', '<p>Your sticker collection will appear here!</p>');
+    document.getElementById('daily-challenge-btn').onclick = () =>
+        showModal('Daily Challenge', '<p>Daily challenge feature coming soon!</p>');
+
+    // Sound toggle (if present)
     const soundBtn = document.getElementById('sound-toggle-btn');
     if (soundBtn) {
         soundBtn.onclick = () => {
             const vol = document.getElementById('volume-icon');
             const mute = document.getElementById('mute-icon');
-            if (vol.classList.contains('hidden')) {
-                vol.classList.remove('hidden');
-                mute.classList.add('hidden');
-                document.getElementById('sound-tooltip').textContent = "Mute Sound";
-            } else {
-                vol.classList.add('hidden');
-                mute.classList.remove('hidden');
-                document.getElementById('sound-tooltip').textContent = "Unmute Sound";
+            if (vol && mute) {
+                if (vol.classList.contains('hidden')) {
+                    vol.classList.remove('hidden');
+                    mute.classList.add('hidden');
+                    document.getElementById('sound-tooltip').textContent = "Mute Sound";
+                } else {
+                    vol.classList.add('hidden');
+                    mute.classList.remove('hidden');
+                    document.getElementById('sound-tooltip').textContent = "Unmute Sound";
+                }
             }
         };
     }
