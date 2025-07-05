@@ -58,8 +58,3 @@ See the [LICENSE](LICENSE) file for details.
 
 Enjoy learning with NounVerse!  
 If you have feedback or suggestions, open an issue or PR.
-
-*This README was generated for your project structure and features. Feel free to edit and personalize further!*
-
-Citations:
-[1] NounVerse.txt https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/54169620/74acc5c9-c924-40d0-bc3b-ee109d324079/NounVerse.txt
