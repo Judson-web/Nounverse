@@ -113,8 +113,8 @@ window.addEventListener('DOMContentLoaded', function() {
     setupSettingsUI();
     setupProfileUI();
     // Hide splash and show quiz when DOM is ready
-    dom.splash.style.display = 'none';
-    dom.quizContent.classList.remove('hidden');
+    if (dom.splash) dom.splash.style.display = 'none';
+    if (dom.quizContent) dom.quizContent.classList.remove('hidden');
     startQuiz();
 });
 
@@ -479,4 +479,41 @@ if (dom.soundToggleBtn) {
             if (dom.soundTooltip) dom.soundTooltip.textContent = "Unmute Sound";
             muteAllAudio();
         } else {
-            dom.volumeIcon.classList
+            dom.volumeIcon.classList.remove('hidden');
+            dom.muteIcon.classList.add('hidden');
+            if (dom.soundTooltip) dom.soundTooltip.textContent = "Mute Sound";
+            unmuteAllAudio();
+        }
+    };
+}
+function muteAllAudio() {
+    document.querySelectorAll('audio').forEach(audio => { audio.muted = true; });
+}
+function unmuteAllAudio() {
+    document.querySelectorAll('audio').forEach(audio => { audio.muted = false; });
+}
+function playSound(id) {
+    if (isMuted || !settings.soundEffects) return;
+    const sound = $(id);
+    if (sound) {
+        sound.currentTime = 0;
+        sound.play().catch(()=>{});
+    }
+}
+
+// ===== UI Setup =====
+function setupSettingsUI() {
+    dom.fontSizeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.font === settings.fontSize));
+    dom.themeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.theme === settings.theme));
+}
+function setupProfileUI() {
+    if (dom.displayNameInput && dom.usernameInput) {
+        let debounce;
+        dom.displayNameInput.addEventListener('input', function() {
+            clearTimeout(debounce);
+            debounce = setTimeout(() => {
+                dom.usernameInput.value = generateUsername(dom.displayNameInput.value);
+            }, 200);
+        });
+    }
+}
