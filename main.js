@@ -3,7 +3,7 @@ function $(id) { return document.getElementById(id); }
 function $q(sel) { return document.querySelector(sel); }
 function $qa(sel) { return document.querySelectorAll(sel); }
 
-// Quiz data (sample)
+// --- Quiz Data (Sample) ---
 const quizQuestions = [
     {
         question: "What is a group of lions called?",
@@ -33,7 +33,7 @@ let streak = 0;
 let timer = null;
 const QUESTION_TIME = 20;
 
-// Splash screen logic
+// --- Splash Screen Logic and Initialization ---
 window.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
         if ($('splash-screen')) $('splash-screen').style.display = 'none';
@@ -49,7 +49,7 @@ window.addEventListener('DOMContentLoaded', function() {
     $('open-stickerbook')?.addEventListener('click', () => openModal('stickerbook-modal'));
     $('daily-challenge-btn')?.addEventListener('click', () => openModal('daily-challenge-modal'));
 
-    // Close modal buttons
+    // Modal close buttons
     $qa('.modal-overlay .btn-modal, .modal-overlay [id^="close-"]').forEach(btn => {
         btn.addEventListener('click', closeAllModals);
     });
@@ -61,7 +61,7 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Modal logic
+// --- Modal Logic ---
 function openModal(id) {
     closeAllModals();
     const modal = $(id);
@@ -99,7 +99,7 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// Cookie banner
+// --- Cookie Banner ---
 function showCookieBanner() {
     if (!localStorage.getItem('cookiesAccepted')) {
         const banner = $('cookie-banner');
@@ -107,7 +107,7 @@ function showCookieBanner() {
     }
 }
 
-// Quiz logic
+// --- Quiz Logic ---
 function startQuiz() {
     currentQuestion = 0;
     score = 0;
@@ -209,7 +209,7 @@ function showQuizEnd() {
     if (restartBtn) restartBtn.onclick = () => startQuiz();
 }
 
-// Timer and Progress Bar
+// --- Timer and Progress Bar ---
 function startTimer(seconds) {
     let timeLeft = seconds;
     updateTimerUI(timeLeft, seconds);
@@ -252,7 +252,7 @@ function handleTimeUp() {
     if ($('next-btn')) $('next-btn').classList.remove('hidden');
 }
 
-// Streak Stars
+// --- Streak Stars ---
 function updateStreakStars() {
     const stars = $qa('.streak-stars .star');
     for (let i = 0; i < stars.length; i++) {
