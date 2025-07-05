@@ -17,7 +17,6 @@ let settings = JSON.parse(localStorage.getItem('settings')) || {
 
 // ====== Quiz Data ======
 const quizQuestions = [
-    // ... (same as before, 10+ questions)
     { question: "What is a group of lions called?", options: ["Pride", "Flock", "School", "Pack"], answer: 0, funFact: "A group of lions is called a 'pride' because they live together as a family group." },
     { question: "What is a group of crows called?", options: ["Murder", "Gaggle", "Pod", "Swarm"], answer: 0, funFact: "A group of crows is called a 'murder'—the name comes from old folk tales and superstitions!" },
     { question: "What is a group of dolphins called?", options: ["Pod", "Troop", "Army", "Parliament"], answer: 0, funFact: "A group of dolphins is called a 'pod.' Dolphins are very social animals!" },
@@ -38,6 +37,7 @@ let timeTotal = 20;
 window.addEventListener('DOMContentLoaded', function() {
     applySettings();
     updateProfileInfo();
+    setupSettingsUI();
     const splash = document.getElementById('splash-screen');
     const quizContent = document.getElementById('quiz-content');
     setTimeout(() => {
@@ -54,11 +54,9 @@ function startQuiz() {
 }
 
 function getQuizSet() {
-    // Return the right number of questions based on settings
     if (settings.quizLength === 'all' || settings.quizLength >= quizQuestions.length) {
         return [...quizQuestions];
     }
-    // Shuffle and pick the requested number
     const shuffled = [...quizQuestions].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, Number(settings.quizLength));
 }
@@ -203,11 +201,10 @@ const saveSettingsBtn = document.getElementById('save-settings');
 const resetProgressBtn = document.getElementById('reset-progress-btn');
 const settingsForm = document.getElementById('settings-form');
 
-// Settings controls
 const soundEffectsToggle = document.getElementById('sound-effects-toggle');
-const fontSizeRadios = document.querySelectorAll('input[name="font-size"]');
+const fontSizeBtns = document.querySelectorAll('.toggle-btn[data-font]');
 const quizLengthSetting = document.getElementById('quiz-length-setting');
-const themeSetting = document.getElementById('theme-setting');
+const themeBtns = document.querySelectorAll('.theme-btn');
 const languageSetting = document.getElementById('language-setting');
 const animationsToggle = document.getElementById('animations-toggle');
 
@@ -215,9 +212,9 @@ if (settingsBtn && settingsModal) {
     settingsBtn.onclick = () => {
         // Populate form with current settings
         soundEffectsToggle.checked = settings.soundEffects;
-        fontSizeRadios.forEach(radio => radio.checked = (radio.value === settings.fontSize));
+        fontSizeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.font === settings.fontSize));
         quizLengthSetting.value = settings.quizLength;
-        themeSetting.value = settings.theme;
+        themeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.theme === settings.theme));
         languageSetting.value = settings.language;
         animationsToggle.checked = settings.animations;
         settingsModal.classList.remove('hidden');
@@ -230,14 +227,31 @@ settingsModal?.addEventListener('click', (e) => {
     if (e.target === settingsModal) settingsModal.classList.add('hidden');
 });
 
+// Font size toggle logic
+fontSizeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        fontSizeBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        settings.fontSize = btn.dataset.font;
+    });
+});
+
+// Theme toggle logic
+themeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        themeBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        settings.theme = btn.dataset.theme;
+    });
+});
+
 // Save settings
 if (settingsForm) {
     settingsForm.addEventListener('submit', function(e) {
         e.preventDefault();
         settings.soundEffects = soundEffectsToggle.checked;
-        settings.fontSize = Array.from(fontSizeRadios).find(r => r.checked)?.value || 'medium';
+        // fontSize and theme are set by toggle logic above
         settings.quizLength = quizLengthSetting.value;
-        settings.theme = themeSetting.value;
         settings.language = languageSetting.value;
         settings.animations = animationsToggle.checked;
         localStorage.setItem('settings', JSON.stringify(settings));
@@ -392,4 +406,16 @@ function updateProfileStatsLive() {
         if (profileScore) profileScore.textContent = score;
         if (profileStreak) profileStreak.textContent = streak;
     }
+}
+
+// ====== Settings UI Setup (for toggles/buttons) ======
+function setupSettingsUI() {
+    // Font size toggle (ensure correct active state on load)
+    fontSizeBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.font === settings.fontSize);
+    });
+    // Theme toggle (ensure correct active state on load)
+    themeBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.theme === settings.theme);
+    });
 }
