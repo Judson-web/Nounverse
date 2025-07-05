@@ -464,6 +464,98 @@ input:focus, select:focus {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ===== Inbuilt Dialog Box ===== */
+.inbuilt-dialog {
+  position: fixed;
+  left: 0; right: 0; top: 0; bottom: 0;
+  z-index: 300;
+  background: rgba(40,40,40,0.32);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.inbuilt-dialog.hidden {
+  display: none !important;
+}
+.inbuilt-dialog-content {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(60,60,60,0.18);
+  min-width: 260px;
+  max-width: 95vw;
+  padding: 1.5em 1.2em 1.2em 1.2em;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.2s, transform 0.2s;
+}
+.inbuilt-dialog:not(.hidden) .inbuilt-dialog-content {
+  opacity: 1;
+  transform: scale(1);
+}
+.inbuilt-dialog-title {
+  font-size: 1.15em;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.5em;
+}
+.inbuilt-dialog-message {
+  font-size: 1em;
+  color: #333;
+  margin-bottom: 1.2em;
+}
+.inbuilt-dialog-actions {
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+  width: 100%;
+}
+.inbuilt-dialog-btn {
+  background: var(--accent);
+  color: var(--primary);
+  border: none;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 1em;
+  padding: 0.7em 1.6em;
+  margin: 0.2em 0;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  touch-action: manipulation;
+}
+.inbuilt-dialog-btn:active,
+.inbuilt-dialog-btn:focus-visible {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* ===== Snackbar/Toast Notification ===== */
+.snackbar {
+  position: fixed;
+  left: 50%;
+  bottom: 2em;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: #fff;
+  padding: 1em 2em;
+  border-radius: 1.5em;
+  font-size: 1em;
+  box-shadow: 0 4px 18px rgba(25,118,210,0.15);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, bottom 0.3s;
+  z-index: 1000;
+}
+.snackbar.show {
+  opacity: 1;
+  pointer-events: auto;
+  bottom: 3.5em;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 600px) {
   .quiz-container, .modal-content {
@@ -490,5 +582,13 @@ input:focus, select:focus {
   }
   .profile-row {
     gap: 0.4em;
+  }
+  .inbuilt-dialog-content {
+    min-width: 90vw;
+    padding: 1.1em 0.4em 1em 0.4em;
+  }
+  .inbuilt-dialog-btn {
+    font-size: 1em;
+    padding: 0.7em 1.2em;
   }
 }
