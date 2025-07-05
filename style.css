@@ -185,6 +185,7 @@ header {
     cursor: pointer;
     object-fit: cover;
     transition: border 0.2s, box-shadow 0.2s;
+    display: inline-block;
 }
 .avatar-choose-img.selected {
     border: 2px solid #4A90E2;
