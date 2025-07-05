@@ -160,6 +160,37 @@ body {
   background: #1d4ed8;
 }
 
+/* ===== Mute/Unmute Button ===== */
+#sound-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  background: #bfdbfe;
+  color: #1e3a8a;
+  border: none;
+  border-radius: 0.5em;
+  padding: 0.45em 1em;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#sound-toggle-btn:hover, #sound-toggle-btn:focus-visible {
+  background: #60a5fa;
+  color: #fff;
+}
+#volume-icon, #mute-icon {
+  font-size: 1.3em;
+  transition: opacity 0.2s;
+}
+#mute-icon.hidden, #volume-icon.hidden {
+  display: none;
+}
+#sound-tooltip {
+  font-size: 0.95em;
+  opacity: 0.75;
+}
+
 /* ===== Visually Hidden (for accessibility) ===== */
 .visually-hidden {
   position: absolute !important;
