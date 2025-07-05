@@ -491,25 +491,3 @@ function playSound(id) {
     if (isMuted || !settings.soundEffects) return;
     const sound = $(id);
     if (sound) {
-        sound.currentTime = 0;
-        sound.play().catch(()=>{});
-    }
-}
-
-// ===== UI Setup =====
-function setupSettingsUI() {
-    dom.fontSizeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.font === settings.fontSize));
-    dom.themeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.theme === settings.theme));
-}
-function setupProfileUI() {
-    if (dom.displayNameInput && dom.usernameInput) {
-        let debounce;
-        dom.displayNameInput.addEventListener('input', function() {
-            clearTimeout(debounce);
-            debounce = setTimeout(() => {
-                dom.usernameInput.value = generateUsername(dom.displayNameInput.value);
-            }, 200);
-        });
-    }
-}
-  
