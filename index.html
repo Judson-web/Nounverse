@@ -19,7 +19,7 @@
     <header class="w-full py-3 px-2 flex flex-col sm:flex-row justify-between items-center fixed top-0 left-0 z-20 bg-white/80 backdrop-blur shadow">
         <h1 class="text-xl sm:text-2xl font-bold text-blue-700">Collective Nouns Quiz</h1>
         <div class="flex flex-wrap items-center gap-2 mt-2 sm:mt-0">
-            <button id="profile-btn" aria-label="Open profile menu" class="flex items-center gap-2 bg-indigo-100 px-2 py-1 rounded shadow focus:outline-none">
+            <button id="profile-btn" aria-label="Open profile menu" class="flex items-center gap-2 bg-indigo-100 px-2 py-1 rounded shadow focus:outline-none focus:ring-2 focus:ring-blue-400">
                 <span id="profile-avatar" class="w-7 h-7 rounded-full bg-gray-200" aria-label="User avatar"></span>
                 <span id="profile-name" class="font-semibold text-indigo-800">Profile</span>
             </button>
@@ -36,10 +36,10 @@
             <div id="currency-display" class="flex items-center font-semibold text-yellow-600 bg-yellow-100 px-2 py-1 rounded shadow" aria-label="Noun coins">
                 🪙 <span id="noun-coins">0</span>
             </div>
-            <button id="daily-challenge-btn" aria-label="Open daily challenge" class="bg-pink-400 hover:bg-pink-500 text-white px-3 py-1 rounded font-bold shadow">Daily</button>
-            <button id="open-shop" aria-label="Open shop" class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded font-bold shadow">Shop</button>
-            <button id="open-stickerbook" aria-label="Open sticker book" class="bg-green-400 hover:bg-green-500 text-white px-3 py-1 rounded font-bold shadow">Stickers</button>
-            <button id="open-settings" aria-label="Open settings" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-3 py-1 rounded font-bold shadow">⚙️</button>
+            <button id="daily-challenge-btn" aria-label="Open daily challenge" class="bg-pink-400 hover:bg-pink-500 text-white px-3 py-1 rounded font-bold shadow focus:outline-none focus:ring-2 focus:ring-pink-400">Daily</button>
+            <button id="open-shop" aria-label="Open shop" class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded font-bold shadow focus:outline-none focus:ring-2 focus:ring-yellow-400">Shop</button>
+            <button id="open-stickerbook" aria-label="Open sticker book" class="bg-green-400 hover:bg-green-500 text-white px-3 py-1 rounded font-bold shadow focus:outline-none focus:ring-2 focus:ring-green-400">Stickers</button>
+            <button id="open-settings" aria-label="Open settings" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-3 py-1 rounded font-bold shadow focus:outline-none focus:ring-2 focus:ring-gray-400">⚙️</button>
         </div>
     </header>
 
@@ -51,20 +51,124 @@
                 <p class="text-lg font-semibold text-blue-600 animate-pulse">Loading Quiz...</p>
             </div>
             <div id="quiz-content" class="hidden" aria-live="polite">
-                <!-- Quiz content dynamically rendered here -->
+                <div class="flex justify-between items-center mb-4">
+                    <p class="text-lg font-semibold">Score: <span id="score" class="pop-animation">0</span></p>
+                    <p class="text-lg font-semibold flex items-center">
+                        Streak: <span id="streak" class="pop-animation mr-1">0</span>
+                        <span class="streak-stars flex" aria-label="Streak stars">
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                        </span>
+                    </p>
+                </div>
+                <div class="mb-4">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-sm font-medium text-gray-700">Question <span id="current-question">1</span> of <span id="total-questions">4</span></span>
+                        <span id="timer-text" class="text-sm font-bold text-blue-600">20s</span>
+                    </div>
+                    <div class="timer-bar w-full" aria-hidden="true">
+                        <div id="timer-bar-fill" class="timer-bar-fill"></div>
+                    </div>
+                </div>
+                <div id="question-area"></div>
             </div>
         </div>
     </main>
 
-    <!-- Example Footer (preserved) -->
+    <!-- Profile Modal -->
+    <div id="profile-modal" class="modal-overlay" aria-modal="true" role="dialog" aria-labelledby="profileModalTitle" aria-describedby="profileModalDesc">
+      <div class="modal-content w-full max-w-xs sm:max-w-md">
+        <h2 id="profileModalTitle" class="text-xl font-bold mb-2">Select Your Profile</h2>
+        <p id="profileModalDesc" class="sr-only">Choose an existing profile or create a new one.</p>
+        <div id="profile-list" class="grid grid-cols-1 gap-3 mb-2"></div>
+        <button id="add-profile-btn" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-400">+ Add New Profile</button>
+        <button id="close-profile" class="w-full bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg font-bold shadow focus:outline-none focus:ring-2 focus:ring-gray-400">Close</button>
+      </div>
+    </div>
+
+    <!-- Add Profile Modal -->
+    <div id="add-profile-modal" class="modal-overlay" aria-modal="true" role="dialog" aria-labelledby="addProfileModalTitle" aria-describedby="addProfileModalDesc">
+      <div class="modal-content w-full max-w-xs sm:max-w-md">
+        <h2 id="addProfileModalTitle" class="text-lg font-bold mb-2">Create Profile</h2>
+        <p id="addProfileModalDesc" class="sr-only">Enter a name, choose an avatar and a theme.</p>
+        <form id="add-profile-form" class="flex flex-col gap-3">
+          <label for="profile-name-input" class="font-semibold">Name</label>
+          <input id="profile-name-input" type="text" maxlength="16" required placeholder="Name" class="rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <fieldset>
+            <legend class="block font-semibold mb-1">Avatar</legend>
+            <div id="avatar-choose-list" class="flex flex-wrap gap-2 justify-center" role="radiogroup" aria-label="Choose avatar"></div>
+          </fieldset>
+          <fieldset>
+            <legend class="block font-semibold mb-1">Theme</legend>
+            <div id="theme-choose-list" class="flex flex-wrap gap-2 justify-center" role="radiogroup" aria-label="Choose theme"></div>
+          </fieldset>
+          <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400">Create</button>
+          <button type="button" id="cancel-add-profile" class="w-full bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg font-bold shadow focus:outline-none focus:ring-2 focus:ring-gray-400">Cancel</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Shop Modal -->
+    <div id="shop-modal" class="modal-overlay" aria-modal="true" role="dialog" aria-labelledby="shopModalTitle">
+      <div class="modal-content">
+        <h2 id="shopModalTitle" class="text-xl font-bold mb-4">Item Shop</h2>
+        <div class="flex flex-col gap-2 mb-4">
+          <button class="shop-item btn-modal bg-yellow-400 hover:bg-yellow-500 text-white py-2 px-4 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-yellow-400" data-type="avatar" data-cost="10">New Avatar Frame (10 🪙)</button>
+          <button class="shop-item btn-modal bg-yellow-400 hover:bg-yellow-500 text-white py-2 px-4 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-yellow-400" data-type="theme" data-cost="15">Background Theme (15 🪙)</button>
+        </div>
+        <button id="close-shop" class="btn-modal bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg font-bold shadow focus:outline-none focus:ring-2 focus:ring-gray-400">Close</button>
+      </div>
+    </div>
+    
+    <!-- Sticker Book Modal -->
+    <div id="stickerbook-modal" class="modal-overlay" aria-modal="true" role="dialog" aria-labelledby="stickerbookModalTitle">
+      <div class="modal-content">
+        <h2 id="stickerbookModalTitle" class="text-xl font-bold mb-4">Sticker Book</h2>
+        <div id="stickerbook-content" class="flex flex-wrap justify-center gap-3"></div>
+        <button id="close-stickerbook" class="btn-modal bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg font-bold shadow mt-4 focus:outline-none focus:ring-2 focus:ring-gray-400">Close</button>
+      </div>
+    </div>
+    
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal-overlay" aria-modal="true" role="dialog" aria-labelledby="settingsModalTitle">
+      <div class="modal-content">
+        <h2 id="settingsModalTitle" class="text-xl font-bold mb-4">Settings</h2>
+        <label class="flex items-center gap-2 mb-2">
+          <input type="checkbox" id="dyslexia-mode"> Dyslexia-Friendly Font
+        </label>
+        <label class="flex items-center gap-2 mb-4">
+          <input type="checkbox" id="colorblind-mode"> Color-Blind Friendly Mode
+        </label>
+        <button id="close-settings" class="btn-modal bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg font-bold shadow focus:outline-none focus:ring-2 focus:ring-gray-400">Close</button>
+      </div>
+    </div>
+    
+    <!-- Daily Challenge Modal -->
+    <div id="daily-challenge-modal" class="modal-overlay" aria-modal="true" role="dialog" aria-labelledby="dailyChallengeModalTitle">
+      <div class="modal-content">
+        <h2 id="dailyChallengeModalTitle" class="text-xl font-bold mb-4">Today's Challenge!</h2>
+        <p id="daily-challenge-question" class="mb-4"></p>
+        <button id="start-daily-challenge" class="btn-modal bg-pink-500 hover:bg-pink-600 text-white py-2 px-4 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-pink-400">Start</button>
+        <button id="close-daily-challenge" class="btn-modal bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg font-bold shadow focus:outline-none focus:ring-2 focus:ring-gray-400">Close</button>
+      </div>
+    </div>
+    
+    <div id="fireworks-container"></div>
+    <div id="cookie-banner" class="fixed bottom-0 left-0 w-full bg-gray-900 text-white text-center py-3 px-4 z-[2000] hidden">
+      We use cookies to improve your experience. By continuing, you agree to our 
+      <a href="/privacy-policy.html" class="underline">privacy policy</a>.
+      <button id="accept-cookies" class="ml-4 bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white font-semibold focus:outline-none focus:ring-2 focus:ring-green-400">Accept</button>
+    </div>
+
+    <!-- Footer -->
     <footer class="w-full mt-auto py-4 px-2 bg-white/70 text-center text-sm text-gray-700">
       <span>&copy; 2025 NounVerse. Made with ❤️ for kids. | 
         <a href="/privacy-policy.html" class="underline text-blue-600">Privacy</a>
       </span>
     </footer>
-
-    <!-- Example Modals (preserved, add your modal overlays here) -->
-    <!-- ... Place your modal overlays here ... -->
 
     <script src="main.js"></script>
 </body>
