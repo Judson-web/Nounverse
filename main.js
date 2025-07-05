@@ -495,4 +495,149 @@ if (dom.resetProgressBtn) {
 function applySettings() {
     document.body.classList.remove('dark', 'theme-ocean', 'theme-sunset');
     if (settings.theme === 'dark') document.body.classList.add('dark');
-    if (settings.theme === 'ocean') document.body.
+    if (settings.theme === 'ocean') document.body.classList.add('theme-ocean');
+    if (settings.theme === 'sunset') document.body.classList.add('theme-sunset');
+    document.documentElement.style.fontSize =
+        settings.fontSize === 'small' ? '15px' :
+        settings.fontSize === 'large' ? '19px' : '17px';
+    document.body.classList.toggle('animations-off', !settings.animations);
+}
+
+// ===== Sound Toggle Logic =====
+let isMuted = false;
+
+if (dom.soundToggleBtn) {
+    dom.soundToggleBtn.onclick = function() {
+        isMuted = !isMuted;
+        dom.soundToggleBtn.setAttribute('aria-pressed', isMuted);
+        if (isMuted) {
+            dom.volumeIcon.classList.add('hidden');
+            dom.muteIcon.classList.remove('hidden');
+            if (dom.soundTooltip) dom.soundTooltip.textContent = "Unmute Sound";
+            muteAllAudio();
+        } else {
+            dom.volumeIcon.classList.remove('hidden');
+            dom.muteIcon.classList.add('hidden');
+            if (dom.soundTooltip) dom.soundTooltip.textContent = "Mute Sound";
+            unmuteAllAudio();
+        }
+    };
+}
+function muteAllAudio() {
+    document.querySelectorAll('audio').forEach(audio => { audio.muted = true; });
+}
+function unmuteAllAudio() {
+    document.querySelectorAll('audio').forEach(audio => { audio.muted = false; });
+}
+function playSound(id) {
+    if (isMuted || !settings.soundEffects) return;
+    const sound = $(id);
+    if (sound) {
+        sound.currentTime = 0;
+        sound.play().catch(()=>{});
+    }
+}
+
+// ===== UI Setup =====
+function setupSettingsUI() {
+    dom.fontSizeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.font === settings.fontSize));
+    dom.themeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.theme === settings.theme));
+}
+function setupProfileUI() {
+    if (dom.displayNameInput && dom.usernameInput) {
+        let debounce;
+        dom.displayNameInput.addEventListener('input', function() {
+            clearTimeout(debounce);
+            debounce = setTimeout(() => {
+                dom.usernameInput.value = generateUsername(dom.displayNameInput.value);
+            }, 200);
+        });
+    }
+}
+
+// ===== Instant Theme Change from Profile =====
+function setupProfileThemeButtons() {
+    const themeButtons = [
+        {btn: dom.accessibilityThemeDark, theme: 'dark'},
+        {btn: dom.accessibilityThemeOcean, theme: 'ocean'},
+        {btn: dom.accessibilityThemeSunset, theme: 'sunset'}
+    ];
+    themeButtons.forEach(({btn, theme}) => {
+        if (btn) {
+            btn.onclick = function() {
+                settings.theme = theme;
+                saveSettings();
+                applySettings();
+                showSnackbar(`Theme changed to ${theme.charAt(0).toUpperCase() + theme.slice(1)}`);
+            };
+        }
+    });
+}
+
+// ===== Inbuilt Dialog Logic (Upgraded) =====
+function trapFocus(element) {
+    const focusable = element.querySelectorAll('button, [tabindex]:not([tabindex="-1"])');
+    let first = focusable[0], last = focusable[focusable.length - 1];
+    element.onkeydown = function(e) {
+        if (e.key === 'Tab') {
+            if (e.shiftKey) { // Shift+Tab
+                if (document.activeElement === first) {
+                    last.focus();
+                    e.preventDefault();
+                }
+            } else { // Tab
+                if (document.activeElement === last) {
+                    first.focus();
+                    e.preventDefault();
+                }
+            }
+        }
+        if (e.key === 'Escape') {
+            element.classList.add('hidden');
+        }
+    };
+    setTimeout(() => first && first.focus(), 50);
+}
+function showDialog({icon, title, message, confirmText = "OK", cancelText = "Cancel", onConfirm, onCancel}) {
+    if (!dom.dialog) return;
+    if (dom.dialogIcon) dom.dialogIcon.textContent = icon || '';
+    dom.dialogTitle.textContent = title || '';
+    dom.dialogMessage.textContent = message || '';
+    dom.dialogConfirm.textContent = confirmText;
+    dom.dialogCancel.textContent = cancelText;
+    dom.dialogConfirm.classList.add('primary');
+    dom.dialogCancel.classList.add('secondary');
+    dom.dialog.classList.remove('hidden');
+    trapFocus(dom.dialog);
+
+    function cleanup() {
+        dom.dialog.classList.add('hidden');
+        dom.dialogConfirm.onclick = null;
+        dom.dialogCancel.onclick = null;
+        dom.dialog.onclick = null;
+        dom.dialog.onkeydown = null;
+    }
+    dom.dialogConfirm.onclick = function() {
+        cleanup();
+        if (onConfirm) onConfirm();
+    };
+    dom.dialogCancel.onclick = function() {
+        cleanup();
+        if (onCancel) onCancel();
+    };
+    dom.dialog.onclick = function(e) {
+        if (e.target === dom.dialog) cleanup();
+    };
+}
+
+// ===== Snackbar/Toast Notification =====
+function showSnackbar(message, duration = 2000) {
+    if (!dom.snackbar) return;
+    dom.snackbar.textContent = message;
+    dom.snackbar.classList.add('show');
+    dom.snackbar.classList.remove('hidden');
+    setTimeout(() => {
+        dom.snackbar.classList.remove('show');
+        setTimeout(() => dom.snackbar.classList.add('hidden'), 350);
+    }, duration);
+}
