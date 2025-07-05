@@ -128,7 +128,7 @@ input[type="checkbox"] {
   margin-right: 0.5em;
 }
 
-/* ===== Material Modal Overlay ===== */
+/* ===== Modal Overlay ===== */
 #settings-modal,
 #profile-modal {
   position: fixed;
@@ -188,7 +188,7 @@ input[type="checkbox"] {
   background: #1565c0;
 }
 
-/* ===== Material Profile Section ===== */
+/* ===== Profile Modal Section ===== */
 #profile-modal .bg-white {
   display: flex;
   flex-direction: column;
@@ -247,7 +247,7 @@ input[type="checkbox"] {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ===== Material Timer Bar ===== */
+/* ===== Timer Bar ===== */
 .timer-bar {
   width: 100%;
   height: 9px;
@@ -271,7 +271,7 @@ input[type="checkbox"] {
   background: #e53935;
 }
 
-/* ===== Material Fun Fact Box ===== */
+/* ===== Fun Fact Box ===== */
 .fun-fact,
 #fun-fact-box {
   background: #fffde7;
@@ -449,5 +449,4 @@ body.dark .material-input:focus {
   border: 1.5px solid #90caf9;
 }
 body.dark #profile-form label {
-  color: #90caf9;
-}
+  color: #
