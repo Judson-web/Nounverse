@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collective Nouns Quiz for Kids</title>
+    <meta name="description" content="Fun and interactive collective nouns quiz for kids! Test your knowledge of animal group names and collect stickers.">
+    <meta property="og:title" content="Collective Nouns Quiz for Kids">
+    <meta property="og:description" content="Test your knowledge of animal group names with this fun quiz for kids!">
+    <meta property="og:image" content="https://yourdomain.com/og-image.jpg">
     <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2Faecc661b69309290f600.ico?alt=media&token=1283a192-a304-4ecd-8f69-26f4abd0407d" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -15,25 +19,27 @@
     <header class="w-full py-3 px-2 flex flex-col sm:flex-row justify-between items-center fixed top-0 left-0 z-20 bg-white/80 backdrop-blur shadow">
         <h1 class="text-xl sm:text-2xl font-bold text-blue-700">Collective Nouns Quiz</h1>
         <div class="flex flex-wrap items-center gap-2 mt-2 sm:mt-0">
-            <button id="profile-btn" class="flex items-center gap-2 bg-indigo-100 px-2 py-1 rounded shadow focus:outline-none">
-                <span id="profile-avatar" class="w-7 h-7 rounded-full bg-gray-200"></span>
+            <button id="profile-btn" aria-label="Open profile menu" class="flex items-center gap-2 bg-indigo-100 px-2 py-1 rounded shadow focus:outline-none">
+                <span id="profile-avatar" class="w-7 h-7 rounded-full bg-gray-200" aria-label="User avatar"></span>
                 <span id="profile-name" class="font-semibold text-indigo-800">Profile</span>
             </button>
-            <button id="sound-toggle-btn" class="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Toggle sound">
+            <button id="sound-toggle-btn" aria-label="Toggle sound" class="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
                 <svg id="volume-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <title>Unmute</title>
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
                 </svg>
                 <svg id="mute-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <title>Mute</title>
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M9 19H4a1 1 0 01-1-1V6a1 1 0 011-1h5l5-5v14l-5-5zm0 0l-5 5M9 5l5 5" />
                 </svg>
             </button>
-            <div id="currency-display" class="flex items-center font-semibold text-yellow-600 bg-yellow-100 px-2 py-1 rounded shadow">
+            <div id="currency-display" class="flex items-center font-semibold text-yellow-600 bg-yellow-100 px-2 py-1 rounded shadow" aria-label="Noun coins">
                 🪙 <span id="noun-coins">0</span>
             </div>
-            <button id="daily-challenge-btn" class="bg-pink-400 hover:bg-pink-500 text-white px-3 py-1 rounded font-bold shadow">Daily</button>
-            <button id="open-shop" class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded font-bold shadow">Shop</button>
-            <button id="open-stickerbook" class="bg-green-400 hover:bg-green-500 text-white px-3 py-1 rounded font-bold shadow">Stickers</button>
-            <button id="open-settings" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-3 py-1 rounded font-bold shadow">⚙️</button>
+            <button id="daily-challenge-btn" aria-label="Open daily challenge" class="bg-pink-400 hover:bg-pink-500 text-white px-3 py-1 rounded font-bold shadow">Daily</button>
+            <button id="open-shop" aria-label="Open shop" class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded font-bold shadow">Shop</button>
+            <button id="open-stickerbook" aria-label="Open sticker book" class="bg-green-400 hover:bg-green-500 text-white px-3 py-1 rounded font-bold shadow">Stickers</button>
+            <button id="open-settings" aria-label="Open settings" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-3 py-1 rounded font-bold shadow">⚙️</button>
         </div>
     </header>
 
@@ -41,7 +47,7 @@
     <main class="flex flex-col items-center justify-center flex-grow w-full px-2 pt-24 pb-4">
         <div id="quiz-container" class="quiz-container p-4 sm:p-8 rounded-xl shadow-xl w-full max-w-xs sm:max-w-md md:max-w-2xl bg-white/90 relative">
             <div id="splash-screen" class="absolute inset-0 bg-white/90 rounded-xl flex flex-col items-center justify-center z-50">
-                <img src="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2F1676172615227.gif?alt=media&token=c3f8a658-e590-4324-a37c-ab3b6f0abff8" alt="Loading animation" class="w-20 h-20 mb-4">
+                <img src="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2F1676172615227.gif?alt=media&token=c3f8a658-e590-4324-a37c-ab3b6f0abff8" alt="Quiz loading animation" class="w-20 h-20 mb-4">
                 <p class="text-lg font-semibold text-blue-600 animate-pulse">Loading Quiz...</p>
             </div>
             <div id="quiz-content" class="hidden" aria-live="polite">
@@ -73,9 +79,10 @@
     </main>
 
     <!-- Profile Modal -->
-    <div id="profile-modal" class="modal-overlay" aria-modal="true" role="dialog">
+    <div id="profile-modal" class="modal-overlay" aria-modal="true" role="dialog" aria-labelledby="profileModalTitle" aria-describedby="profileModalDesc">
       <div class="modal-content w-full max-w-xs sm:max-w-md">
-        <h2 class="text-xl font-bold mb-2">Select Your Profile</h2>
+        <h2 id="profileModalTitle" class="text-xl font-bold mb-2">Select Your Profile</h2>
+        <p id="profileModalDesc" class="sr-only">Choose an existing profile or create a new one.</p>
         <div id="profile-list" class="grid grid-cols-1 gap-3 mb-2"></div>
         <button id="add-profile-btn" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md mb-2">+ Add New Profile</button>
         <button id="close-profile" class="w-full bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg font-bold shadow">Close</button>
@@ -83,19 +90,21 @@
     </div>
 
     <!-- Add Profile Modal -->
-    <div id="add-profile-modal" class="modal-overlay" aria-modal="true" role="dialog">
+    <div id="add-profile-modal" class="modal-overlay" aria-modal="true" role="dialog" aria-labelledby="addProfileModalTitle" aria-describedby="addProfileModalDesc">
       <div class="modal-content w-full max-w-xs sm:max-w-md">
-        <h2 class="text-lg font-bold mb-2">Create Profile</h2>
+        <h2 id="addProfileModalTitle" class="text-lg font-bold mb-2">Create Profile</h2>
+        <p id="addProfileModalDesc" class="sr-only">Enter a name, choose an avatar and a theme.</p>
         <form id="add-profile-form" class="flex flex-col gap-3">
+          <label for="profile-name-input" class="font-semibold">Name</label>
           <input id="profile-name-input" type="text" maxlength="16" required placeholder="Name" class="rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
-          <div>
-            <label class="block font-semibold mb-1">Avatar</label>
-            <div id="avatar-choose-list" class="flex flex-wrap gap-2 justify-center"></div>
-          </div>
-          <div>
-            <label class="block font-semibold mb-1">Theme</label>
-            <div id="theme-choose-list" class="flex flex-wrap gap-2 justify-center"></div>
-          </div>
+          <fieldset>
+            <legend class="block font-semibold mb-1">Avatar</legend>
+            <div id="avatar-choose-list" class="flex flex-wrap gap-2 justify-center" role="radiogroup" aria-label="Choose avatar"></div>
+          </fieldset>
+          <fieldset>
+            <legend class="block font-semibold mb-1">Theme</legend>
+            <div id="theme-choose-list" class="flex flex-wrap gap-2 justify-center" role="radiogroup" aria-label="Choose theme"></div>
+          </fieldset>
           <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md mt-1">Create</button>
           <button type="button" id="cancel-add-profile" class="w-full bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg font-bold shadow">Cancel</button>
         </form>
@@ -103,9 +112,9 @@
     </div>
 
     <!-- Shop Modal -->
-    <div id="shop-modal" class="modal-overlay" aria-modal="true" role="dialog">
+    <div id="shop-modal" class="modal-overlay" aria-modal="true" role="dialog" aria-labelledby="shopModalTitle">
       <div class="modal-content">
-        <h2 class="text-xl font-bold mb-4">Item Shop</h2>
+        <h2 id="shopModalTitle" class="text-xl font-bold mb-4">Item Shop</h2>
         <div class="flex flex-col gap-2 mb-4">
           <button class="shop-item btn-modal bg-yellow-400" data-type="avatar" data-cost="10">New Avatar Frame (10 🪙)</button>
           <button class="shop-item btn-modal bg-yellow-400" data-type="theme" data-cost="15">Background Theme (15 🪙)</button>
@@ -114,17 +123,17 @@
       </div>
     </div>
     <!-- Sticker Book Modal -->
-    <div id="stickerbook-modal" class="modal-overlay" aria-modal="true" role="dialog">
+    <div id="stickerbook-modal" class="modal-overlay" aria-modal="true" role="dialog" aria-labelledby="stickerbookModalTitle">
       <div class="modal-content">
-        <h2 class="text-xl font-bold mb-4">Sticker Book</h2>
+        <h2 id="stickerbookModalTitle" class="text-xl font-bold mb-4">Sticker Book</h2>
         <div id="stickerbook-content" class="flex flex-wrap justify-center gap-3"></div>
         <button id="close-stickerbook" class="btn-modal bg-gray-300 text-gray-800 mt-4">Close</button>
       </div>
     </div>
     <!-- Settings Modal -->
-    <div id="settings-modal" class="modal-overlay" aria-modal="true" role="dialog">
+    <div id="settings-modal" class="modal-overlay" aria-modal="true" role="dialog" aria-labelledby="settingsModalTitle">
       <div class="modal-content">
-        <h2 class="text-xl font-bold mb-4">Settings</h2>
+        <h2 id="settingsModalTitle" class="text-xl font-bold mb-4">Settings</h2>
         <label class="flex items-center gap-2 mb-2">
           <input type="checkbox" id="dyslexia-mode"> Dyslexia-Friendly Font
         </label>
@@ -135,9 +144,9 @@
       </div>
     </div>
     <!-- Daily Challenge Modal -->
-    <div id="daily-challenge-modal" class="modal-overlay" aria-modal="true" role="dialog">
+    <div id="daily-challenge-modal" class="modal-overlay" aria-modal="true" role="dialog" aria-labelledby="dailyChallengeModalTitle">
       <div class="modal-content">
-        <h2 class="text-xl font-bold mb-4">Today's Challenge!</h2>
+        <h2 id="dailyChallengeModalTitle" class="text-xl font-bold mb-4">Today's Challenge!</h2>
         <p id="daily-challenge-question" class="mb-4"></p>
         <button id="start-daily-challenge" class="btn-modal bg-pink-500">Start</button>
         <button id="close-daily-challenge" class="btn-modal bg-gray-300 text-gray-800">Close</button>
@@ -145,13 +154,16 @@
     </div>
     <div id="fireworks-container"></div>
     <div id="cookie-banner" class="fixed bottom-0 left-0 w-full bg-gray-900 text-white text-center py-3 px-4 z-[2000] hidden">
-      We use cookies to improve your experience. By continuing, you agree to our <a href="#" class="underline">cookie policy</a>.
+      We use cookies to improve your experience. By continuing, you agree to our 
+      <a href="/privacy-policy.html" class="underline">privacy policy</a>.
       <button id="accept-cookies" class="ml-4 bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white font-semibold">Accept</button>
     </div>
 
     <!-- Footer -->
     <footer class="w-full mt-auto py-4 px-2 bg-white/70 text-center text-sm text-gray-700">
-      <span>&copy; 2025 NounVerse. Made with ❤️ for kids. | <a href="#" class="underline text-blue-600">Privacy</a></span>
+      <span>&copy; 2025 NounVerse. Made with ❤️ for kids. | 
+        <a href="/privacy-policy.html" class="underline text-blue-600">Privacy</a>
+      </span>
     </footer>
 
     <script src="main.js"></script>
