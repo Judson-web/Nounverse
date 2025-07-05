@@ -9,83 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-    body {
-      font-family: "Inter", sans-serif;
-      background: linear-gradient(45deg, #FFD700, #FFA07A, #ADD8E6, #90EE90);
-      min-height: 100vh;
-    }
-    .star.active { opacity: 1 !important; transform: scale(1.2); transition: transform 0.3s, opacity 0.3s; }
-    .star { opacity: 0.3; transition: opacity 0.3s, transform 0.3s; }
-    .option-button:focus-visible { outline: 3px solid #4A90E2; outline-offset: 2px; }
-    .option-button {
-      display: block;
-      width: 100%;
-      margin: 0.5rem 0;
-      padding: 1rem 1.5rem;
-      background: #e0f2f7;
-      border: 2px solid #a7d9ee;
-      color: #2c3e50;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
-      outline: none;
-      text-align: left;
-    }
-    .option-button:hover:not(:disabled),
-    .option-button:focus-visible:not(:disabled) {
-      background: #d1ecf1;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-      transform: translateY(-1px) scale(1.01);
-    }
-    .option-button:active:not(:disabled) {
-      background: #a7d9ee;
-    }
-    .option-button.correct {
-      background: #d4edda;
-      border-color: #28a745;
-      color: #155724;
-    }
-    .option-button.incorrect {
-      background: #f8d7da;
-      border-color: #dc3545;
-      color: #721c24;
-    }
-    .option-button:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-      pointer-events: none;
-    }
-    .fun-fact {
-      background: #fffbe7;
-      border-left: 4px solid #ffd700;
-      padding: 0.75rem 1rem;
-      margin: 1rem 0 0.5rem 0;
-      border-radius: 0.5rem;
-      font-size: 1rem;
-      color: #7c6512;
-    }
-    .visually-hidden {
-      position: absolute !important;
-      height: 1px; width: 1px;
-      overflow: hidden;
-      clip: rect(1px, 1px, 1px, 1px);
-      white-space: nowrap;
-    }
-    /* Settings Modal Styles */
-    #settings-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0,0,0,0.4);
-    }
-    #settings-modal.hidden {
-      display: none;
-    }
+    /* ... (Your existing CSS or style.css is loaded) ... */
   </style>
 </head>
 <body class="min-h-screen flex flex-col bg-gradient-to-tr from-yellow-200 via-blue-100 to-green-100">
@@ -102,6 +26,7 @@
       <button id="open-shop" class="button bg-yellow-400 px-3 py-1 rounded shadow font-semibold text-white" aria-haspopup="dialog" aria-controls="shop-modal">Shop</button>
       <button id="open-stickerbook" class="button bg-green-400 px-3 py-1 rounded shadow font-semibold text-white" aria-haspopup="dialog" aria-controls="stickerbook-modal">Stickers</button>
       <button id="daily-challenge-btn" class="button bg-pink-400 px-3 py-1 rounded shadow font-semibold text-white" aria-haspopup="dialog" aria-controls="daily-modal">Daily</button>
+      <!-- Mute/Unmute Button -->
       <button id="sound-toggle-btn" class="button bg-blue-200 px-3 py-1 rounded shadow font-semibold text-blue-800 flex items-center gap-1" aria-pressed="false" aria-label="Mute sound">
         <span id="volume-icon" aria-hidden="true">🔊</span>
         <span id="mute-icon" class="hidden" aria-hidden="true">🔇</span>
@@ -186,6 +111,10 @@
       <button id="save-settings" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Save</button>
     </div>
   </div>
+
+  <!-- AUDIO ELEMENTS FOR FEEDBACK (replace src with your own files if needed) -->
+  <audio id="correct-sound" src="https://cdn.pixabay.com/audio/2022/07/26/audio_124bfae2b2.mp3" preload="auto"></audio>
+  <audio id="wrong-sound" src="https://cdn.pixabay.com/audio/2022/07/26/audio_124bfae2b2.mp3" preload="auto"></audio>
 
   <script src="main.js"></script>
 </body>
