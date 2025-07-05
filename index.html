@@ -57,7 +57,6 @@
       cursor: not-allowed;
       pointer-events: none;
     }
-    /* Fun Fact box */
     .fun-fact {
       background: #fffbe7;
       border-left: 4px solid #ffd700;
@@ -67,7 +66,6 @@
       font-size: 1rem;
       color: #7c6512;
     }
-    /* Accessibility: visually hidden */
     .visually-hidden {
       position: absolute !important;
       height: 1px; width: 1px;
@@ -110,9 +108,7 @@
 
       <!-- Quiz Content -->
       <div id="quiz-content" class="hidden" aria-live="polite">
-        <!-- Parental Control/Settings Modal Trigger (hidden for now) -->
         <button id="parental-controls-btn" class="visually-hidden" aria-haspopup="dialog" aria-controls="parental-modal">Parental Controls</button>
-
         <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
           <div>
             <span class="text-lg font-semibold">Score: </span>
@@ -132,7 +128,9 @@
         </div>
         <div class="mb-4">
           <div class="flex items-center justify-between mb-1">
-            <span class="text-sm font-medium text-gray-700">Question <span id="current-question">1</span> of <span id="total-questions">4</span></span>
+            <span class="text-sm font-medium text-gray-700">
+              Question <span id="current-question">1</span> of <span id="total-questions">10</span>
+            </span>
             <span id="timer-text" class="text-sm font-bold text-blue-600" aria-live="assertive">20s</span>
           </div>
           <div class="timer-bar w-full bg-gray-200 rounded h-2" aria-hidden="true">
