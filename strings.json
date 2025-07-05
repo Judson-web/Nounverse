@@ -26,18 +26,114 @@
     "haveAccount": "Already have an account? Login",
     "quizQuestions": [
       {
+        "id": 1,
         "question": "What is a group of lions called?",
         "options": ["Pride", "Flock", "School", "Pack"],
         "answer": 0,
         "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-        "explanation": "A group of lions is called a pride."
+        "explanation": "A group of lions is called a pride.",
+        "funFact": "Lion prides are usually made up of related females and their offspring, plus a small number of adult males.",
+        "difficulty": "easy",
+        "topic": "mammals"
       },
       {
+        "id": 2,
         "question": "What is a group of crows called?",
         "options": ["Murder", "Gaggle", "Pod", "Swarm"],
         "answer": 0,
         "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
-        "explanation": "A group of crows is called a murder."
+        "explanation": "A group of crows is called a murder.",
+        "funFact": "Crows are known for their intelligence and can use tools and solve complex problems.",
+        "difficulty": "medium",
+        "topic": "birds"
+      },
+      {
+        "id": 3,
+        "question": "What is a group of elephants called?",
+        "options": ["Herd", "Pod", "Pack", "Troop"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
+        "explanation": "A group of elephants is called a herd.",
+        "funFact": "Elephant herds are led by the oldest female, known as the matriarch.",
+        "difficulty": "easy",
+        "topic": "mammals"
+      },
+      {
+        "id": 4,
+        "question": "What is a group of zebras called?",
+        "options": ["Dazzle", "Herd", "Pride", "Swarm"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=400&q=80",
+        "explanation": "A group of zebras is called a dazzle.",
+        "funFact": "Zebras’ stripes help confuse predators when they move together in a dazzle.",
+        "difficulty": "medium",
+        "topic": "mammals"
+      },
+      {
+        "id": 5,
+        "question": "What is a group of dolphins called?",
+        "options": ["Pod", "School", "Troop", "Pack"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=400&q=80",
+        "explanation": "A group of dolphins is called a pod.",
+        "funFact": "Dolphins use unique whistles to identify and communicate with each other.",
+        "difficulty": "medium",
+        "topic": "mammals"
+      },
+      {
+        "id": 6,
+        "question": "What is a group of owls called?",
+        "options": ["Parliament", "Murder", "Flock", "Swarm"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1465101178521-c1a9136a3c8a?auto=format&fit=crop&w=400&q=80",
+        "explanation": "A group of owls is called a parliament.",
+        "funFact": "The term 'parliament' for owls comes from C.S. Lewis's description in The Chronicles of Narnia.",
+        "difficulty": "hard",
+        "topic": "birds"
+      },
+      {
+        "id": 7,
+        "question": "What is a group of flamingos called?",
+        "options": ["Stand", "Flock", "Pod", "Pride"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=400&q=80",
+        "explanation": "A group of flamingos is called a stand.",
+        "funFact": "Flamingos get their pink color from the food they eat, like shrimp and algae.",
+        "difficulty": "hard",
+        "topic": "birds"
+      },
+      {
+        "id": 8,
+        "question": "What is a group of frogs called?",
+        "options": ["Army", "Troop", "Pod", "Flock"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
+        "explanation": "A group of frogs is called an army.",
+        "funFact": "Frogs can breathe through their skin as well as their lungs.",
+        "difficulty": "medium",
+        "topic": "amphibians"
+      },
+      {
+        "id": 9,
+        "question": "What is a group of kangaroos called?",
+        "options": ["Mob", "Pack", "Troop", "Herd"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
+        "explanation": "A group of kangaroos is called a mob.",
+        "funFact": "A kangaroo can leap up to three times its own height in one jump.",
+        "difficulty": "medium",
+        "topic": "mammals"
+      },
+      {
+        "id": 10,
+        "question": "What is a group of ants called?",
+        "options": ["Colony", "Army", "Swarm", "Troop"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
+        "explanation": "A group of ants is called a colony.",
+        "funFact": "Ant colonies can have millions of members and work together as a superorganism.",
+        "difficulty": "easy",
+        "topic": "insects"
       }
     ]
   },
@@ -68,18 +164,114 @@
     "haveAccount": "¿Ya tienes una cuenta? Inicia sesión",
     "quizQuestions": [
       {
+        "id": 1,
         "question": "¿Cómo se llama un grupo de leones?",
         "options": ["Manada", "Bandada", "Escuela", "Manojo"],
         "answer": 0,
         "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-        "explanation": "Un grupo de leones se llama manada."
+        "explanation": "Un grupo de leones se llama manada.",
+        "funFact": "Las manadas de leones suelen estar formadas por hembras emparentadas y sus crías, además de algunos machos adultos.",
+        "difficulty": "easy",
+        "topic": "mamíferos"
       },
       {
+        "id": 2,
         "question": "¿Cómo se llama un grupo de cuervos?",
         "options": ["Parvada", "Bandada", "Pod", "Enjambre"],
         "answer": 0,
         "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
-        "explanation": "Un grupo de cuervos se llama parvada."
+        "explanation": "Un grupo de cuervos se llama parvada.",
+        "funFact": "Los cuervos son conocidos por su inteligencia y su capacidad para usar herramientas y resolver problemas complejos.",
+        "difficulty": "medium",
+        "topic": "aves"
+      },
+      {
+        "id": 3,
+        "question": "¿Cómo se llama un grupo de elefantes?",
+        "options": ["Manada", "Pod", "Manojo", "Tropa"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un grupo de elefantes se llama manada.",
+        "funFact": "Las manadas de elefantes son lideradas por la hembra más vieja, llamada matriarca.",
+        "difficulty": "easy",
+        "topic": "mamíferos"
+      },
+      {
+        "id": 4,
+        "question": "¿Cómo se llama un grupo de cebras?",
+        "options": ["Deslumbramiento", "Manada", "Manojo", "Enjambre"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un grupo de cebras se llama deslumbramiento.",
+        "funFact": "Las rayas de las cebras ayudan a confundir a los depredadores cuando se mueven juntas.",
+        "difficulty": "medium",
+        "topic": "mamíferos"
+      },
+      {
+        "id": 5,
+        "question": "¿Cómo se llama un grupo de delfines?",
+        "options": ["Pod", "Escuela", "Tropa", "Manada"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un grupo de delfines se llama pod.",
+        "funFact": "Los delfines utilizan silbidos únicos para identificarse y comunicarse entre sí.",
+        "difficulty": "medium",
+        "topic": "mamíferos"
+      },
+      {
+        "id": 6,
+        "question": "¿Cómo se llama un grupo de búhos?",
+        "options": ["Parlamento", "Parvada", "Bandada", "Enjambre"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1465101178521-c1a9136a3c8a?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un grupo de búhos se llama parlamento.",
+        "funFact": "El término 'parlamento' para los búhos proviene de la descripción de C.S. Lewis en Las Crónicas de Narnia.",
+        "difficulty": "hard",
+        "topic": "aves"
+      },
+      {
+        "id": 7,
+        "question": "¿Cómo se llama un grupo de flamencos?",
+        "options": ["Grupo", "Bandada", "Pod", "Manojo"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un grupo de flamencos se llama grupo.",
+        "funFact": "Los flamencos obtienen su color rosado de los alimentos que comen, como camarones y algas.",
+        "difficulty": "hard",
+        "topic": "aves"
+      },
+      {
+        "id": 8,
+        "question": "¿Cómo se llama un grupo de ranas?",
+        "options": ["Ejército", "Tropa", "Pod", "Bandada"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un grupo de ranas se llama ejército.",
+        "funFact": "Las ranas pueden respirar tanto por la piel como por los pulmones.",
+        "difficulty": "medium",
+        "topic": "anfibios"
+      },
+      {
+        "id": 9,
+        "question": "¿Cómo se llama un grupo de canguros?",
+        "options": ["Manada", "Manojo", "Tropa", "Grupo"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un grupo de canguros se llama manada.",
+        "funFact": "Un canguro puede saltar hasta tres veces su propia altura de un solo salto.",
+        "difficulty": "medium",
+        "topic": "mamíferos"
+      },
+      {
+        "id": 10,
+        "question": "¿Cómo se llama un grupo de hormigas?",
+        "options": ["Colonia", "Ejército", "Enjambre", "Tropa"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un grupo de hormigas se llama colonia.",
+        "funFact": "Las colonias de hormigas pueden tener millones de miembros y trabajar juntas como un superorganismo.",
+        "difficulty": "easy",
+        "topic": "insectos"
       }
     ]
   },
@@ -110,18 +302,114 @@
     "haveAccount": "Vous avez déjà un compte ? Connectez-vous",
     "quizQuestions": [
       {
+        "id": 1,
         "question": "Comment appelle-t-on un groupe de lions ?",
         "options": ["Troupe", "Vol", "École", "Meute"],
         "answer": 0,
         "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-        "explanation": "Un groupe de lions s'appelle une troupe."
+        "explanation": "Un groupe de lions s'appelle une troupe.",
+        "funFact": "Les troupes de lions sont généralement composées de femelles apparentées et de leurs petits, ainsi que de quelques mâles adultes.",
+        "difficulty": "easy",
+        "topic": "mammifères"
       },
       {
+        "id": 2,
         "question": "Comment appelle-t-on un groupe de corbeaux ?",
         "options": ["Volée", "Bande", "Pod", "Essaim"],
         "answer": 0,
         "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
-        "explanation": "Un groupe de corbeaux s'appelle une volée."
+        "explanation": "Un groupe de corbeaux s'appelle une volée.",
+        "funFact": "Les corbeaux sont connus pour leur intelligence et leur capacité à utiliser des outils et à résoudre des problèmes complexes.",
+        "difficulty": "medium",
+        "topic": "oiseaux"
+      },
+      {
+        "id": 3,
+        "question": "Comment appelle-t-on un groupe d'éléphants ?",
+        "options": ["Troupeau", "Pod", "Meute", "Bande"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un groupe d'éléphants s'appelle un troupeau.",
+        "funFact": "Les troupeaux d'éléphants sont dirigés par la femelle la plus âgée, appelée matriarche.",
+        "difficulty": "easy",
+        "topic": "mammifères"
+      },
+      {
+        "id": 4,
+        "question": "Comment appelle-t-on un groupe de zèbres ?",
+        "options": ["Éblouissement", "Troupeau", "Troupe", "Essaim"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un groupe de zèbres s'appelle un éblouissement.",
+        "funFact": "Les rayures des zèbres aident à dérouter les prédateurs lorsqu'ils se déplacent ensemble.",
+        "difficulty": "medium",
+        "topic": "mammifères"
+      },
+      {
+        "id": 5,
+        "question": "Comment appelle-t-on un groupe de dauphins ?",
+        "options": ["Banc", "École", "Bande", "Meute"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un groupe de dauphins s'appelle un banc.",
+        "funFact": "Les dauphins utilisent des sifflements uniques pour s'identifier et communiquer entre eux.",
+        "difficulty": "medium",
+        "topic": "mammifères"
+      },
+      {
+        "id": 6,
+        "question": "Comment appelle-t-on un groupe de hiboux ?",
+        "options": ["Parlement", "Volée", "Bande", "Essaim"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1465101178521-c1a9136a3c8a?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un groupe de hiboux s'appelle un parlement.",
+        "funFact": "Le terme 'parlement' pour les hiboux provient de la description de C.S. Lewis dans Les Chroniques de Narnia.",
+        "difficulty": "hard",
+        "topic": "oiseaux"
+      },
+      {
+        "id": 7,
+        "question": "Comment appelle-t-on un groupe de flamants roses ?",
+        "options": ["Troupe", "Volée", "Banc", "Troupeau"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un groupe de flamants roses s'appelle une troupe.",
+        "funFact": "Les flamants tirent leur couleur rose de la nourriture qu'ils mangent, comme les crevettes et les algues.",
+        "difficulty": "hard",
+        "topic": "oiseaux"
+      },
+      {
+        "id": 8,
+        "question": "Comment appelle-t-on un groupe de grenouilles ?",
+        "options": ["Armée", "Bande", "Banc", "Volée"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un groupe de grenouilles s'appelle une armée.",
+        "funFact": "Les grenouilles peuvent respirer par leur peau ainsi que par leurs poumons.",
+        "difficulty": "medium",
+        "topic": "amphibiens"
+      },
+      {
+        "id": 9,
+        "question": "Comment appelle-t-on un groupe de kangourous ?",
+        "options": ["Bande", "Meute", "Troupe", "Troupeau"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un groupe de kangourous s'appelle une bande.",
+        "funFact": "Un kangourou peut sauter jusqu'à trois fois sa propre hauteur en un seul bond.",
+        "difficulty": "medium",
+        "topic": "mammifères"
+      },
+      {
+        "id": 10,
+        "question": "Comment appelle-t-on un groupe de fourmis ?",
+        "options": ["Colonie", "Armée", "Essaim", "Troupe"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un groupe de fourmis s'appelle une colonie.",
+        "funFact": "Les colonies de fourmis peuvent compter des millions de membres et fonctionner comme un superorganisme.",
+        "difficulty": "easy",
+        "topic": "insectes"
       }
     ]
   },
@@ -152,19 +440,19 @@
     "haveAccount": "पहले से खाता है? लॉगिन करें",
     "quizQuestions": [
       {
+        "id": 1,
         "question": "शेरों के समूह को क्या कहते हैं?",
         "options": ["प्राइड", "झुंड", "स्कूल", "पैक"],
         "answer": 0,
         "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-        "explanation": "शेरों के समूह को प्राइड कहते हैं।"
+        "explanation": "शेरों के समूह को प्राइड कहते हैं।",
+        "funFact": "शेरों के झुंड में आमतौर पर आपस में संबंधित मादाएं और उनके बच्चे तथा कुछ नर होते हैं।",
+        "difficulty": "easy",
+        "topic": "स्तनधारी"
       },
       {
+        "id": 2,
         "question": "कौवों के समूह को क्या कहते हैं?",
         "options": ["झुंड", "बंडल", "पॉड", "झुंड"],
         "answer": 0,
-        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
-        "explanation": "कौवों के समूह को झुंड कहते हैं।"
-      }
-    ]
-  }
-}
+        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854
