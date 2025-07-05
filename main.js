@@ -1,5 +1,5 @@
-// --- Utility Functions ---
-function $(sel) { return document.getElementById(sel); }
+// Utility Functions
+function $(id) { return document.getElementById(id); }
 function $q(sel) { return document.querySelector(sel); }
 function $qa(sel) { return document.querySelectorAll(sel); }
 function debounce(fn, delay = 300) {
@@ -19,8 +19,7 @@ function safeParse(key, fallback) {
     }
 }
 
-// --- Modal Logic (Focus trap, Esc close, only one open) ---
-const MODAL_CLASS = 'modal-overlay';
+// Modal Logic (Focus trap, Esc-close, one open at a time)
 function openModal(id) {
     closeAllModals();
     const modal = $(id);
@@ -33,11 +32,11 @@ function openModal(id) {
     }
 }
 function closeAllModals() {
-    $qa('.' + MODAL_CLASS + '.visible').forEach(m => m.classList.remove('visible'));
+    $qa('.modal-overlay.visible').forEach(m => m.classList.remove('visible'));
 }
 document.addEventListener('keydown', function(e) {
     if (e.key === "Escape") closeAllModals();
-    // Focus trap for open modal
+    // Focus trap
     const openModalEl = $q('.modal-overlay.visible .modal-content');
     if (openModalEl && (e.key === "Tab" || e.keyCode === 9)) {
         const focusable = openModalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
@@ -58,7 +57,7 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// --- Splash Screen Logic ---
+// Splash Screen Logic
 window.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
         if ($('splash-screen')) $('splash-screen').style.display = 'none';
@@ -68,7 +67,7 @@ window.addEventListener('DOMContentLoaded', function() {
     }, 1000);
 });
 
-// --- Profile System ---
+// Profile System
 const avatarList = [
     "https://api.dicebear.com/6.x/personas/svg?seed=Cat",
     "https://api.dicebear.com/6.x/personas/svg?seed=Dog",
@@ -213,7 +212,7 @@ function startQuizAfterProfileSelection() {
     startQuiz();
 }
 
-// --- Quiz Logic ---
+// Quiz Logic
 const quizQuestions = [
     {
         question: "What is a group of lions called?",
@@ -353,7 +352,7 @@ function showQuizEnd() {
     if (restartBtn) restartBtn.onclick = () => startQuiz();
 }
 
-// --- Timer and Progress Bar ---
+// Timer and Progress Bar
 function startTimer(seconds) {
     let timeLeft = seconds;
     updateTimerUI(timeLeft, seconds);
@@ -400,7 +399,7 @@ function handleTimeUp() {
     if ($('hint-button')) $('hint-button').disabled = true;
 }
 
-// --- Streak Stars ---
+// Streak Stars
 function updateStreakStars() {
     const stars = $qa('.streak-stars .star');
     for (let i = 0; i < stars.length; i++) {
@@ -412,7 +411,7 @@ function updateStreakStars() {
     }
 }
 
-// --- Hint System ---
+// Hint System
 function showHint() {
     const q = quizQuestions[currentQuestion];
     const optionButtons = $qa('.option-button');
@@ -429,7 +428,7 @@ function showHint() {
     if ($('hint-button')) $('hint-button').disabled = true;
 }
 
-// --- Cookie Banner (defensive) ---
+// Cookie Banner
 function showCookieBanner() {
     if (!localStorage.getItem('cookiesAccepted')) {
         const banner = $('cookie-banner');
