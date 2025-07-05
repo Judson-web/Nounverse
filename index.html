@@ -5,191 +5,93 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Collective Nouns Quiz for Kids</title>
   <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2Faecc661b69309290f600.ico?alt=media&token=1283a192-a304-4ecd-8f69-26f4abd0407d" type="image/x-icon">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
 </head>
-<body class="min-h-screen flex flex-col bg-gradient-to-tr from-yellow-200 via-blue-100 to-green-100">
-
-  <a href="#quiz-container" class="visually-hidden focus:not-sr-only">Skip to main content</a>
+<body>
+  <!-- Splash Screen -->
+  <div id="splash-screen" class="splash-screen">
+    <img src="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2F1676172615227.gif?alt=media&token=c3f8a658-e590-4324-a37c-ab3b6f0abff8" alt="Loading" style="width:80px;height:80px;margin-bottom:1em;">
+    <p class="text-lg font-semibold text-blue-600">Loading Quiz...</p>
+  </div>
 
   <!-- Header -->
-  <header class="w-full py-4 px-4 flex flex-col sm:flex-row justify-between items-center fixed top-0 left-0 z-20 bg-white/80 backdrop-blur shadow">
-    <h1 class="text-2xl font-bold text-blue-700 mb-2 sm:mb-0">Collective Nouns Quiz</h1>
-    <div class="flex flex-wrap gap-2">
-      <button id="profile-btn" class="button bg-indigo-100 px-3 py-1 rounded shadow font-semibold text-indigo-800" aria-haspopup="dialog" aria-controls="profile-modal">Profile</button>
-      <button id="open-settings" class="button bg-gray-300 px-3 py-1 rounded shadow font-semibold text-gray-800" aria-haspopup="dialog" aria-controls="settings-modal">Settings</button>
-      <button id="open-shop" class="button bg-yellow-400 px-3 py-1 rounded shadow font-semibold text-white" aria-haspopup="dialog" aria-controls="shop-modal">Shop</button>
-      <button id="open-stickerbook" class="button bg-green-400 px-3 py-1 rounded shadow font-semibold text-white" aria-haspopup="dialog" aria-controls="stickerbook-modal">Stickers</button>
-      <button id="daily-challenge-btn" class="button bg-pink-400 px-3 py-1 rounded shadow font-semibold text-white" aria-haspopup="dialog" aria-controls="daily-modal">Daily</button>
-      <button id="sound-toggle-btn" class="button bg-blue-200 px-3 py-1 rounded shadow font-semibold text-blue-800 flex items-center gap-1" aria-pressed="false" aria-label="Mute sound">
-        <span id="volume-icon" aria-hidden="true">🔊</span>
-        <span id="mute-icon" class="hidden" aria-hidden="true">🔇</span>
+  <header class="header">
+    <h1>Collective Nouns Quiz</h1>
+    <div class="header-btns">
+      <button id="profile-btn">Profile</button>
+      <button id="open-settings">Settings</button>
+      <button id="sound-toggle-btn" aria-pressed="false">
+        <span id="volume-icon">🔊</span>
+        <span id="mute-icon" class="hidden">🔇</span>
         <span id="sound-tooltip" class="hidden sm:inline">Mute Sound</span>
       </button>
     </div>
   </header>
 
   <!-- Main Quiz Area -->
-  <main class="flex flex-col items-center justify-center flex-grow w-full px-4 pt-28 pb-8">
-    <div id="quiz-container" class="quiz-container p-6 sm:p-10 rounded-2xl shadow-2xl w-full max-w-xl bg-white/90 relative" tabindex="-1">
-      <div id="splash-screen" class="absolute inset-0 bg-white/90 rounded-2xl flex flex-col items-center justify-center z-50">
-        <img src="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2F1676172615227.gif?alt=media&token=c3f8a658-e590-4324-a37c-ab3b6f0abff8" alt="Quiz loading animation" class="w-20 h-20 mb-4">
-        <p class="text-lg font-semibold text-blue-600 animate-pulse">Loading Quiz...</p>
+  <main>
+    <div id="quiz-content" class="quiz-container hidden">
+      <div class="score-streak-bar">
+        <span>Score: <span id="score">0</span></span>
+        <span>Streak: <span id="streak">0</span></span>
       </div>
-      <div id="quiz-content" class="hidden" aria-live="polite">
-        <button id="parental-controls-btn" class="visually-hidden" aria-haspopup="dialog" aria-controls="parental-modal">Parental Controls</button>
-        <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
-          <div>
-            <span class="text-lg font-semibold">Score: </span>
-            <span id="score" class="pop-animation text-lg font-bold text-green-700">0</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="text-lg font-semibold">Streak: </span>
-            <span id="streak" class="pop-animation text-lg font-bold text-yellow-700">0</span>
-            <span class="streak-stars flex gap-1 ml-2" aria-label="Streak stars">
-              <span class="star" aria-hidden="true">⭐</span>
-              <span class="star" aria-hidden="true">⭐</span>
-              <span class="star" aria-hidden="true">⭐</span>
-              <span class="star" aria-hidden="true">⭐</span>
-              <span class="star" aria-hidden="true">⭐</span>
-            </span>
-          </div>
-        </div>
-        <div class="mb-4">
-          <div class="flex items-center justify-between mb-1">
-            <span class="text-sm font-medium text-gray-700">
-              Question <span id="current-question">1</span> of <span id="total-questions">10</span>
-            </span>
-            <span id="timer-text" class="text-sm font-bold text-blue-600" aria-live="assertive">20s</span>
-          </div>
-          <div class="timer-bar w-full bg-gray-200 rounded h-2" aria-hidden="true">
-            <div id="timer-bar-fill" class="timer-bar-fill bg-green-500 h-2 rounded"></div>
-          </div>
-        </div>
-        <div id="question-area"></div>
-        <div id="fun-fact-box" class="fun-fact hidden" aria-live="polite"></div>
+      <div class="timer-bar">
+        <span id="timer-text">20s</span>
+        <div id="timer-bar-fill"></div>
       </div>
+      <div class="question-meta">
+        <span>Question <span id="current-question">1</span> of <span id="total-questions">10</span></span>
+      </div>
+      <div id="question-area"></div>
+      <div id="fun-fact-box" class="fun-fact hidden"></div>
     </div>
   </main>
 
-  <footer class="w-full mt-auto py-4 px-2 bg-white/70 text-center text-sm text-gray-700">
-    &copy; 2025 NounVerse. Made with ❤️ for kids. |
-    <a href="/privacy-policy.html" class="underline text-blue-600">Privacy</a> |
-    <a href="/accessibility.html" class="underline text-blue-600">Accessibility Statement</a>
-  </footer>
-
-  <!-- SETTINGS MODAL -->
-  <div id="settings-modal" class="hidden">
-    <div class="bg-white rounded-xl p-6 w-80 shadow-xl relative">
-      <button id="close-settings-modal" class="absolute top-2 right-3 text-xl font-bold">&times;</button>
-      <h2 class="text-xl font-semibold mb-4">Settings</h2>
-      <form id="settings-form">
-        <div class="mb-4">
-          <label class="switch">
-            <input type="checkbox" id="sound-effects-toggle" checked>
-            <span class="slider"></span>
-            <span>Enable Sound Effects</span>
-          </label>
-        </div>
-        <div class="mb-4">
-          <span class="block mb-1 font-medium">Font Size:</span>
-          <div class="flex gap-3">
-            <button type="button" class="toggle-btn" data-font="small">Small</button>
-            <button type="button" class="toggle-btn active" data-font="medium">Medium</button>
-            <button type="button" class="toggle-btn" data-font="large">Large</button>
-          </div>
-        </div>
-        <div class="mb-4">
-          <label class="block mb-1 font-medium">Number of Questions:</label>
-          <select id="quiz-length-setting" class="border rounded px-2 py-1 w-full">
-            <option value="5">5</option>
-            <option value="10" selected>10</option>
-            <option value="15">15</option>
-            <option value="all">All</option>
-          </select>
-        </div>
-        <div class="mb-4">
-          <label class="block mb-1 font-medium">Theme:</label>
-          <div class="flex gap-3">
-            <button type="button" class="toggle-btn theme-btn" data-theme="dark">Dark</button>
-            <button type="button" class="toggle-btn theme-btn" data-theme="ocean">Ocean</button>
-            <button type="button" class="toggle-btn theme-btn" data-theme="sunset">Sunset</button>
-          </div>
-        </div>
-        <div class="mb-4">
-          <label class="block mb-1 font-medium">Language:</label>
-          <select id="language-setting" class="border rounded px-2 py-1 w-full">
-            <option value="en" selected>English</option>
-            <option value="es">Español</option>
-          </select>
-        </div>
-        <div class="mb-4">
-          <label class="switch">
-            <input type="checkbox" id="animations-toggle" checked>
-            <span class="slider"></span>
-            <span>Enable Animations</span>
-          </label>
-        </div>
-        <div class="mb-4">
-          <button id="reset-progress-btn" type="button" class="material-btn enable-btn bg-red-500 text-white">Reset All Progress</button>
-        </div>
-        <button id="save-settings" type="submit" class="mt-4 material-btn enable-btn">Save</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- PROFILE MODAL -->
-  <div id="profile-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-    <div class="bg-white rounded-xl p-6 w-full max-w-lg shadow-xl relative flex flex-col items-center">
-      <button id="close-profile-modal" class="absolute top-2 right-3 text-xl font-bold material-btn">&times;</button>
-      <div class="mb-4 flex flex-col items-center">
-        <img id="profile-avatar" src="https://mui.com/static/images/avatar/1.jpg" alt="Profile Avatar" class="rounded-full shadow-md" style="width:80px;height:80px;object-fit:cover;">
+  <!-- Profile Modal -->
+  <div id="profile-modal" class="modal hidden">
+    <div class="modal-content">
+      <button id="close-profile-modal" class="close-btn">&times;</button>
+      <div class="profile-avatar-section">
+        <img id="profile-avatar" src="https://mui.com/static/images/avatar/1.jpg" alt="Profile Avatar">
         <input type="file" id="avatar-upload" accept="image/*" class="hidden" />
-        <div class="flex gap-2 mt-2">
-          <button id="edit-avatar-btn" class="material-btn text-xs px-3 py-1">Change Photo</button>
-          <button id="emoji-avatar-btn" class="material-btn text-xs px-3 py-1" title="Pick Emoji Avatar">😀</button>
+        <div class="avatar-btns">
+          <button id="edit-avatar-btn">Change Photo</button>
+          <button id="emoji-avatar-btn" title="Pick Emoji Avatar">😀</button>
         </div>
       </div>
-      <form id="profile-form" class="w-full flex flex-col items-center gap-3">
-        <div class="w-full">
-          <label for="profile-display-name" class="block text-sm font-medium text-gray-700 mb-1">Display Name</label>
-          <input id="profile-display-name" type="text" class="material-input w-full" maxlength="24" autocomplete="off" />
+      <form id="profile-form">
+        <label>Display Name
+          <input id="profile-display-name" type="text" maxlength="24" autocomplete="off" />
+        </label>
+        <label>Username
+          <input id="profile-username" type="text" readonly />
+        </label>
+        <div class="profile-row">
+          <label>Birthday
+            <input id="profile-birthday" type="date" />
+          </label>
+          <label>Age
+            <input id="profile-age" type="number" min="1" max="120" />
+          </label>
         </div>
-        <div class="w-full">
-          <label for="profile-username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
-          <input id="profile-username" type="text" class="material-input w-full bg-gray-100" readonly />
-        </div>
-        <div class="w-full flex gap-2">
-          <div class="flex-1">
-            <label for="profile-birthday" class="block text-sm font-medium text-gray-700 mb-1">Birthday</label>
-            <input id="profile-birthday" type="date" class="material-input w-full" />
-          </div>
-          <div class="flex-1">
-            <label for="profile-age" class="block text-sm font-medium text-gray-700 mb-1">Age</label>
-            <input id="profile-age" type="number" min="1" max="120" class="material-input w-full" />
-          </div>
-        </div>
-        <div class="w-full">
-          <label for="profile-pronouns" class="block text-sm font-medium text-gray-700 mb-1">Pronouns</label>
-          <select id="profile-pronouns" class="material-input w-full">
+        <label>Pronouns
+          <select id="profile-pronouns">
             <option value="">Prefer not to say</option>
             <option value="she/her">She/Her</option>
             <option value="he/him">He/Him</option>
             <option value="they/them">They/Them</option>
             <option value="custom">Custom...</option>
           </select>
-          <input id="profile-pronouns-custom" type="text" class="material-input w-full mt-1 hidden" maxlength="24" placeholder="Enter your pronouns" />
-        </div>
-        <div class="w-full flex gap-2">
-          <div class="flex-1">
-            <label for="profile-fav-color" class="block text-sm font-medium text-gray-700 mb-1">Favorite Color</label>
-            <input id="profile-fav-color" type="color" class="material-input w-full" value="#1976d2" />
-          </div>
-          <div class="flex-1">
-            <label for="profile-fav-animal" class="block text-sm font-medium text-gray-700 mb-1">Favorite Animal</label>
-            <select id="profile-fav-animal" class="material-input w-full">
+          <input id="profile-pronouns-custom" type="text" class="hidden" maxlength="24" placeholder="Enter your pronouns" />
+        </label>
+        <div class="profile-row">
+          <label>Favorite Color
+            <input id="profile-fav-color" type="color" value="#1976d2" />
+          </label>
+          <label>Favorite Animal
+            <select id="profile-fav-animal">
               <option value="">Select...</option>
               <option value="Lion">Lion</option>
               <option value="Dolphin">Dolphin</option>
@@ -200,46 +102,102 @@
               <option value="Ant">Ant</option>
               <option value="Other">Other</option>
             </select>
+          </label>
+        </div>
+        <label>Custom Greeting
+          <input id="profile-greeting" type="text" maxlength="48" placeholder="e.g. Ready for a quiz adventure!" />
+        </label>
+        <div class="profile-stats">
+          <div>
+            <span class="material-icons">star</span>
+            <span id="profile-score">0</span>
+            <span>Score</span>
+          </div>
+          <div>
+            <span class="material-icons">whatshot</span>
+            <span id="profile-streak">0</span>
+            <span>Streak</span>
+          </div>
+          <div>
+            <span class="material-icons">quiz</span>
+            <span id="profile-quizzes">0</span>
+            <span>Quizzes</span>
           </div>
         </div>
-        <div class="w-full">
-          <label for="profile-greeting" class="block text-sm font-medium text-gray-700 mb-1">Custom Greeting</label>
-          <input id="profile-greeting" type="text" class="material-input w-full" maxlength="48" placeholder="e.g. Ready for a quiz adventure!" />
+        <div class="profile-badges">
+          <span title="First Quiz"><span class="material-icons">emoji_events</span></span>
+          <span title="Streak 5"><span class="material-icons">military_tech</span></span>
         </div>
-        <div class="w-full flex flex-col items-center mt-3">
-          <div class="flex gap-3 mb-2">
-            <div class="profile-stat-card">
-              <span class="material-icons" style="font-size:1.3em;color:#43a047;">star</span>
-              <span id="profile-score" class="font-bold ml-1">0</span>
-              <span class="text-xs ml-1">Score</span>
-            </div>
-            <div class="profile-stat-card">
-              <span class="material-icons" style="font-size:1.3em;color:#fbc02d;">whatshot</span>
-              <span id="profile-streak" class="font-bold ml-1">0</span>
-              <span class="text-xs ml-1">Streak</span>
-            </div>
-            <div class="profile-stat-card">
-              <span class="material-icons" style="font-size:1.3em;color:#1976d2;">quiz</span>
-              <span id="profile-quizzes" class="font-bold ml-1">0</span>
-              <span class="text-xs ml-1">Quizzes</span>
-            </div>
-          </div>
-          <div class="flex gap-2 mb-2">
-            <!-- Example badges, update dynamically in JS -->
-            <span class="inline-block" title="First Quiz"><span class="material-icons" style="color:#ffb300;">emoji_events</span></span>
-            <span class="inline-block" title="Streak 5"><span class="material-icons" style="color:#43a047;">military_tech</span></span>
-          </div>
+        <label>Profile PIN
+          <input id="profile-pin" type="password" maxlength="6" autocomplete="off" placeholder="Optional" />
+          <span class="profile-pin-note">(for parental lock)</span>
+        </label>
+        <div class="profile-actions">
+          <button type="submit" class="save-btn">Save</button>
+          <button type="button" id="cancel-profile-edit" class="cancel-btn">Cancel</button>
         </div>
-        <div class="w-full flex gap-2 items-center mt-2">
-          <label for="profile-pin" class="block text-sm font-medium text-gray-700">Profile PIN</label>
-          <input id="profile-pin" type="password" class="material-input w-24" maxlength="6" autocomplete="off" placeholder="Optional" />
-          <span class="text-xs text-gray-400">(for parental lock)</span>
+        <div class="profile-accessibility">
+          <button type="button" id="profile-accessibility-font" title="Font Size">A</button>
+          <button type="button" id="profile-accessibility-theme" title="Theme">🌗</button>
+          <button type="button" id="profile-accessibility-language" title="Language">🌐</button>
         </div>
-        <div class="flex gap-3 mt-5">
-          <button type="submit" class="material-btn bg-blue-600 text-white px-5 py-2 rounded">Save</button>
-          <button type="button" id="cancel-profile-edit" class="material-btn bg-gray-200 text-gray-800 px-5 py-2 rounded">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal hidden">
+    <div class="modal-content">
+      <button id="close-settings-modal" class="close-btn">&times;</button>
+      <h2>Settings</h2>
+      <form id="settings-form">
+        <label>
+          <input type="checkbox" id="sound-effects-toggle" checked>
+          Enable Sound Effects
+        </label>
+        <div>
+          <span>Font Size:</span>
+          <button type="button" class="toggle-btn" data-font="small">Small</button>
+          <button type="button" class="toggle-btn active" data-font="medium">Medium</button>
+          <button type="button" class="toggle-btn" data-font="large">Large</button>
         </div>
-        <div class="flex gap-2 mt-5">
-          <button type="button" id="profile-accessibility-font" class="toggle-btn" title="Font Size">A</button>
-          <button type="button" id="profile-accessibility-theme" class="toggle-btn" title="Theme">🌗</button>
-          <button type="button" id="profile-accessibility-language" class="toggle-btn" title
+        <label>
+          Number of Questions:
+          <select id="quiz-length-setting">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="15">15</option>
+            <option value="all">All</option>
+          </select>
+        </label>
+        <div>
+          <span>Theme:</span>
+          <button type="button" class="toggle-btn theme-btn" data-theme="dark">Dark</button>
+          <button type="button" class="toggle-btn theme-btn" data-theme="ocean">Ocean</button>
+          <button type="button" class="toggle-btn theme-btn" data-theme="sunset">Sunset</button>
+        </div>
+        <label>
+          Language:
+          <select id="language-setting">
+            <option value="en" selected>English</option>
+            <option value="es">Español</option>
+          </select>
+        </label>
+        <label>
+          <input type="checkbox" id="animations-toggle" checked>
+          Enable Animations
+        </label>
+        <button id="reset-progress-btn" type="button" class="reset-btn">Reset All Progress</button>
+        <button id="save-settings" type="submit" class="save-btn">Save</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Audio for feedback -->
+  <audio id="correct-sound" src="https://cdn.pixabay.com/audio/2022/10/16/audio_12c3fae3f2.mp3" preload="auto"></audio>
+  <audio id="wrong-sound" src="https://cdn.pixabay.com/audio/2022/10/16/audio_12c3fae3f2.mp3" preload="auto"></audio>
+
+  <!-- Main JS -->
+  <script src="main.js"></script>
+</body>
+</html>
