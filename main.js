@@ -32,6 +32,8 @@ let settings = JSON.parse(localStorage.getItem('settings')) || {
 // ===== Cached DOM Elements =====
 const dom = {
     splash: $('splash-screen'),
+    startScreen: $('start-screen'),
+    startQuizBtn: $('start-quiz-btn'),
     quizContent: $('quiz-content'),
     score: $('score'),
     streak: $('streak'),
@@ -86,6 +88,7 @@ const dom = {
     soundTooltip: $('sound-tooltip'),
     // Dialog & Snackbar
     dialog: $('inbuilt-dialog'),
+    dialogIcon: document.querySelector('.inbuilt-dialog-icon'),
     dialogTitle: $('dialog-title'),
     dialogMessage: $('dialog-message'),
     dialogCancel: $('dialog-cancel'),
@@ -118,8 +121,21 @@ window.addEventListener('DOMContentLoaded', function() {
     setupSettingsUI();
     setupProfileUI();
     if (dom.splash) dom.splash.style.display = 'none';
-    if (dom.quizContent) dom.quizContent.classList.remove('hidden');
-    startQuiz();
+
+    // Show start screen, hide quiz content
+    if (dom.startScreen && dom.quizContent) {
+        dom.startScreen.classList.remove('hidden');
+        dom.quizContent.classList.add('hidden');
+    }
+
+    // Start Quiz button logic
+    if (dom.startQuizBtn && dom.quizContent && dom.startScreen) {
+        dom.startQuizBtn.onclick = function() {
+            dom.startScreen.classList.add('hidden');
+            dom.quizContent.classList.remove('hidden');
+            startQuiz();
+        };
+    }
 });
 
 // ===== Quiz Functions =====
@@ -456,6 +472,7 @@ if (dom.settingsForm) {
 if (dom.resetProgressBtn) {
     dom.resetProgressBtn.onclick = function() {
         showDialog({
+            icon: "⚠️",
             title: "Reset Progress",
             message: "Are you sure you want to reset all progress? This cannot be undone.",
             confirmText: "Yes, Reset",
@@ -475,97 +492,4 @@ function applySettings() {
     document.documentElement.style.fontSize =
         settings.fontSize === 'small' ? '15px' :
         settings.fontSize === 'large' ? '19px' : '17px';
-    document.body.classList.toggle('animations-off', !settings.animations);
-}
-
-// ===== Sound Toggle Logic =====
-let isMuted = false;
-
-if (dom.soundToggleBtn) {
-    dom.soundToggleBtn.onclick = function() {
-        isMuted = !isMuted;
-        dom.soundToggleBtn.setAttribute('aria-pressed', isMuted);
-        if (isMuted) {
-            dom.volumeIcon.classList.add('hidden');
-            dom.muteIcon.classList.remove('hidden');
-            if (dom.soundTooltip) dom.soundTooltip.textContent = "Unmute Sound";
-            muteAllAudio();
-        } else {
-            dom.volumeIcon.classList.remove('hidden');
-            dom.muteIcon.classList.add('hidden');
-            if (dom.soundTooltip) dom.soundTooltip.textContent = "Mute Sound";
-            unmuteAllAudio();
-        }
-    };
-}
-function muteAllAudio() {
-    document.querySelectorAll('audio').forEach(audio => { audio.muted = true; });
-}
-function unmuteAllAudio() {
-    document.querySelectorAll('audio').forEach(audio => { audio.muted = false; });
-}
-function playSound(id) {
-    if (isMuted || !settings.soundEffects) return;
-    const sound = $(id);
-    if (sound) {
-        sound.currentTime = 0;
-        sound.play().catch(()=>{});
-    }
-}
-
-// ===== UI Setup =====
-function setupSettingsUI() {
-    dom.fontSizeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.font === settings.fontSize));
-    dom.themeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.theme === settings.theme));
-}
-function setupProfileUI() {
-    if (dom.displayNameInput && dom.usernameInput) {
-        let debounce;
-        dom.displayNameInput.addEventListener('input', function() {
-            clearTimeout(debounce);
-            debounce = setTimeout(() => {
-                dom.usernameInput.value = generateUsername(dom.displayNameInput.value);
-            }, 200);
-        });
-    }
-}
-
-// ===== Inbuilt Dialog Logic =====
-function showDialog({title, message, confirmText = "OK", cancelText = "Cancel", onConfirm, onCancel}) {
-    if (!dom.dialog) return;
-    dom.dialogTitle.textContent = title || '';
-    dom.dialogMessage.textContent = message || '';
-    dom.dialogConfirm.textContent = confirmText;
-    dom.dialogCancel.textContent = cancelText;
-    dom.dialog.classList.remove('hidden');
-
-    function cleanup() {
-        dom.dialog.classList.add('hidden');
-        dom.dialogConfirm.onclick = null;
-        dom.dialogCancel.onclick = null;
-        dom.dialog.onclick = null;
-    }
-    dom.dialogConfirm.onclick = function() {
-        cleanup();
-        if (onConfirm) onConfirm();
-    };
-    dom.dialogCancel.onclick = function() {
-        cleanup();
-        if (onCancel) onCancel();
-    };
-    dom.dialog.onclick = function(e) {
-        if (e.target === dom.dialog) cleanup();
-    };
-}
-
-// ===== Snackbar/Toast Notification =====
-function showSnackbar(message, duration = 2000) {
-    if (!dom.snackbar) return;
-    dom.snackbar.textContent = message;
-    dom.snackbar.classList.add('show');
-    dom.snackbar.classList.remove('hidden');
-    setTimeout(() => {
-        dom.snackbar.classList.remove('show');
-        setTimeout(() => dom.snackbar.classList.add('hidden'), 350);
-    }, duration);
-}
+    docu
