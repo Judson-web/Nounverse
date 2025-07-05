@@ -63,7 +63,8 @@ const quizQuestions = [
 ];
 
 // ====== Quiz Logic ======
-let current = 0, score = 0, streak = 0, timer = null, timeTotal = 20;
+let current = 0, score = 0, streak = 0, timer = null;
+let timeTotal = 20; // Default timer value, can be changed in settings
 
 window.addEventListener('DOMContentLoaded', function() {
     // Defensive: check for splash and quiz-content
@@ -211,3 +212,37 @@ function hideFunFact() {
     box.classList.add('hidden');
     box.textContent = '';
 }
+
+// ====== Settings Modal Logic ======
+const settingsBtn = document.getElementById('open-settings');
+const settingsModal = document.getElementById('settings-modal');
+const closeSettingsBtn = document.getElementById('close-settings-modal');
+const timerSettingInput = document.getElementById('timer-setting');
+const saveSettingsBtn = document.getElementById('save-settings');
+
+if (settingsBtn && settingsModal) {
+    settingsBtn.onclick = () => {
+        // Set current timer value in input
+        if (timerSettingInput) timerSettingInput.value = timeTotal;
+        settingsModal.classList.remove('hidden');
+    };
+}
+if (closeSettingsBtn && settingsModal) {
+    closeSettingsBtn.onclick = () => settingsModal.classList.add('hidden');
+}
+if (saveSettingsBtn && settingsModal) {
+    saveSettingsBtn.onclick = () => {
+        // Update timer duration
+        if (timerSettingInput) {
+            let val = parseInt(timerSettingInput.value, 10);
+            if (!isNaN(val) && val >= 5 && val <= 60) {
+                timeTotal = val;
+            }
+        }
+        settingsModal.classList.add('hidden');
+    };
+}
+// Optional: Close modal when clicking outside the box
+settingsModal?.addEventListener('click', (e) => {
+    if (e.target === settingsModal) settingsModal.classList.add('hidden');
+});
