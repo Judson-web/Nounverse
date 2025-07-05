@@ -14,7 +14,6 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* Header */
 header {
     background-color: rgba(255,255,255,0.8);
     -webkit-backdrop-filter: blur(5px);
@@ -31,7 +30,6 @@ header {
     flex-wrap: wrap;
 }
 
-/* Quiz Container */
 .quiz-container {
     background: rgba(255,255,255,0.95);
     border-radius: 1.25rem;
@@ -41,7 +39,6 @@ header {
     margin: 0 auto;
 }
 
-/* Option Buttons */
 .option-button {
     transition: all 0.3s;
     background: #e0f2f7;
@@ -89,7 +86,6 @@ header {
     pointer-events: none;
 }
 
-/* Timer Bar & Progress */
 .timer-bar {
     background: #e0e0e0;
     border-radius: 5px;
@@ -105,7 +101,6 @@ header {
 .timer-bar-fill.warning { background: #FFC107; }
 .timer-bar-fill.danger  { background: #DC3545; }
 
-/* Score and Streak */
 .pop-animation {
     animation: pop 0.3s;
 }
@@ -143,7 +138,6 @@ header {
     100% { opacity: 0; transform: translate(-50%,-50%) scale(0.8);}
 }
 
-/* Modals */
 .modal-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -173,7 +167,6 @@ header {
     opacity: 1;
 }
 
-/* Cookie Banner */
 #cookie-banner {
     position: fixed;
     bottom: 0; left: 0; width: 100%;
@@ -198,58 +191,6 @@ header {
 }
 #cookie-banner button:hover { background: #45a049;}
 
-/* Profile Cards */
-.profile-card {
-    background: #f0f9ff;
-    border: 2px solid #a7d9ee;
-    border-radius: 10px;
-    padding: 0.75rem;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-    gap: 0.5rem;
-}
-.profile-card:hover {
-    background: #e0f2f7;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.09);
-}
-.profile-card.selected-profile {
-    border-color: #4A90E2;
-    box-shadow: 0 0 0 3px rgba(74,144,226,0.32);
-    transform: scale(1.02);
-}
-.profile-card img {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    margin-right: 0.75rem;
-    object-fit: cover;
-    border: 2px solid #eee;
-}
-.profile-card .delete-profile-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background: #ef4444;
-    color: white;
-    border-radius: 50%;
-    width: 22px;
-    height: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    font-weight: bold;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.2s;
-}
-.profile-card:hover .delete-profile-btn { opacity: 1; }
-
-/* Footer */
 footer {
     background: rgba(255,255,255,0.7);
     color: #444;
@@ -260,7 +201,6 @@ footer {
     margin-top: auto;
 }
 
-/* Responsive Tweaks */
 @media (max-width: 640px) {
     .quiz-container, .modal-content {
         padding: 1rem !important;
@@ -270,11 +210,6 @@ footer {
     .option-button {
         font-size: 1rem !important;
         padding: 0.75rem 0.5rem !important;
-    }
-    .profile-card img {
-        width: 36px !important;
-        height: 36px !important;
-        margin-right: 0.5rem !important;
     }
     header {
         flex-direction: column !important;
