@@ -65,7 +65,6 @@ const dom = {
     scoreStat: $('profile-score'),
     streakStat: $('profile-streak'),
     quizzesStat: $('profile-quizzes'),
-    // Badges and accessibility
     accessibilityFont: $('profile-accessibility-font'),
     accessibilityTheme: $('profile-accessibility-theme'),
     accessibilityLanguage: $('profile-accessibility-language'),
@@ -113,11 +112,10 @@ window.addEventListener('DOMContentLoaded', function() {
     updateProfileInfo();
     setupSettingsUI();
     setupProfileUI();
-    setTimeout(function() {
-        dom.splash.style.display = 'none';
-        dom.quizContent.classList.remove('hidden');
-        startQuiz();
-    }, 900);
+    // Hide splash and show quiz when DOM is ready
+    dom.splash.style.display = 'none';
+    dom.quizContent.classList.remove('hidden');
+    startQuiz();
 });
 
 // ====== Quiz Functions ======
@@ -305,7 +303,7 @@ if (dom.profileForm) {
     dom.profileForm.onsubmit = function(e) {
         e.preventDefault();
         userProfile.displayName = dom.displayNameInput.value.trim() || 'Guest';
-        userProfile.username = dom.usernameInput.value.trim() || generateUsername(userProfile.displayName);
+        userProfile.username = dom.usernameInput.value.trim() || generateUsername(dom.displayNameInput.value);
         userProfile.birthday = dom.birthdayInput.value;
         userProfile.age = dom.ageInput.value;
         userProfile.pronouns = dom.pronounsSelect.value;
@@ -461,3 +459,34 @@ if (dom.resetProgressBtn) {
     };
 }
 function applySettings() {
+    document.body.classList.remove('dark', 'theme-ocean', 'theme-sunset');
+    if (settings.theme === 'dark') document.body.classList.add('dark');
+    if (settings.theme === 'ocean') document.body.classList.add('theme-ocean');
+    if (settings.theme === 'sunset') document.body.classList.add('theme-sunset');
+    document.documentElement.style.fontSize =
+        settings.fontSize === 'small' ? '15px' :
+        settings.fontSize === 'large' ? '19px' : '17px';
+    document.body.classList.toggle('animations-off', !settings.animations);
+}
+
+// ====== Sound Toggle Logic ======
+let isMuted = false;
+if (dom.soundToggleBtn) {
+    dom.soundToggleBtn.onclick = function() {
+        isMuted = !isMuted;
+        dom.soundToggleBtn.setAttribute('aria-pressed', isMuted);
+        if (isMuted) {
+            dom.volumeIcon.classList.add('hidden');
+            dom.muteIcon.classList.remove('hidden');
+            if (dom.soundTooltip) dom.soundTooltip.textContent = "Unmute Sound";
+            muteAllAudio();
+        } else {
+            dom.volumeIcon.classList.remove('hidden');
+            dom.muteIcon.classList.add('hidden');
+            if (dom.soundTooltip) dom.soundTooltip.textContent = "Mute Sound";
+            unmuteAllAudio();
+        }
+    };
+}
+function muteAllAudio() {
+    document.querySelectorAll('audio')
