@@ -45,6 +45,7 @@ if (isNaN(currentProfileIndex) || currentProfileIndex < 0) currentProfileIndex =
 
 function showProfileSelection() {
   if (!$('profile-modal')) return;
+  closeAllModals();
   $('profile-modal').classList.add('visible');
   renderProfileList();
   if ($('add-profile-btn')) $('add-profile-btn').onclick = showAddProfileModal;
@@ -63,10 +64,10 @@ function renderProfileList() {
     const div = document.createElement('div');
     div.className = 'profile-card' + (idx === currentProfileIndex ? ' selected-profile' : '');
     div.innerHTML = `
-      <img src="${profile.avatar || avatarList[0]}" alt="Avatar">
+      <img src="${profile.avatar || avatarList[0]}" alt="User avatar">
       <span class="font-semibold">${profile.name}</span>
       <span class="profile-theme-sample" style="background:${profile.theme || themeList[0].color}"></span>
-      <button class="delete-profile-btn" title="Delete Profile">&times;</button>
+      <button class="delete-profile-btn" title="Delete Profile" aria-label="Delete Profile">&times;</button>
     `;
     div.onclick = () => selectProfile(idx);
     const delBtn = div.querySelector('.delete-profile-btn');
@@ -76,7 +77,7 @@ function renderProfileList() {
 }
 
 function showAddProfileModal() {
-  if ($('profile-modal')) $('profile-modal').classList.remove('visible');
+  closeAllModals();
   if ($('add-profile-modal')) $('add-profile-modal').classList.add('visible');
   renderAvatarThemeChoices();
   if ($('add-profile-form')) {
@@ -111,30 +112,34 @@ function renderAvatarThemeChoices() {
   if (avatarListDiv) {
     avatarListDiv.innerHTML = '';
     avatarList.forEach((url, i) => {
-      const img = document.createElement('img');
-      img.src = url;
-      img.className = 'avatar-choose-img rounded-full border-2 border-gray-300 cursor-pointer' + (i === 0 ? ' selected' : '');
-      img.dataset.idx = i;
-      img.onclick = function() {
+      const label = document.createElement('label');
+      label.className = 'avatar-choose-img' + (i === 0 ? ' selected' : '');
+      label.setAttribute('tabindex', '0');
+      label.setAttribute('aria-label', `Avatar ${i+1}`);
+      label.innerHTML = `<input type="radio" name="avatar" class="sr-only" ${i === 0 ? 'checked' : ''} data-idx="${i}">
+        <img src="${url}" alt="Avatar ${i+1}" class="rounded-full border-2 border-gray-300 cursor-pointer">`;
+      label.onclick = function() {
         $qa('.avatar-choose-img').forEach(i => i.classList.remove('selected'));
         this.classList.add('selected');
       };
-      avatarListDiv.appendChild(img);
+      avatarListDiv.appendChild(label);
     });
   }
   const themeListDiv = $('theme-choose-list');
   if (themeListDiv) {
     themeListDiv.innerHTML = '';
     themeList.forEach((t, i) => {
-      const span = document.createElement('span');
-      span.className = 'theme-choose-sample rounded-full border-2 border-gray-300 cursor-pointer w-7 h-7 inline-block' + (i === 0 ? ' selected' : '');
-      span.dataset.idx = i;
-      span.style.background = t.color;
-      span.onclick = function() {
+      const label = document.createElement('label');
+      label.className = 'theme-choose-sample' + (i === 0 ? ' selected' : '');
+      label.setAttribute('tabindex', '0');
+      label.setAttribute('aria-label', `Theme ${t.name}`);
+      label.innerHTML = `<input type="radio" name="theme" class="sr-only" ${i === 0 ? 'checked' : ''} data-idx="${i}">
+        <span style="background:${t.color}; display:inline-block; width:28px; height:28px; border-radius:50%;"></span>`;
+      label.onclick = function() {
         $qa('.theme-choose-sample').forEach(s => s.classList.remove('selected'));
         this.classList.add('selected');
       };
-      themeListDiv.appendChild(span);
+      themeListDiv.appendChild(label);
     });
   }
 }
@@ -179,6 +184,33 @@ function startQuizAfterProfileSelection() {
   if ($('quiz-content')) $('quiz-content').classList.remove('hidden');
   startQuiz(false);
 }
+
+// --- Modal Accessibility: Focus Trap & Esc-Close ---
+function closeAllModals() {
+  $qa('.modal-overlay.visible').forEach(m => m.classList.remove('visible'));
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === "Escape") closeAllModals();
+  // Focus trap for open modal
+  const openModal = $q('.modal-overlay.visible .modal-content');
+  if (openModal && (e.key === "Tab" || e.keyCode === 9)) {
+    const focusable = openModal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) {
+        last.focus();
+        e.preventDefault();
+      }
+    } else {
+      if (document.activeElement === last) {
+        first.focus();
+        e.preventDefault();
+      }
+    }
+  }
+});
 
 // --- Quiz Logic ---
 const quizQuestions = [
@@ -236,8 +268,8 @@ function renderQuizQuestion() {
     <h2 class="text-xl font-bold mb-4">${q.question}</h2>
     <div id="options-list" class="mb-4"></div>
     <div class="flex justify-between items-center">
-      <button id="hint-button" class="px-3 py-1 rounded">Hint (2 🪙)</button>
-      <button id="next-btn" class="bg-blue-500 text-white px-4 py-2 rounded hidden">Next</button>
+      <button id="hint-button" class="px-3 py-1 rounded" aria-label="Get a hint">Hint (2 🪙)</button>
+      <button id="next-btn" class="bg-blue-500 text-white px-4 py-2 rounded hidden" aria-label="Next question">Next</button>
     </div>
   `;
 
@@ -250,6 +282,7 @@ function renderQuizQuestion() {
       btn.type = 'button';
       btn.className = 'option-button w-full mb-2 py-2 px-3 rounded';
       btn.textContent = opt;
+      btn.setAttribute('aria-label', opt);
       btn.onclick = () => handleOptionClick(idx, btn);
       optionsList.appendChild(btn);
     });
@@ -317,6 +350,7 @@ function startTimer(seconds) {
   let timeLeft = seconds;
   updateTimerUI(timeLeft, seconds);
 
+  if (timerInterval) clearInterval(timerInterval);
   timerInterval = setInterval(() => {
     timeLeft--;
     updateTimerUI(timeLeft, seconds);
