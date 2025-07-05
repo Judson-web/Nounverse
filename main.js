@@ -1,4 +1,4 @@
-// ===== Utility =====
+// ===== Utility Functions =====
 function $(id) { return document.getElementById(id); }
 function show(el) { el && el.classList.remove('hidden'); }
 function hide(el) { el && el.classList.add('hidden'); }
@@ -9,19 +9,20 @@ let LANG = 'en';
 let STRINGS = {};
 let quizSet = [];
 let current = 0, score = 0, streak = 0, timer = null;
-let userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}') || {};
-let settings = JSON.parse(localStorage.getItem('settings') || '{}') || {};
-let users = JSON.parse(localStorage.getItem('users') || '{}') || {};
 let isDaily = false;
 let quizInProgress = false;
 let isMuted = false;
+let users = JSON.parse(localStorage.getItem('users') || '{}') || {};
+let userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}') || {};
+let settings = JSON.parse(localStorage.getItem('settings') || '{}') || {};
 
-// ===== Load Strings and Init =====
+// ===== Load Strings and Initialize =====
 fetch('strings.json')
   .then(res => res.json())
   .then(strings => {
     STRINGS = strings;
     LANG = localStorage.getItem('lang') || 'en';
+    if (!STRINGS[LANG]) LANG = 'en';
     updateAllStrings();
     setupEventListeners();
     hide($('splash-screen'));
@@ -31,6 +32,7 @@ fetch('strings.json')
 
 // ===== Language Switching =====
 function updateAllStrings() {
+  if (!STRINGS[LANG]) LANG = 'en';
   const S = STRINGS[LANG];
   setText('app-title', S.appTitle);
   setText('welcome-title', S.welcomeTitle);
@@ -51,10 +53,8 @@ function updateAllStrings() {
   setText('auth-submit', S.login);
   setText('auth-switch', S.dontHaveAccount);
   setText('of', S.of);
-  // Selects
   if ($('language-selector')) $('language-selector').value = LANG;
   if ($('language-setting')) $('language-setting').value = LANG;
-  // If quiz in progress, update question in new language
   if (quizInProgress) showQuestion();
 }
 
