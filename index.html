@@ -5,50 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collective Nouns Quiz for Kids</title>
     <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2Faecc661b69309290f600.ico?alt=media&token=1283a192-a304-4ecd-8f69-26f4abd0407d" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            background: linear-gradient(45deg, #FFD700, #FFA07A, #ADD8E6, #90EE90);
+            min-height: 100vh;
+        }
+        .star.active { opacity: 1 !important; }
+        .star { opacity: 0.3; transition: opacity 0.3s; }
+        .option-button:focus-visible { outline: 3px solid #4A90E2; outline-offset: 2px; }
+    </style>
 </head>
-<body>
-    <header>
-        <h1>Collective Nouns Quiz</h1>
-        <div>
-            <button id="profile-btn" class="button" aria-label="Profile">Profile</button>
-            <button id="open-settings" class="button" aria-label="Settings">Settings</button>
-            <button id="open-shop" class="button" aria-label="Shop">Shop</button>
-            <button id="open-stickerbook" class="button" aria-label="Stickerbook">Stickers</button>
-            <button id="daily-challenge-btn" class="button" aria-label="Daily Challenge">Daily</button>
+<body class="min-h-screen flex flex-col bg-gradient-to-tr from-yellow-200 via-blue-100 to-green-100">
+
+    <!-- Header -->
+    <header class="w-full py-4 px-4 flex flex-col sm:flex-row justify-between items-center fixed top-0 left-0 z-20 bg-white/80 backdrop-blur shadow">
+        <h1 class="text-2xl font-bold text-blue-700 mb-2 sm:mb-0">Collective Nouns Quiz</h1>
+        <div class="flex flex-wrap gap-2">
+            <button id="profile-btn" class="button bg-indigo-100 px-3 py-1 rounded shadow font-semibold text-indigo-800">Profile</button>
+            <button id="open-settings" class="button bg-gray-300 px-3 py-1 rounded shadow font-semibold text-gray-800">Settings</button>
+            <button id="open-shop" class="button bg-yellow-400 px-3 py-1 rounded shadow font-semibold text-white">Shop</button>
+            <button id="open-stickerbook" class="button bg-green-400 px-3 py-1 rounded shadow font-semibold text-white">Stickers</button>
+            <button id="daily-challenge-btn" class="button bg-pink-400 px-3 py-1 rounded shadow font-semibold text-white">Daily</button>
         </div>
     </header>
-    <main>
-        <div id="quiz-container" class="quiz-container">
-            <div id="splash-screen">
-                <img src="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2F1676172615227.gif?alt=media&token=c3f8a658-e590-4324-a37c-ab3b6f0abff8" alt="Loading animation" style="width: 80px; height: 80px; display: block; margin: 0 auto;">
-                <p>Loading Quiz...</p>
+
+    <!-- Main Quiz Area -->
+    <main class="flex flex-col items-center justify-center flex-grow w-full px-4 pt-28 pb-8">
+        <div id="quiz-container" class="quiz-container p-6 sm:p-10 rounded-2xl shadow-2xl w-full max-w-xl bg-white/90 relative">
+            <div id="splash-screen" class="absolute inset-0 bg-white/90 rounded-2xl flex flex-col items-center justify-center z-50">
+                <img src="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2F1676172615227.gif?alt=media&token=c3f8a658-e590-4324-a37c-ab3b6f0abff8" alt="Quiz loading animation" class="w-20 h-20 mb-4">
+                <p class="text-lg font-semibold text-blue-600 animate-pulse">Loading Quiz...</p>
             </div>
-            <div id="quiz-content" class="hidden">
-                <div>
-                    <span>Score: <span id="score">0</span></span>
-                    <span>Streak: <span id="streak">0</span></span>
-                    <span class="streak-stars">
-                        <span class="star">⭐</span>
-                        <span class="star">⭐</span>
-                        <span class="star">⭐</span>
-                        <span class="star">⭐</span>
-                        <span class="star">⭐</span>
-                    </span>
+
+            <div id="quiz-content" class="hidden" aria-live="polite">
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
+                    <div>
+                        <span class="text-lg font-semibold">Score: </span>
+                        <span id="score" class="pop-animation text-lg font-bold text-green-700">0</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg font-semibold">Streak: </span>
+                        <span id="streak" class="pop-animation text-lg font-bold text-yellow-700">0</span>
+                        <span class="streak-stars flex gap-1 ml-2">
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-sm font-medium text-gray-700">Question <span id="current-question">1</span> of <span id="total-questions">4</span></span>
+                        <span id="timer-text" class="text-sm font-bold text-blue-600">20s</span>
+                    </div>
+                    <div class="timer-bar w-full bg-gray-200 rounded h-2">
+                        <div id="timer-bar-fill" class="timer-bar-fill bg-green-500 h-2 rounded"></div>
+                    </div>
                 </div>
                 <div id="question-area"></div>
             </div>
         </div>
-        <!-- Example profile card for tap target testing -->
-        <div class="profile-card" style="margin-top:2em;">
-            <img src="https://placekitten.com/48/48" alt="Avatar">
-            <span>Jane Doe</span>
-            <button class="delete-profile-btn" aria-label="Delete profile">&times;</button>
-        </div>
     </main>
-    <footer>
-        &copy; 2025 NounVerse. GNU GPL Licensed.
+
+    <footer class="w-full mt-auto py-4 px-2 bg-white/70 text-center text-sm text-gray-700">
+        &copy; 2025 NounVerse. Made with ❤️ for kids. | 
+        <a href="/privacy-policy.html" class="underline text-blue-600">Privacy</a>
     </footer>
     <script src="main.js"></script>
 </body>
