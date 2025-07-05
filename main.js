@@ -1,4 +1,4 @@
-// ===== Utility Shortcuts =====
+7// ===== Utility Shortcuts =====
 function $(id) { return document.getElementById(id); }
 function saveProfile() { localStorage.setItem('userProfile', JSON.stringify(userProfile)); }
 function saveSettings() { localStorage.setItem('settings', JSON.stringify(settings)); }
