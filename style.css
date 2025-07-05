@@ -1,211 +1,178 @@
-/* ===== Modal Overlay and Content ===== */
-.modal-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(0,0,0,0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
-}
-.modal-overlay.visible {
-    opacity: 1;
-    pointer-events: auto;
-}
-.modal-content {
-    background: #fff;
-    padding: 2rem 1.5rem 1.5rem 1.5rem;
-    border-radius: 1rem;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.22);
-    max-width: 95vw;
-    width: 400px;
-    text-align: center;
-    position: relative;
-    outline: none;
-    transform: translateY(-24px);
-    opacity: 0;
-    transition: transform 0.3s, opacity 0.3s;
-}
-.modal-overlay.visible .modal-content {
-    transform: translateY(0);
-    opacity: 1;
-}
-#close-modal-btn {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 1.7rem;
-    background: none;
-    border: none;
-    color: #888;
-    cursor: pointer;
-    transition: color 0.2s;
-}
-#close-modal-btn:hover, #close-modal-btn:focus-visible {
-    color: #f44336;
-    outline: 2px solid #f44336;
-}
-@media (max-width: 600px) {
-    .modal-content {
-        padding: 1.2rem 0.5rem 1rem 0.5rem;
-        width: 95vw;
-    }
+/* ===== Base Styles ===== */
+body {
+  font-family: "Inter", Arial, sans-serif;
+  background: linear-gradient(45deg, #FFD700, #FFA07A, #ADD8E6, #90EE90);
+  min-height: 100vh;
+  margin: 0;
 }
 
 /* ===== Option Buttons ===== */
-.option-button:focus-visible {
-    outline: 3px solid #4A90E2;
-    outline-offset: 2px;
-}
 .option-button {
-    display: block;
-    width: 100%;
-    margin: 0.5rem 0;
-    padding: 1rem 1.5rem;
-    background: #e0f2f7;
-    border: 2px solid #a7d9ee;
-    color: #2c3e50;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
-    outline: none;
-    text-align: left;
+  display: block;
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 1rem 1.5rem;
+  background: #e0f2f7;
+  border: 2px solid #a7d9ee;
+  color: #2c3e50;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  outline: none;
+  text-align: left;
 }
 .option-button:hover:not(:disabled),
 .option-button:focus-visible:not(:disabled) {
-    background: #d1ecf1;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-    transform: translateY(-1px) scale(1.01);
+  background: #d1ecf1;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  transform: translateY(-1px) scale(1.01);
 }
 .option-button:active:not(:disabled) {
-    background: #a7d9ee;
+  background: #a7d9ee;
 }
 .option-button.correct {
-    background: #d4edda;
-    border-color: #28a745;
-    color: #155724;
-    animation: pop-correct 0.3s;
+  background: #d4edda;
+  border-color: #28a745;
+  color: #155724;
 }
 .option-button.incorrect {
-    background: #f8d7da;
-    border-color: #dc3545;
-    color: #721c24;
-    animation: shake 0.3s;
+  background: #f8d7da;
+  border-color: #dc3545;
+  color: #721c24;
 }
 .option-button:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-@keyframes pop-correct {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.08); }
-    100% { transform: scale(1); }
-}
-@keyframes shake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    75% { transform: translateX(-5px); }
-    100% { transform: translateX(0); }
-}
-
-/* ===== Streak Stars ===== */
-.streak-stars .star {
-    font-size: 1.4rem;
-    opacity: 0.3;
-    transition: opacity 0.3s, transform 0.3s;
-    transform: scale(1);
-}
-.streak-stars .star.active {
-    opacity: 1 !important;
-    color: #FFD700;
-    transform: scale(1.2) rotate(-10deg);
-    text-shadow: 0 0 8px #ffe066;
-    animation: star-pop 0.4s;
-}
-@keyframes star-pop {
-    0% { transform: scale(1) rotate(0deg); }
-    60% { transform: scale(1.3) rotate(-10deg); }
-    100% { transform: scale(1.2) rotate(-10deg); }
+  opacity: 0.7;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* ===== Timer Bar ===== */
 .timer-bar {
-    background: #e5e7eb;
-    border-radius: 1rem;
-    height: 0.5rem;
-    overflow: hidden;
+  width: 100%;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 1em;
+  overflow: hidden;
 }
-.timer-bar-fill {
-    background: #38bdf8;
-    height: 100%;
-    border-radius: 1rem;
-    transition: width 0.4s, background 0.2s;
+#timer-bar-fill {
+  height: 8px;
+  background: #38bdf8;
+  border-radius: 4px;
+  width: 100%;
+  transition: width 0.3s;
 }
-.timer-bar-fill.warning {
-    background: #facc15;
+#timer-bar-fill.warning {
+  background: #fbbf24;
 }
-.timer-bar-fill.danger {
-    background: #f87171;
+#timer-bar-fill.danger {
+  background: #ef4444;
 }
 
 /* ===== Fun Fact Box ===== */
-.fun-fact {
-    background: #fffbe7;
-    border-left: 4px solid #ffd700;
-    padding: 0.75rem 1rem;
-    margin: 1rem 0 0.5rem 0;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    color: #7c6512;
-    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.07);
-    transition: opacity 0.3s;
-    opacity: 1;
+.fun-fact,
+#fun-fact-box {
+  background: #fffbe7;
+  border-left: 4px solid #ffd700;
+  padding: 0.75rem 1rem;
+  margin: 1rem 0 0.5rem 0;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  color: #7c6512;
 }
-.fun-fact.hidden {
-    opacity: 0;
-    pointer-events: none;
+#fun-fact-box.hidden {
+  display: none;
 }
 
-/* ===== Accessibility: Visually Hidden ===== */
+/* ===== Splash Screen ===== */
+#splash-screen {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  font-size: 1.5em;
+}
+
+/* ===== Modal Overlay (for settings, etc.) ===== */
+#settings-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.4);
+}
+#settings-modal.hidden {
+  display: none;
+}
+#settings-modal .bg-white {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  min-width: 260px;
+  max-width: 90vw;
+  position: relative;
+}
+#settings-modal h2 {
+  margin-top: 0;
+}
+#close-settings-modal {
+  position: absolute;
+  top: 0.6rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+#close-settings-modal:hover {
+  color: #f87171;
+}
+#timer-setting {
+  font-size: 1rem;
+  padding: 0.3em 0.5em;
+  border: 1px solid #d1d5db;
+  border-radius: 0.35em;
+  width: 100%;
+  box-sizing: border-box;
+}
+#save-settings {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.6em 1.2em;
+  border-radius: 0.5em;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1em;
+  transition: background 0.2s;
+}
+#save-settings:hover {
+  background: #1d4ed8;
+}
+
+/* ===== Visually Hidden (for accessibility) ===== */
 .visually-hidden {
-    position: absolute !important;
-    height: 1px; width: 1px;
-    overflow: hidden;
-    clip: rect(1px, 1px, 1px, 1px);
-    white-space: nowrap;
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
 }
 
-/* ===== Responsive Quiz Container ===== */
-.quiz-container {
-    box-sizing: border-box;
-    background: rgba(255,255,255,0.92);
-    border-radius: 1.5rem;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.10);
-}
-@media (max-width: 500px) {
-    .quiz-container {
-        padding: 1rem !important;
-        border-radius: 0.8rem;
-    }
-}
-
-/* ===== Misc ===== */
-body {
-    min-height: 100vh;
-    background: linear-gradient(45deg, #FFD700, #FFA07A, #ADD8E6, #90EE90);
-}
-header {
-    backdrop-filter: blur(4px);
-}
-footer {
-    backdrop-filter: blur(2px);
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  #quiz-container, #quiz-content, #settings-modal .bg-white {
+    padding: 1em 0.5em 1em 0.5em;
+    min-width: unset;
+  }
 }
