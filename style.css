@@ -14,16 +14,6 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* Accessibility: Reduce motion for those who prefer it */
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
-}
-
 /* Header */
 header {
     background-color: rgba(255,255,255,0.8);
@@ -83,17 +73,17 @@ header {
     outline-offset: 2px;
 }
 .option-button.correct {
-    background: #b8e6c1;
-    border-color: #218838;
+    background: #d4edda;
+    border-color: #28a745;
     color: #155724;
 }
 .option-button.incorrect {
-    background: #f5b7b1;
-    border-color: #c82333;
+    background: #f8d7da;
+    border-color: #dc3545;
     color: #721c24;
 }
-.option-button.disabled,
-.option-button:disabled {
+.option-button:disabled,
+.option-button.disabled {
     opacity: 0.7;
     cursor: not-allowed;
     pointer-events: none;
@@ -233,24 +223,6 @@ header {
 .modal-overlay.visible .modal-content {
     transform: translateY(0);
     opacity: 1;
-}
-
-/* Sticker Book */
-.sticker {
-    font-size: 2em;
-    border: 2px solid #eee;
-    border-radius: 8px;
-    padding: 0.5em;
-    background: #f9f9f9;
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.sticker.collected {
-    background: #90EE90;
-    border-color: #4CAF50;
 }
 
 /* Cookie Banner */
