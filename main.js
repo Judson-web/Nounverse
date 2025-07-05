@@ -1,100 +1,45 @@
-// ====== Persistent User Profile ======
+// ====== User Profile Data ======
 let userProfile = JSON.parse(localStorage.getItem('userProfile')) || {
     name: 'Guest',
     age: '',
     avatar: 'https://mui.com/static/images/avatar/1.jpg'
 };
 
+// ====== Settings Defaults ======
+let settings = JSON.parse(localStorage.getItem('settings')) || {
+    soundEffects: true,
+    fontSize: 'medium',
+    quizLength: 10,
+    theme: 'light',
+    language: 'en',
+    animations: true
+};
+
 // ====== Quiz Data ======
 const quizQuestions = [
-    {
-        question: "What is a group of lions called?",
-        options: ["Pride", "Flock", "School", "Pack"],
-        answer: 0,
-        funFact: "A group of lions is called a 'pride' because they live together as a family group."
-    },
-    {
-        question: "What is a group of crows called?",
-        options: ["Murder", "Gaggle", "Pod", "Swarm"],
-        answer: 0,
-        funFact: "A group of crows is called a 'murder'—the name comes from old folk tales and superstitions!"
-    },
-    {
-        question: "What is a group of dolphins called?",
-        options: ["Pod", "Troop", "Army", "Parliament"],
-        answer: 0,
-        funFact: "A group of dolphins is called a 'pod.' Dolphins are very social animals!"
-    },
-    {
-        question: "What is a group of bees called?",
-        options: ["Swarm", "Flock", "Herd", "Pack"],
-        answer: 0,
-        funFact: "A group of bees is called a 'swarm.' Swarms are usually seen when bees are searching for a new home."
-    },
-    {
-        question: "What is a group of owls called?",
-        options: ["Parliament", "Flock", "Colony", "Pack"],
-        answer: 0,
-        funFact: "A group of owls is called a 'parliament'—the name was popularized by C.S. Lewis in his books!"
-    },
-    {
-        question: "What is a group of flamingos called?",
-        options: ["Flamboyance", "Gaggle", "Herd", "Pod"],
-        answer: 0,
-        funFact: "A group of flamingos is called a 'flamboyance' because of their bright pink feathers."
-    },
-    {
-        question: "What is a group of whales called?",
-        options: ["Pod", "School", "Troop", "Murder"],
-        answer: 0,
-        funFact: "Whales travel in groups called 'pods' to communicate and protect each other."
-    },
-    {
-        question: "What is a group of frogs called?",
-        options: ["Army", "Swarm", "Pack", "Colony"],
-        answer: 0,
-        funFact: "A group of frogs is called an 'army' because they often move together in large numbers."
-    },
-    {
-        question: "What is a group of kangaroos called?",
-        options: ["Mob", "Pack", "Herd", "Troop"],
-        answer: 0,
-        funFact: "A group of kangaroos is called a 'mob'—they use this group for protection."
-    },
-    {
-        question: "What is a group of ants called?",
-        options: ["Colony", "Swarm", "Herd", "Pack"],
-        answer: 0,
-        funFact: "A group of ants is called a 'colony' because they live and work together underground."
-    }
+    // ... (same as before, 10+ questions)
+    { question: "What is a group of lions called?", options: ["Pride", "Flock", "School", "Pack"], answer: 0, funFact: "A group of lions is called a 'pride' because they live together as a family group." },
+    { question: "What is a group of crows called?", options: ["Murder", "Gaggle", "Pod", "Swarm"], answer: 0, funFact: "A group of crows is called a 'murder'—the name comes from old folk tales and superstitions!" },
+    { question: "What is a group of dolphins called?", options: ["Pod", "Troop", "Army", "Parliament"], answer: 0, funFact: "A group of dolphins is called a 'pod.' Dolphins are very social animals!" },
+    { question: "What is a group of bees called?", options: ["Swarm", "Flock", "Herd", "Pack"], answer: 0, funFact: "A group of bees is called a 'swarm.' Swarms are usually seen when bees are searching for a new home." },
+    { question: "What is a group of owls called?", options: ["Parliament", "Flock", "Colony", "Pack"], answer: 0, funFact: "A group of owls is called a 'parliament'—the name was popularized by C.S. Lewis in his books!" },
+    { question: "What is a group of flamingos called?", options: ["Flamboyance", "Gaggle", "Herd", "Pod"], answer: 0, funFact: "A group of flamingos is called a 'flamboyance' because of their bright pink feathers." },
+    { question: "What is a group of whales called?", options: ["Pod", "School", "Troop", "Murder"], answer: 0, funFact: "Whales travel in groups called 'pods' to communicate and protect each other." },
+    { question: "What is a group of frogs called?", options: ["Army", "Swarm", "Pack", "Colony"], answer: 0, funFact: "A group of frogs is called an 'army' because they often move together in large numbers." },
+    { question: "What is a group of kangaroos called?", options: ["Mob", "Pack", "Herd", "Troop"], answer: 0, funFact: "A group of kangaroos is called a 'mob'—they use this group for protection." },
+    { question: "What is a group of ants called?", options: ["Colony", "Swarm", "Herd", "Pack"], answer: 0, funFact: "A group of ants is called a 'colony' because they live and work together underground." }
 ];
 
 // ====== Quiz State ======
 let current = 0, score = 0, streak = 0, timer = null;
-let timeTotal = 20; // Default timer value, can be changed in settings
-
-// ====== Sound State ======
-let isMuted = false;
-
-// ====== Settings Modal State ======
-let pendingTimeTotal = timeTotal;
-let pendingDarkMode = localStorage.getItem('darkMode') === 'true';
+let timeTotal = 20;
 
 // ====== DOMContentLoaded ======
 window.addEventListener('DOMContentLoaded', function() {
-    if (localStorage.getItem('darkMode') === 'true') {
-        document.body.classList.add('dark');
-    } else {
-        document.body.classList.remove('dark');
-    }
+    applySettings();
     updateProfileInfo();
-
     const splash = document.getElementById('splash-screen');
     const quizContent = document.getElementById('quiz-content');
-    if (!splash || !quizContent) {
-        alert('Required elements missing from HTML!');
-        return;
-    }
     setTimeout(() => {
         splash.style.display = 'none';
         quizContent.classList.remove('hidden');
@@ -108,7 +53,19 @@ function startQuiz() {
     showQuestion();
 }
 
+function getQuizSet() {
+    // Return the right number of questions based on settings
+    if (settings.quizLength === 'all' || settings.quizLength >= quizQuestions.length) {
+        return [...quizQuestions];
+    }
+    // Shuffle and pick the requested number
+    const shuffled = [...quizQuestions].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, Number(settings.quizLength));
+}
+
+let quizSet = [];
 function showQuestion() {
+    if (current === 0) quizSet = getQuizSet();
     const scoreEl = document.getElementById('score');
     const streakEl = document.getElementById('streak');
     const currentQ = document.getElementById('current-question');
@@ -116,11 +73,11 @@ function showQuestion() {
     const area = document.getElementById('question-area');
     if (!scoreEl || !streakEl || !currentQ || !totalQ || !area) return;
 
-    const q = quizQuestions[current];
+    const q = quizSet[current];
     scoreEl.textContent = score;
     streakEl.textContent = streak;
     currentQ.textContent = current + 1;
-    totalQ.textContent = quizQuestions.length;
+    totalQ.textContent = quizSet.length;
 
     area.innerHTML = `
         <h2 class="mb-4 text-xl font-bold">${q.question}</h2>
@@ -141,7 +98,7 @@ function showQuestion() {
 
 function handleAnswer(idx, btn) {
     clearInterval(timer);
-    const q = quizQuestions[current];
+    const q = quizSet[current];
     const allBtns = document.querySelectorAll('.option-button');
     allBtns.forEach(b => b.disabled = true);
     if (idx === q.answer) {
@@ -161,7 +118,7 @@ function handleAnswer(idx, btn) {
 
     setTimeout(() => {
         current++;
-        if (current < quizQuestions.length) showQuestion();
+        if (current < quizSet.length) showQuestion();
         else showQuizEnd();
     }, 1800);
 }
@@ -170,7 +127,7 @@ function showQuizEnd() {
     const area = document.getElementById('question-area');
     area.innerHTML = `
         <h2 class="text-2xl font-bold mb-4">Quiz Complete!</h2>
-        <p class="mb-2">Your score: <span class="font-bold">${score}</span>/${quizQuestions.length}</p>
+        <p class="mb-2">Your score: <span class="font-bold">${score}</span>/${quizSet.length}</p>
         <button id="restart-btn" class="option-button" style="width:auto;min-width:120px;">Play Again</button>
     `;
     document.getElementById('timer-text').textContent = '';
@@ -205,7 +162,7 @@ function updateTimerUI(timeLeft, total) {
     }
 }
 function handleTimeUp() {
-    const q = quizQuestions[current];
+    const q = quizSet[current];
     const allBtns = document.querySelectorAll('.option-button');
     allBtns.forEach((btn, idx) => {
         btn.disabled = true;
@@ -218,7 +175,7 @@ function handleTimeUp() {
     showFunFact(q.funFact);
     setTimeout(() => {
         current++;
-        if (current < quizQuestions.length) showQuestion();
+        if (current < quizSet.length) showQuestion();
         else showQuizEnd();
     }, 1800);
 }
@@ -242,53 +199,83 @@ function hideFunFact() {
 const settingsBtn = document.getElementById('open-settings');
 const settingsModal = document.getElementById('settings-modal');
 const closeSettingsBtn = document.getElementById('close-settings-modal');
-const timerSettingInput = document.getElementById('timer-setting');
 const saveSettingsBtn = document.getElementById('save-settings');
-const darkModeToggle = document.getElementById('dark-mode-toggle');
+const resetProgressBtn = document.getElementById('reset-progress-btn');
+const settingsForm = document.getElementById('settings-form');
+
+// Settings controls
+const soundEffectsToggle = document.getElementById('sound-effects-toggle');
+const fontSizeRadios = document.querySelectorAll('input[name="font-size"]');
+const quizLengthSetting = document.getElementById('quiz-length-setting');
+const themeSetting = document.getElementById('theme-setting');
+const languageSetting = document.getElementById('language-setting');
+const animationsToggle = document.getElementById('animations-toggle');
 
 if (settingsBtn && settingsModal) {
     settingsBtn.onclick = () => {
-        if (timerSettingInput) timerSettingInput.value = timeTotal;
-        if (darkModeToggle) darkModeToggle.checked = document.body.classList.contains('dark');
-        pendingTimeTotal = timeTotal;
-        pendingDarkMode = document.body.classList.contains('dark');
+        // Populate form with current settings
+        soundEffectsToggle.checked = settings.soundEffects;
+        fontSizeRadios.forEach(radio => radio.checked = (radio.value === settings.fontSize));
+        quizLengthSetting.value = settings.quizLength;
+        themeSetting.value = settings.theme;
+        languageSetting.value = settings.language;
+        animationsToggle.checked = settings.animations;
         settingsModal.classList.remove('hidden');
     };
 }
 if (closeSettingsBtn && settingsModal) {
     closeSettingsBtn.onclick = () => settingsModal.classList.add('hidden');
 }
-if (timerSettingInput) {
-    timerSettingInput.addEventListener('input', function() {
-        let val = parseInt(timerSettingInput.value, 10);
-        if (!isNaN(val) && val >= 5 && val <= 60) {
-            pendingTimeTotal = val;
-        }
-    });
-}
-if (darkModeToggle) {
-    darkModeToggle.addEventListener('change', function() {
-        pendingDarkMode = darkModeToggle.checked;
-    });
-}
-if (saveSettingsBtn && settingsModal) {
-    saveSettingsBtn.onclick = () => {
-        timeTotal = pendingTimeTotal;
-        if (pendingDarkMode) {
-            document.body.classList.add('dark');
-            localStorage.setItem('darkMode', 'true');
-        } else {
-            document.body.classList.remove('dark');
-            localStorage.setItem('darkMode', 'false');
-        }
-        settingsModal.classList.add('hidden');
-    };
-}
 settingsModal?.addEventListener('click', (e) => {
     if (e.target === settingsModal) settingsModal.classList.add('hidden');
 });
 
+// Save settings
+if (settingsForm) {
+    settingsForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        settings.soundEffects = soundEffectsToggle.checked;
+        settings.fontSize = Array.from(fontSizeRadios).find(r => r.checked)?.value || 'medium';
+        settings.quizLength = quizLengthSetting.value;
+        settings.theme = themeSetting.value;
+        settings.language = languageSetting.value;
+        settings.animations = animationsToggle.checked;
+        localStorage.setItem('settings', JSON.stringify(settings));
+        applySettings();
+        settingsModal.classList.add('hidden');
+        startQuiz(); // Restart quiz with new settings
+    });
+}
+
+// Reset progress
+if (resetProgressBtn) {
+    resetProgressBtn.onclick = () => {
+        if (confirm("Are you sure you want to reset all progress? This cannot be undone.")) {
+            localStorage.clear();
+            location.reload();
+        }
+    };
+}
+
+// ====== Apply Settings ======
+function applySettings() {
+    // Theme
+    document.body.classList.remove('dark', 'theme-ocean', 'theme-sunset');
+    if (settings.theme === 'dark') document.body.classList.add('dark');
+    if (settings.theme === 'ocean') document.body.classList.add('theme-ocean');
+    if (settings.theme === 'sunset') document.body.classList.add('theme-sunset');
+    // Font size
+    document.documentElement.style.fontSize =
+        settings.fontSize === 'small' ? '15px' :
+        settings.fontSize === 'large' ? '19px' : '17px';
+    // Animations
+    document.body.classList.toggle('animations-off', !settings.animations);
+    // Language (future support)
+    // Sound effects handled in playSound
+}
+
 // ====== Sound Toggle Logic ======
+let isMuted = false;
 const soundToggleBtn = document.getElementById('sound-toggle-btn');
 const volumeIcon = document.getElementById('volume-icon');
 const muteIcon = document.getElementById('mute-icon');
@@ -323,7 +310,7 @@ function unmuteAllAudio() {
     });
 }
 function playSound(id) {
-    if (isMuted) return;
+    if (isMuted || !settings.soundEffects) return;
     const sound = document.getElementById(id);
     if (sound) {
         sound.currentTime = 0;
@@ -345,7 +332,6 @@ const profileAvatar = document.getElementById('profile-avatar');
 const editAvatarBtn = document.getElementById('edit-avatar-btn');
 const avatarUpload = document.getElementById('avatar-upload');
 
-// Show modal and populate fields
 if (profileBtn && profileModal) {
     profileBtn.addEventListener('click', () => {
         updateProfileInfo();
@@ -366,7 +352,6 @@ profileModal?.addEventListener('click', (e) => {
     if (e.target === profileModal) profileModal.classList.add('hidden');
 });
 
-// Update profile fields and stats in modal
 function updateProfileInfo() {
     if (profileNameInput) profileNameInput.value = userProfile.name || 'Guest';
     if (profileAgeInput) profileAgeInput.value = userProfile.age || '';
@@ -375,7 +360,6 @@ function updateProfileInfo() {
     if (profileAvatar) profileAvatar.src = userProfile.avatar || 'https://mui.com/static/images/avatar/1.jpg';
 }
 
-// Save profile edits
 if (profileForm) {
     profileForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -387,7 +371,6 @@ if (profileForm) {
     });
 }
 
-// Avatar upload logic
 if (editAvatarBtn && avatarUpload) {
     editAvatarBtn.addEventListener('click', () => avatarUpload.click());
     avatarUpload.addEventListener('change', function() {
@@ -404,7 +387,6 @@ if (editAvatarBtn && avatarUpload) {
     });
 }
 
-// Update stats in profile modal when score/streak changes
 function updateProfileStatsLive() {
     if (profileModal && !profileModal.classList.contains('hidden')) {
         if (profileScore) profileScore.textContent = score;
