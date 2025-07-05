@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collective Nouns Quiz for Kids</title>
+    <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2Faecc661b69309290f600.ico?alt=media&token=1283a192-a304-4ecd-8f69-26f4abd0407d" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=OpenDyslexic" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-tr from-yellow-200 via-blue-100 to-green-100 min-h-screen flex flex-col items-center justify-center py-8">
+    <!-- Header -->
+    <header class="w-full py-4 px-6 flex justify-between items-center fixed top-0 left-0 z-30 bg-white/80 backdrop-blur shadow">
+        <h1 class="text-3xl font-extrabold text-blue-700 tracking-tight flex items-center gap-2">
+            <img src="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2Faecc661b69309290f600.ico?alt=media&token=1283a192-a304-4ecd-8f69-26f4abd0407d" alt="Logo" class="w-8 h-8"> Collective Nouns Quiz
+        </h1>
+        <nav class="flex items-center gap-2 md:gap-4">
+            <button id="sound-toggle-btn" aria-label="Toggle Sound" class="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 flex items-center">
+                <svg id="volume-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                </svg>
+                <svg id="mute-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M9 19H4a1 1 0 01-1-1V6a1 1 0 011-1h5l5-5v14l-5-5zm0 0l-5 5M9 5l5 5" />
+                </svg>
+            </button>
+            <div id="currency-display" class="flex items-center font-semibold text-yellow-600 bg-yellow-100 px-2 py-1 rounded shadow">
+                🪙 <span id="noun-coins">0</span>
+            </div>
+            <button id="daily-challenge-btn" class="btn-nav bg-pink-500">Daily Challenge</button>
+            <button id="open-shop" class="btn-nav bg-yellow-400">Shop</button>
+            <button id="open-stickerbook" class="btn-nav bg-green-400">Sticker Book</button>
+            <button id="open-settings" class="btn-nav bg-gray-300 text-gray-800">⚙️</button>
+            <button id="profile-btn" class="btn-nav bg-indigo-200 text-indigo-700 flex items-center gap-1">
+                <span id="profile-avatar" class="w-6 h-6 rounded-full bg-gray-200"></span>
+                <span id="profile-name" class="font-bold">Profile</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-col items-center justify-center flex-grow w-full px-4 pt-28 pb-8">
+        <div id="quiz-container" class="quiz-container p-8 rounded-2xl shadow-2xl w-full max-w-2xl bg-white/90 relative">
+            <!-- Splash/loading animation -->
+            <div id="splash-screen" class="absolute inset-0 bg-white/90 rounded-2xl flex flex-col items-center justify-center z-50">
+                <img src="https://firebasestorage.googleapis.com/v0/b/crnn-b7d8f.appspot.com/o/files%2F1676172615227.gif?alt=media&token=c3f8a658-e590-4324-a37c-ab3b6f0abff8" alt="Loading animation" class="w-24 h-24 mb-4">
+                <p class="text-lg font-semibold text-blue-600 animate-pulse">Loading Quiz...</p>
+            </div>
+            <!-- Dynamic Content -->
+            <div id="quiz-content" class="hidden"></div>
+        </div>
+    </main>
+
+    <!-- Modals and Overlays -->
+    <div id="daily-challenge-modal" class="modal-overlay">
+      <div class="modal-content">
+        <h2 class="text-xl font-bold mb-4">Today's Challenge!</h2>
+        <p id="daily-challenge-question" class="mb-4"></p>
+        <button id="start-daily-challenge" class="btn-modal bg-pink-500">Start</button>
+        <button id="close-daily-challenge" class="btn-modal bg-gray-300 text-gray-800">Close</button>
+      </div>
+    </div>
+    <div id="shop-modal" class="modal-overlay">
+      <div class="modal-content">
+        <h2 class="text-xl font-bold mb-4">Item Shop</h2>
+        <div class="flex flex-col gap-2 mb-4">
+          <button class="shop-item btn-modal bg-yellow-400" data-type="avatar" data-cost="10">New Avatar Frame (10 🪙)</button>
+          <button class="shop-item btn-modal bg-yellow-400" data-type="theme" data-cost="15">Background Theme (15 🪙)</button>
+        </div>
+        <button id="close-shop" class="btn-modal bg-gray-300 text-gray-800">Close</button>
+      </div>
+    </div>
+    <div id="stickerbook-modal" class="modal-overlay">
+      <div class="modal-content">
+        <h2 class="text-xl font-bold mb-4">Sticker Book</h2>
+        <div id="stickerbook-content" class="flex flex-wrap justify-center gap-3"></div>
+        <button id="close-stickerbook" class="btn-modal bg-gray-300 text-gray-800 mt-4">Close</button>
+      </div>
+    </div>
+    <div id="settings-modal" class="modal-overlay">
+      <div class="modal-content">
+        <h2 class="text-xl font-bold mb-4">Settings</h2>
+        <label class="flex items-center gap-2 mb-2">
+          <input type="checkbox" id="dyslexia-mode"> Dyslexia-Friendly Font
+        </label>
+        <label class="flex items-center gap-2 mb-4">
+          <input type="checkbox" id="colorblind-mode"> Color-Blind Friendly Mode
+        </label>
+        <button id="close-settings" class="btn-modal bg-gray-300 text-gray-800">Close</button>
+      </div>
+    </div>
+    <div id="profile-modal" class="modal-overlay">
+      <div class="modal-content">
+        <h2 class="text-xl font-bold mb-4">Choose Your Explorer</h2>
+        <div id="profile-list" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"></div>
+        <button id="add-profile-btn" class="btn-modal bg-blue-500 text-white w-full">+ Add New Explorer</button>
+        <button id="close-profile" class="btn-modal bg-gray-300 text-gray-800 mt-4">Close</button>
+      </div>
+    </div>
+    <div id="fireworks-container"></div>
+    <div id="cookie-banner" class="fixed bottom-0 left-0 w-full bg-gray-900 text-white text-center py-3 px-4 z-[2000] hidden">
+      We use cookies to improve your experience. By continuing, you agree to our <a href="#" class="underline">cookie policy</a>.
+      <button id="accept-cookies" class="ml-4 bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white font-semibold">Accept</button>
+    </div>
+    <!-- Fun Fact Popups are created dynamically -->
+
+    <!-- Utility Button Styles -->
+    <style>
+      .btn-nav {
+        @apply px-3 py-1 rounded font-bold shadow text-white transition-colors duration-150 hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-offset-2;
+      }
+      .btn-modal {
+        @apply px-4 py-2 rounded font-bold shadow transition-colors duration-150 hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-offset-2;
+      }
+    </style>
+    <script src="main.js"></script>
+</body>
+</html>
