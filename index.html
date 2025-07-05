@@ -49,7 +49,7 @@
     </div>
   </main>
 
-  <!-- Profile Modal (Polished Only) -->
+  <!-- Profile Modal -->
   <div id="profile-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
     <div class="modal-content">
       <button id="close-profile-modal" class="close-btn" aria-label="Close">&times;</button>
@@ -213,6 +213,21 @@
       </form>
     </div>
   </div>
+
+  <!-- Inbuilt, Contactable Dialog Box -->
+  <div id="inbuilt-dialog" class="inbuilt-dialog hidden" role="dialog" aria-modal="true">
+    <div class="inbuilt-dialog-content">
+      <div class="inbuilt-dialog-title" id="dialog-title"></div>
+      <div class="inbuilt-dialog-message" id="dialog-message"></div>
+      <div class="inbuilt-dialog-actions">
+        <button id="dialog-cancel" class="inbuilt-dialog-btn">Cancel</button>
+        <button id="dialog-confirm" class="inbuilt-dialog-btn">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Snackbar/Toast Notification -->
+  <div id="snackbar" class="snackbar hidden" aria-live="polite"></div>
 
   <!-- Audio for feedback -->
   <audio id="correct-sound" src="https://cdn.pixabay.com/audio/2022/10/16/audio_12c3fae3f2.mp3" preload="auto"></audio>
