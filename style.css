@@ -217,6 +217,39 @@ body {
   bottom: 3.5em;
 }
 
+/* Modal styles */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(40,40,40,0.34);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal.hidden { display: none !important; }
+.modal-content {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 40px rgba(60,60,60,0.18);
+  padding: 2em 1.2em;
+  min-width: 260px;
+  max-width: 98vw;
+  position: relative;
+}
+.close-btn {
+  position: absolute;
+  top: 0.7em;
+  right: 1.1em;
+  background: transparent;
+  color: #888;
+  font-size: 1.7em;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.close-btn:hover { background: #e57373; color: #fff; }
+
 #sound-toggle-btn {
   background: var(--accent);
   color: var(--primary);
