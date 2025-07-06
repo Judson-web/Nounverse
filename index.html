@@ -3,97 +3,107 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title id="app-title">Global Quiz App</title>
-  <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <!-- Add your CSS here -->
+  <title id="app-title">Quiz App</title>
+  <link href="https://fonts.googleapis.com/css?family=Nunito:700,800,900&display=swap" rel="stylesheet">
+  <!-- Add your Duolingo-inspired CSS here -->
 </head>
 <body>
-  <!-- Header -->
-  <header class="header">
-    <h1 id="app-title">Global Quiz App</h1>
-    <nav class="header-btns">
-      <button id="profile-btn" aria-label="Profile"><span class="material-icons">account_circle</span></button>
-      <button id="open-settings" aria-label="Settings"><span class="material-icons">settings</span></button>
-      <select id="language-selector" aria-label="Select Language">
-        <option value="en">English</option>
-        <option value="es">Español</option>
-        <option value="fr">Français</option>
-        <option value="ml">മലയാളം</option>
-      </select>
-      <button id="sound-toggle-btn" aria-label="Sound" aria-pressed="false">
-        <span id="volume-icon" class="material-icons">volume_up</span>
-        <span id="mute-icon" class="material-icons hidden">volume_off</span>
+  <!-- Header: Logo/Title, Profile, Settings -->
+  <header class="duo-header">
+    <div class="duo-title">
+      <span class="duo-logo" aria-label="App Logo">🦉</span>
+      <span id="app-title" class="duo-app-title">Quiz App</span>
+    </div>
+    <nav class="duo-nav">
+      <button id="profile-btn" class="duo-circle-btn" aria-label="Profile">
+        <img src="https://api.dicebear.com/7.x/personas/svg?seed=owl" alt="Profile" class="duo-avatar">
       </button>
+      <button id="open-settings" class="duo-circle-btn" aria-label="Settings">⚙️</button>
     </nav>
   </header>
 
-  <!-- Splash Screen -->
-  <div class="splash-screen" id="splash-screen">
-    <span class="material-icons" style="font-size:3em;color:#1976d2;">quiz</span>
-    <div>Loading...</div>
+  <!-- Snackbar/Toast for feedback -->
+  <div id="snackbar" class="duo-snackbar hidden" role="status" aria-live="polite"></div>
+
+  <!-- Splash/Loading Screen -->
+  <div class="duo-splash" id="splash-screen" aria-live="polite">
+    <span class="duo-logo" style="font-size:3em;">🦉</span>
+    <div class="duo-loading-text">Loading...</div>
   </div>
 
   <!-- Start Screen -->
-  <main id="start-screen" class="quiz-container hidden">
-    <h2 id="welcome-title">Welcome!</h2>
-    <div id="welcome-desc" style="margin-bottom:2em;">Test your knowledge with global quizzes.<br>Ready to begin?</div>
-    <button id="start-quiz-btn" class="option-button" style="width:100%;margin-bottom:1em;">Start Quiz</button>
-    <button id="start-daily-btn" class="option-button" style="width:100%;">Start Daily Quiz</button>
+  <main id="start-screen" class="duo-card hidden" role="main" aria-labelledby="welcome-title">
+    <h2 id="welcome-title" class="duo-heading">Welcome!</h2>
+    <p id="welcome-desc" class="duo-desc">
+      Test your knowledge with fun quizzes.<br>Ready to begin?
+    </p>
+    <div class="duo-actions">
+      <button id="start-quiz-btn" class="duo-btn duo-btn-primary">Start Quiz</button>
+      <button id="start-daily-btn" class="duo-btn">Daily Challenge</button>
+    </div>
   </main>
 
   <!-- Quiz Content -->
-  <section id="quiz-content" class="quiz-container hidden">
-    <div class="score-streak-bar">
+  <section id="quiz-content" class="duo-card hidden" aria-live="polite" aria-atomic="true">
+    <div class="duo-progress-bar">
+      <div id="progress-fill" class="duo-progress-fill"></div>
+    </div>
+    <div class="duo-score-row">
       <span id="score-label">Score: <span id="score">0</span></span>
-      <span id="streak-label">Streak: <span id="streak">0</span></span>
+      <span id="streak-label">🔥 <span id="streak">0</span></span>
     </div>
-    <div class="timer-bar">
-      <div id="timer-bar-fill"></div>
-      <span id="timer-text"></span>
+    <div class="duo-question-meta">
+      <span id="current-question">1</span> / <span id="total-questions">3</span>
     </div>
-    <div class="question-meta">
-      <span id="current-question">1</span> <span id="of">of</span> <span id="total-questions">3</span>
-    </div>
-    <div id="question-area"></div>
-    <div id="fun-fact-box" class="fun-fact hidden"></div>
+    <div id="question-area" class="duo-question-area"></div>
+    <div id="fun-fact-box" class="duo-fun-fact hidden" aria-live="polite"></div>
   </section>
 
-  <!-- Snackbar/Toast -->
-  <div id="snackbar" class="snackbar hidden"></div>
-
   <!-- Profile Modal -->
-  <div id="profile-modal" class="modal hidden" tabindex="-1" aria-modal="true" role="dialog">
-    <div class="modal-content">
-      <button class="close-btn" id="close-profile-modal" aria-label="Close"><span class="material-icons">close</span></button>
-      <h2 id="profile-modal-title">Profile</h2>
-      <div>
-        <label>Name: <input type="text" id="profile-name" /></label>
+  <div id="profile-modal" class="duo-modal hidden" tabindex="-1" aria-modal="true" role="dialog" aria-labelledby="profile-modal-title">
+    <div class="duo-modal-content">
+      <button class="duo-modal-close" id="close-profile-modal" aria-label="Close">✖️</button>
+      <h2 id="profile-modal-title" class="duo-modal-heading">Profile</h2>
+      <div class="duo-profile-avatar-wrap">
+        <img id="profile-avatar" src="https://api.dicebear.com/7.x/personas/svg?seed=owl" alt="Avatar" class="duo-avatar-large" />
       </div>
-      <button id="save-profile-btn" class="option-button">Save</button>
+      <form id="profile-form" autocomplete="off">
+        <label for="profile-name" class="duo-label">Name:</label>
+        <input type="text" id="profile-name" maxlength="32" class="duo-input" autocomplete="off" placeholder="Your name" />
+      </form>
+      <button id="save-profile-btn" class="duo-btn duo-btn-primary" style="width:100%;">Save</button>
     </div>
   </div>
 
   <!-- Settings Modal -->
-  <div id="settings-modal" class="modal hidden" tabindex="-1" aria-modal="true" role="dialog">
-    <div class="modal-content">
-      <button class="close-btn" id="close-settings-modal" aria-label="Close"><span class="material-icons">close</span></button>
-      <h2 id="settings-modal-title">Settings</h2>
-      <label for="language-setting">Language:</label>
-      <select id="language-setting">
-        <option value="en">English</option>
-        <option value="es">Español</option>
-        <option value="fr">Français</option>
-        <option value="ml">മലയാളം</option>
-      </select>
+  <div id="settings-modal" class="duo-modal hidden" tabindex="-1" aria-modal="true" role="dialog" aria-labelledby="settings-modal-title">
+    <div class="duo-modal-content">
+      <button class="duo-modal-close" id="close-settings-modal" aria-label="Close">✖️</button>
+      <h2 id="settings-modal-title" class="duo-modal-heading">Settings</h2>
+      <div class="duo-settings-group">
+        <label for="language-setting" class="duo-label">Language:</label>
+        <select id="language-setting" class="duo-input">
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+          <option value="ml">മലയാളം</option>
+        </select>
+      </div>
+      <div class="duo-settings-group">
+        <label for="sound-toggle-btn" class="duo-label">Sound:</label>
+        <button id="sound-toggle-btn" class="duo-btn" aria-label="Sound" aria-pressed="false" type="button">
+          <span id="volume-icon">🔊</span>
+          <span id="mute-icon" class="hidden">🔇</span>
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- Sound Effects -->
+  <!-- Sound Effects (hidden) -->
   <audio id="correct-sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b3b3b.mp3"></audio>
   <audio id="wrong-sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_11b3b3b3b.mp3"></audio>
 
-  <!-- Main JS (add your script here) -->
+  <!-- Main JS (to be added after CSS) -->
   <!-- <script src="main.js"></script> -->
 </body>
 </html>
