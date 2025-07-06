@@ -184,6 +184,10 @@ html, body {
   box-shadow: var(--shadow-btn);
   outline: none;
 }
+.option-button.primary {
+  background: var(--primary);
+  color: #fff;
+}
 .option-button:hover, .option-button:focus-visible {
   background: var(--primary);
   color: #fff;
@@ -244,6 +248,7 @@ html, body {
   bottom: 3.5em;
 }
 
+/* Modal styles */
 .modal {
   position: fixed;
   inset: 0;
