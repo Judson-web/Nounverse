@@ -1,4 +1,6 @@
-// ===== Embedded Strings and Questions =====
+// =========================
+// 1. Embedded Strings/Questions
+// =========================
 const STRINGS = {
   "en": {
     "appTitle": "Global Quiz App",
@@ -166,13 +168,17 @@ const STRINGS = {
   }
 };
 
-// ===== Utility Functions =====
+// =========================
+// 2. Utility Functions
+// =========================
 function $(id) { return document.getElementById(id); }
 function show(el) { if (el) el.classList.remove('hidden'); }
 function hide(el) { if (el) el.classList.add('hidden'); }
 function setText(id, value) { if ($(id)) $(id).innerHTML = value; }
 
-// ===== Global State =====
+// =========================
+// 3. Global State
+// =========================
 let LANG = localStorage.getItem('lang') || 'en';
 if (!STRINGS[LANG]) LANG = 'en';
 let quizSet = [];
@@ -182,7 +188,9 @@ let quizInProgress = false;
 let isMuted = false;
 let profileName = localStorage.getItem('profileName') || '';
 
-// ===== Initialization =====
+// =========================
+// 4. Initialization
+// =========================
 try {
   updateAllStrings();
   setupEventListeners();
@@ -191,13 +199,14 @@ try {
   show($('start-screen'));
   hide($('quiz-content'));
 } catch (e) {
-  // If anything fails, hide splash and show error
   hide($('splash-screen'));
   alert("App failed to load. See console for details.");
   console.error(e);
 }
 
-// ===== Language Switching =====
+// =========================
+// 5. Language/UI Update
+// =========================
 function updateAllStrings() {
   if (!STRINGS[LANG]) LANG = 'en';
   const S = STRINGS[LANG];
@@ -216,7 +225,9 @@ function updateAllStrings() {
   if (quizInProgress) showQuestion();
 }
 
-// ===== Quiz Logic =====
+// =========================
+// 6. Quiz Logic
+// =========================
 function startQuiz(daily = false) {
   isDaily = daily;
   quizInProgress = true;
@@ -239,13 +250,11 @@ function showQuestion() {
   setText('current-question', current + 1);
   setText('total-questions', quizSet.length);
 
-  // Render image if present
   let html = '';
   if (q.image) html += `<img src="${q.image}" alt="Question Image">`;
   html += `<h2>${q.question}</h2><div id="options-list"></div>`;
   $('question-area').innerHTML = html;
 
-  // Randomize options
   const opts = q.options.map((opt, i) => ({opt, idx: i}));
   for (let i = opts.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -266,7 +275,6 @@ function handleAnswer(idx, btn, opts) {
   const q = quizSet[current];
   document.querySelectorAll('.option-button').forEach(b => b.disabled = true);
 
-  // Find the correct answer's new index after shuffle
   const correctOpt = opts.find(o => o.idx === q.answer);
   if (idx === q.answer) {
     btn.classList.add('correct');
@@ -354,7 +362,9 @@ function hideFunFact() {
   $('fun-fact-box').innerHTML = '';
 }
 
-// ===== Event Listeners and UI =====
+// =========================
+// 7. Event Listeners and UI
+// =========================
 function setupEventListeners() {
   if ($('language-selector')) {
     $('language-selector').onchange = function() {
@@ -385,7 +395,9 @@ function setupEventListeners() {
   };
 }
 
-// ===== Sound Logic =====
+// =========================
+// 8. Sound Logic
+// =========================
 function toggleSound() {
   isMuted = !isMuted;
   if ($('sound-toggle-btn')) $('sound-toggle-btn').setAttribute('aria-pressed', isMuted);
@@ -406,7 +418,9 @@ function playSound(id) {
   }
 }
 
-// ===== Snackbar =====
+// =========================
+// 9. Snackbar
+// =========================
 function showSnackbar(message, duration = 2000) {
   const sb = $('snackbar');
   if (!sb) return;
