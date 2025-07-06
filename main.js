@@ -1,3 +1,187 @@
+// ===== Embedded Strings and Questions =====
+const STRINGS = {
+  "en": {
+    "appTitle": "Global Quiz App",
+    "welcomeTitle": "Welcome!",
+    "welcomeDesc": "Test your knowledge with global quizzes.<br>Ready to begin?",
+    "startQuiz": "Start Quiz",
+    "startDailyQuiz": "Start Daily Quiz",
+    "score": "Score",
+    "streak": "Streak",
+    "of": "of",
+    "quizQuestions": [
+      {
+        "id": 1,
+        "question": "What is a group of lions called?",
+        "options": ["Pride", "Flock", "School", "Pack"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+        "explanation": "A group of lions is called a pride.",
+        "funFact": "Lion prides are usually made up of related females and their offspring, plus a small number of adult males.",
+        "difficulty": "easy",
+        "topic": "mammals"
+      },
+      {
+        "id": 2,
+        "question": "What is a group of crows called?",
+        "options": ["Murder", "Gaggle", "Pod", "Swarm"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
+        "explanation": "A group of crows is called a murder.",
+        "funFact": "Crows are known for their intelligence and can use tools and solve complex problems.",
+        "difficulty": "medium",
+        "topic": "birds"
+      },
+      {
+        "id": 3,
+        "question": "What is a group of elephants called?",
+        "options": ["Herd", "Pod", "Pack", "Troop"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
+        "explanation": "A group of elephants is called a herd.",
+        "funFact": "Elephant herds are led by the oldest female, known as the matriarch.",
+        "difficulty": "easy",
+        "topic": "mammals"
+      }
+    ]
+  },
+  "es": {
+    "appTitle": "Quiz Global",
+    "welcomeTitle": "¡Bienvenido!",
+    "welcomeDesc": "Pon a prueba tus conocimientos con cuestionarios globales.<br>¿Listo para empezar?",
+    "startQuiz": "Comenzar quiz",
+    "startDailyQuiz": "Comenzar desafío diario",
+    "score": "Puntaje",
+    "streak": "Racha",
+    "of": "de",
+    "quizQuestions": [
+      {
+        "id": 1,
+        "question": "¿Cómo se llama un grupo de leones?",
+        "options": ["Manada", "Bandada", "Escuela", "Manojo"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un grupo de leones se llama manada.",
+        "funFact": "Las manadas de leones suelen estar formadas por hembras emparentadas y sus crías, además de algunos machos adultos.",
+        "difficulty": "easy",
+        "topic": "mamíferos"
+      },
+      {
+        "id": 2,
+        "question": "¿Cómo se llama un grupo de cuervos?",
+        "options": ["Parvada", "Bandada", "Pod", "Enjambre"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un grupo de cuervos se llama parvada.",
+        "funFact": "Los cuervos son conocidos por su inteligencia y su capacidad para usar herramientas y resolver problemas complejos.",
+        "difficulty": "medium",
+        "topic": "aves"
+      },
+      {
+        "id": 3,
+        "question": "¿Cómo se llama un grupo de elefantes?",
+        "options": ["Manada", "Pod", "Manojo", "Tropa"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un grupo de elefantes se llama manada.",
+        "funFact": "Las manadas de elefantes son lideradas por la hembra más vieja, llamada matriarca.",
+        "difficulty": "easy",
+        "topic": "mamíferos"
+      }
+    ]
+  },
+  "fr": {
+    "appTitle": "Quiz Mondial",
+    "welcomeTitle": "Bienvenue !",
+    "welcomeDesc": "Testez vos connaissances avec des quiz mondiaux.<br>Prêt à commencer ?",
+    "startQuiz": "Commencer le quiz",
+    "startDailyQuiz": "Commencer le défi du jour",
+    "score": "Score",
+    "streak": "Série",
+    "of": "sur",
+    "quizQuestions": [
+      {
+        "id": 1,
+        "question": "Comment appelle-t-on un groupe de lions ?",
+        "options": ["Troupe", "Vol", "École", "Meute"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un groupe de lions s'appelle une troupe.",
+        "funFact": "Les troupes de lions sont généralement composées de femelles apparentées et de leurs petits, ainsi que de quelques mâles adultes.",
+        "difficulty": "easy",
+        "topic": "mammifères"
+      },
+      {
+        "id": 2,
+        "question": "Comment appelle-t-on un groupe de corbeaux ?",
+        "options": ["Volée", "Bande", "Pod", "Essaim"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un groupe de corbeaux s'appelle une volée.",
+        "funFact": "Les corbeaux sont connus pour leur intelligence et leur capacité à utiliser des outils et à résoudre des problèmes complexes.",
+        "difficulty": "medium",
+        "topic": "oiseaux"
+      },
+      {
+        "id": 3,
+        "question": "Comment appelle-t-on un groupe d'éléphants ?",
+        "options": ["Troupeau", "Pod", "Meute", "Bande"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
+        "explanation": "Un groupe d'éléphants s'appelle un troupeau.",
+        "funFact": "Les troupeaux d'éléphants sont dirigés par la femelle la plus âgée, appelée matriarche.",
+        "difficulty": "easy",
+        "topic": "mammifères"
+      }
+    ]
+  },
+  "ml": {
+    "appTitle": "ഗ്ലോബൽ ക്വിസ് ആപ്പ്",
+    "welcomeTitle": "സ്വാഗതം!",
+    "welcomeDesc": "ലോകവ്യാപകമായ ക്വിസുകളിലൂടെ നിങ്ങളുടെ അറിവ് പരീക്ഷിക്കുക.<br>തയ്യാറാണോ?",
+    "startQuiz": "ക്വിസ് ആരംഭിക്കുക",
+    "startDailyQuiz": "ദൈനംദിന ക്വിസ് ആരംഭിക്കുക",
+    "score": "സ്കോർ",
+    "streak": "സ്ട്രീക്ക്",
+    "of": "ഇൽ",
+    "quizQuestions": [
+      {
+        "id": 1,
+        "question": "സിംഹങ്ങളുടെ കൂട്ടത്തെ എന്താണ് വിളിക്കുന്നത്?",
+        "options": ["പ്രൈഡ്", "ഫ്ലോക്ക്", "സ്കൂൾ", "പാക്ക്"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+        "explanation": "സിംഹങ്ങളുടെ കൂട്ടത്തെ പ്രൈഡ് എന്ന് വിളിക്കുന്നു.",
+        "funFact": "പ്രൈഡിൽ സാധാരണയായി ബന്ധമുള്ള പെൺ സിംഹങ്ങളും അവരുടെ കുഞ്ഞുങ്ങളും കുറച്ച് പുരുഷ സിംഹങ്ങളും ഉണ്ടാകും.",
+        "difficulty": "easy",
+        "topic": "മൃഗങ്ങൾ"
+      },
+      {
+        "id": 2,
+        "question": "കാക്കകളുടെ കൂട്ടത്തെ എന്താണ് വിളിക്കുന്നത്?",
+        "options": ["മർഡർ", "ഗാഗിൾ", "പോഡ്", "സ്വാർം"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
+        "explanation": "കാക്കകളുടെ കൂട്ടത്തെ മർഡർ എന്ന് വിളിക്കുന്നു.",
+        "funFact": "കാക്കകൾ വളരെ ബുദ്ധിമുട്ടുള്ളവയാണ്; അവയ്ക്ക് ഉപകരണങ്ങൾ ഉപയോഗിക്കാനും പ്രശ്നങ്ങൾ പരിഹരിക്കാനും കഴിയും.",
+        "difficulty": "medium",
+        "topic": "പക്ഷികൾ"
+      },
+      {
+        "id": 3,
+        "question": "ആനകളുടെ കൂട്ടത്തെ എന്താണ് വിളിക്കുന്നത്?",
+        "options": ["ഹേർഡ്", "പോഡ്", "പാക്ക്", "ട്രൂപ്പ്"],
+        "answer": 0,
+        "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
+        "explanation": "ആനകളുടെ കൂട്ടത്തെ ഹേർഡ് എന്ന് വിളിക്കുന്നു.",
+        "funFact": "ആനകളുടെ കൂട്ടത്തിന് നേതൃത്വം നൽകുന്നത് ഏറ്റവും പ്രായം കൂടിയ പെൺ ആനയാണ്, അവളെ 'മാട്രിയാർക്ക്' എന്ന് വിളിക്കുന്നു.",
+        "difficulty": "easy",
+        "topic": "മൃഗങ്ങൾ"
+      }
+    ]
+  }
+};
+
 // ===== Utility Functions =====
 function $(id) { return document.getElementById(id); }
 function show(el) { el && el.classList.remove('hidden'); }
@@ -6,29 +190,22 @@ function setText(id, value) { if ($(id)) $(id).innerHTML = value; }
 
 // ===== Global State =====
 let LANG = 'en';
-let STRINGS = {};
 let quizSet = [];
 let current = 0, score = 0, streak = 0, timer = null;
 let isDaily = false;
 let quizInProgress = false;
 let isMuted = false;
-let users = JSON.parse(localStorage.getItem('users') || '{}') || {};
-let userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}') || {};
-let settings = JSON.parse(localStorage.getItem('settings') || '{}') || {};
 
-// ===== Load Strings and Initialize =====
-fetch('strings.json')
-  .then(res => res.json())
-  .then(strings => {
-    STRINGS = strings;
-    LANG = localStorage.getItem('lang') || 'en';
-    if (!STRINGS[LANG]) LANG = 'en';
-    updateAllStrings();
-    setupEventListeners();
-    hide($('splash-screen'));
-    show($('start-screen'));
-    hide($('quiz-content'));
-  });
+// ===== Initialization =====
+document.addEventListener('DOMContentLoaded', () => {
+  LANG = localStorage.getItem('lang') || 'en';
+  if (!STRINGS[LANG]) LANG = 'en';
+  updateAllStrings();
+  setupEventListeners();
+  hide($('splash-screen'));
+  show($('start-screen'));
+  hide($('quiz-content'));
+});
 
 // ===== Language Switching =====
 function updateAllStrings() {
@@ -39,22 +216,10 @@ function updateAllStrings() {
   setText('welcome-desc', S.welcomeDesc);
   setText('start-quiz-btn', S.startQuiz);
   setText('start-daily-btn', S.startDailyQuiz);
-  setText('login-btn', S.login);
-  setText('signup-btn', S.signup);
   setText('score-label', `${S.score}: <span id="score">0</span>`);
   setText('streak-label', `${S.streak}: <span id="streak">0</span>`);
-  setText('profile-modal-title', S.profile);
-  setText('settings-modal-title', S.settings);
-  setText('leaderboard-modal-title', S.leaderboard);
-  setText('save-btn', S.save);
-  setText('cancel-profile-edit', S.cancel);
-  setText('reset-progress-btn', S.resetProgress);
-  setText('auth-modal-title', S.login);
-  setText('auth-submit', S.login);
-  setText('auth-switch', S.dontHaveAccount);
   setText('of', S.of);
   if ($('language-selector')) $('language-selector').value = LANG;
-  if ($('language-setting')) $('language-setting').value = LANG;
   if (quizInProgress) showQuestion();
 }
 
@@ -71,9 +236,7 @@ function startQuiz(daily = false) {
 function getQuizSet() {
   const all = STRINGS[LANG].quizQuestions.slice();
   if (isDaily) return [all[Math.floor(Math.random() * all.length)]];
-  let n = settings.quizLength || 10;
-  if (n === 'all' || n >= all.length) return all;
-  return all.sort(() => Math.random() - 0.5).slice(0, Number(n));
+  return all.sort(() => Math.random() - 0.5).slice(0, all.length);
 }
 function showQuestion() {
   const S = STRINGS[LANG];
@@ -200,67 +363,14 @@ function hideFunFact() {
 
 // ===== Event Listeners and UI =====
 function setupEventListeners() {
-  // Language selector
   $('language-selector').onchange = function() {
     LANG = this.value;
     localStorage.setItem('lang', LANG);
     updateAllStrings();
   };
-  $('language-setting').onchange = function() {
-    LANG = this.value;
-    localStorage.setItem('lang', LANG);
-    updateAllStrings();
-  };
-  // Start quiz
   $('start-quiz-btn').onclick = () => startQuiz(false);
   $('start-daily-btn').onclick = () => startQuiz(true);
-  // Login/signup modals
-  $('login-btn').onclick = () => { show($('auth-modal')); setAuthMode('login'); };
-  $('signup-btn').onclick = () => { show($('auth-modal')); setAuthMode('signup'); };
-  $('close-auth-modal').onclick = () => hide($('auth-modal'));
-  $('auth-switch').onclick = () => toggleAuthMode();
-  $('auth-form').onsubmit = handleAuth;
-  // Profile modal
-  $('profile-btn').onclick = () => show($('profile-modal'));
-  $('close-profile-modal').onclick = () => hide($('profile-modal'));
-  $('cancel-profile-edit').onclick = () => hide($('profile-modal'));
-  // Settings modal
-  $('open-settings').onclick = () => show($('settings-modal'));
-  $('close-settings-modal').onclick = () => hide($('settings-modal'));
-  // Leaderboard modal
-  $('leaderboard-btn').onclick = () => show($('leaderboard-modal'));
-  $('close-leaderboard-modal').onclick = () => hide($('leaderboard-modal'));
-  // Sound toggle
   $('sound-toggle-btn').onclick = toggleSound;
-}
-
-// ===== Auth Logic (Demo, Local) =====
-function setAuthMode(mode) {
-  setText('auth-modal-title', STRINGS[LANG][mode]);
-  setText('auth-submit', STRINGS[LANG][mode]);
-  $('auth-switch').textContent = mode === 'login' ? STRINGS[LANG].dontHaveAccount : STRINGS[LANG].haveAccount;
-  $('auth-form').dataset.mode = mode;
-}
-function toggleAuthMode() {
-  setAuthMode($('auth-form').dataset.mode === 'login' ? 'signup' : 'login');
-}
-function handleAuth(e) {
-  e.preventDefault();
-  const email = $('auth-email').value.trim();
-  const password = $('auth-password').value;
-  if ($('auth-form').dataset.mode === 'signup') {
-    if (users[email]) return showSnackbar("Email already registered.");
-    users[email] = { password, profile: { displayName: email.split('@')[0] } };
-    localStorage.setItem('users', JSON.stringify(users));
-    showSnackbar("Signup successful! Please log in.");
-    setAuthMode('login');
-  } else {
-    if (!users[email] || users[email].password !== password) return showSnackbar("Invalid credentials.");
-    userProfile = users[email].profile;
-    localStorage.setItem('userProfile', JSON.stringify(userProfile));
-    showSnackbar("Login successful!");
-    hide($('auth-modal'));
-  }
 }
 
 // ===== Sound Logic =====
