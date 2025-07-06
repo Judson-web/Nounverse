@@ -168,12 +168,13 @@ const STRINGS = {
 
 // ===== Utility Functions =====
 function $(id) { return document.getElementById(id); }
-function show(el) { el && el.classList.remove('hidden'); }
-function hide(el) { el && el.classList.add('hidden'); }
+function show(el) { if (el) el.classList.remove('hidden'); }
+function hide(el) { if (el) el.classList.add('hidden'); }
 function setText(id, value) { if ($(id)) $(id).innerHTML = value; }
 
 // ===== Global State =====
-let LANG = 'en';
+let LANG = localStorage.getItem('lang') || 'en';
+if (!STRINGS[LANG]) LANG = 'en';
 let quizSet = [];
 let current = 0, score = 0, streak = 0, timer = null;
 let isDaily = false;
@@ -182,16 +183,19 @@ let isMuted = false;
 let profileName = localStorage.getItem('profileName') || '';
 
 // ===== Initialization =====
-document.addEventListener('DOMContentLoaded', () => {
-  LANG = localStorage.getItem('lang') || 'en';
-  if (!STRINGS[LANG]) LANG = 'en';
+try {
   updateAllStrings();
   setupEventListeners();
-  if (profileName) $('profile-name').value = profileName;
+  if ($('profile-name')) $('profile-name').value = profileName;
   hide($('splash-screen'));
   show($('start-screen'));
   hide($('quiz-content'));
-});
+} catch (e) {
+  // If anything fails, hide splash and show error
+  hide($('splash-screen'));
+  alert("App failed to load. See console for details.");
+  console.error(e);
+}
 
 // ===== Language Switching =====
 function updateAllStrings() {
@@ -352,27 +356,29 @@ function hideFunFact() {
 
 // ===== Event Listeners and UI =====
 function setupEventListeners() {
-  $('language-selector').onchange = function() {
-    LANG = this.value;
-    localStorage.setItem('lang', LANG);
-    updateAllStrings();
-  };
-  $('start-quiz-btn').onclick = () => startQuiz(false);
-  $('start-daily-btn').onclick = () => startQuiz(true);
-  $('sound-toggle-btn').onclick = toggleSound;
+  if ($('language-selector')) {
+    $('language-selector').onchange = function() {
+      LANG = this.value;
+      localStorage.setItem('lang', LANG);
+      updateAllStrings();
+    };
+  }
+  if ($('start-quiz-btn')) $('start-quiz-btn').onclick = () => startQuiz(false);
+  if ($('start-daily-btn')) $('start-daily-btn').onclick = () => startQuiz(true);
+  if ($('sound-toggle-btn')) $('sound-toggle-btn').onclick = toggleSound;
   // Profile modal
-  $('profile-btn').onclick = () => show($('profile-modal'));
-  $('close-profile-modal').onclick = () => hide($('profile-modal'));
-  $('save-profile-btn').onclick = () => {
+  if ($('profile-btn')) $('profile-btn').onclick = () => show($('profile-modal'));
+  if ($('close-profile-modal')) $('close-profile-modal').onclick = () => hide($('profile-modal'));
+  if ($('save-profile-btn')) $('save-profile-btn').onclick = () => {
     profileName = $('profile-name').value.trim();
     localStorage.setItem('profileName', profileName);
     showSnackbar("Profile saved!");
     hide($('profile-modal'));
   };
   // Settings modal
-  $('open-settings').onclick = () => show($('settings-modal'));
-  $('close-settings-modal').onclick = () => hide($('settings-modal'));
-  $('language-setting').onchange = function() {
+  if ($('open-settings')) $('open-settings').onclick = () => show($('settings-modal'));
+  if ($('close-settings-modal')) $('close-settings-modal').onclick = () => hide($('settings-modal'));
+  if ($('language-setting')) $('language-setting').onchange = function() {
     LANG = this.value;
     localStorage.setItem('lang', LANG);
     updateAllStrings();
@@ -382,13 +388,13 @@ function setupEventListeners() {
 // ===== Sound Logic =====
 function toggleSound() {
   isMuted = !isMuted;
-  $('sound-toggle-btn').setAttribute('aria-pressed', isMuted);
+  if ($('sound-toggle-btn')) $('sound-toggle-btn').setAttribute('aria-pressed', isMuted);
   if (isMuted) {
-    $('volume-icon').classList.add('hidden');
-    $('mute-icon').classList.remove('hidden');
+    if ($('volume-icon')) $('volume-icon').classList.add('hidden');
+    if ($('mute-icon')) $('mute-icon').classList.remove('hidden');
   } else {
-    $('volume-icon').classList.remove('hidden');
-    $('mute-icon').classList.add('hidden');
+    if ($('volume-icon')) $('volume-icon').classList.remove('hidden');
+    if ($('mute-icon')) $('mute-icon').classList.add('hidden');
   }
 }
 function playSound(id) {
@@ -403,6 +409,7 @@ function playSound(id) {
 // ===== Snackbar =====
 function showSnackbar(message, duration = 2000) {
   const sb = $('snackbar');
+  if (!sb) return;
   sb.textContent = message;
   sb.classList.add('show');
   sb.classList.remove('hidden');
