@@ -1,6 +1,4 @@
-// =========================
-// 1. Embedded Strings/Questions
-// =========================
+// ===== Embedded Strings and Questions =====
 const STRINGS = {
   "en": {
     "appTitle": "Global Quiz App",
@@ -42,143 +40,17 @@ const STRINGS = {
         "funFact": "Elephant herds are led by the oldest female, known as the matriarch."
       }
     ]
-  },
-  "es": {
-    "appTitle": "Quiz Global",
-    "welcomeTitle": "¡Bienvenido!",
-    "welcomeDesc": "Pon a prueba tus conocimientos con cuestionarios globales.<br>¿Listo para empezar?",
-    "startQuiz": "Comenzar quiz",
-    "startDailyQuiz": "Comenzar desafío diario",
-    "score": "Puntaje",
-    "streak": "Racha",
-    "of": "de",
-    "profile": "Perfil",
-    "settings": "Configuración",
-    "quizQuestions": [
-      {
-        "id": 1,
-        "question": "¿Cómo se llama un grupo de leones?",
-        "options": ["Manada", "Bandada", "Escuela", "Manojo"],
-        "answer": 0,
-        "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-        "explanation": "Un grupo de leones se llama manada.",
-        "funFact": "Las manadas de leones suelen estar formadas por hembras emparentadas y sus crías, además de algunos machos adultos."
-      },
-      {
-        "id": 2,
-        "question": "¿Cómo se llama un grupo de cuervos?",
-        "options": ["Parvada", "Bandada", "Pod", "Enjambre"],
-        "answer": 0,
-        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
-        "explanation": "Un grupo de cuervos se llama parvada.",
-        "funFact": "Los cuervos son conocidos por su inteligencia y su capacidad para usar herramientas y resolver problemas complejos."
-      },
-      {
-        "id": 3,
-        "question": "¿Cómo se llama un grupo de elefantes?",
-        "options": ["Manada", "Pod", "Manojo", "Tropa"],
-        "answer": 0,
-        "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
-        "explanation": "Un grupo de elefantes se llama manada.",
-        "funFact": "Las manadas de elefantes son lideradas por la hembra más vieja, llamada matriarca."
-      }
-    ]
-  },
-  "fr": {
-    "appTitle": "Quiz Mondial",
-    "welcomeTitle": "Bienvenue !",
-    "welcomeDesc": "Testez vos connaissances avec des quiz mondiaux.<br>Prêt à commencer ?",
-    "startQuiz": "Commencer le quiz",
-    "startDailyQuiz": "Commencer le défi du jour",
-    "score": "Score",
-    "streak": "Série",
-    "of": "sur",
-    "profile": "Profil",
-    "settings": "Paramètres",
-    "quizQuestions": [
-      {
-        "id": 1,
-        "question": "Comment appelle-t-on un groupe de lions ?",
-        "options": ["Troupe", "Vol", "École", "Meute"],
-        "answer": 0,
-        "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-        "explanation": "Un groupe de lions s'appelle une troupe.",
-        "funFact": "Les troupes de lions sont généralement composées de femelles apparentées et de leurs petits, ainsi que de quelques mâles adultes."
-      },
-      {
-        "id": 2,
-        "question": "Comment appelle-t-on un groupe de corbeaux ?",
-        "options": ["Volée", "Bande", "Pod", "Essaim"],
-        "answer": 0,
-        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
-        "explanation": "Un groupe de corbeaux s'appelle une volée.",
-        "funFact": "Les corbeaux sont connus pour leur intelligence et leur capacité à utiliser des outils et à résoudre des problèmes complexes."
-      },
-      {
-        "id": 3,
-        "question": "Comment appelle-t-on un groupe d'éléphants ?",
-        "options": ["Troupeau", "Pod", "Meute", "Bande"],
-        "answer": 0,
-        "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
-        "explanation": "Un groupe d'éléphants s'appelle un troupeau.",
-        "funFact": "Les troupeaux d'éléphants sont dirigés par la femelle la plus âgée, appelée matriarche."
-      }
-    ]
-  },
-  "ml": {
-    "appTitle": "ഗ്ലോബൽ ക്വിസ് ആപ്പ്",
-    "welcomeTitle": "സ്വാഗതം!",
-    "welcomeDesc": "ലോകവ്യാപകമായ ക്വിസുകളിലൂടെ നിങ്ങളുടെ അറിവ് പരീക്ഷിക്കുക.<br>തയ്യാറാണോ?",
-    "startQuiz": "ക്വിസ് ആരംഭിക്കുക",
-    "startDailyQuiz": "ദൈനംദിന ക്വിസ് ആരംഭിക്കുക",
-    "score": "സ്കോർ",
-    "streak": "സ്ട്രീക്ക്",
-    "of": "ഇൽ",
-    "profile": "പ്രൊഫൈൽ",
-    "settings": "ക്രമീകരണങ്ങൾ",
-    "quizQuestions": [
-      {
-        "id": 1,
-        "question": "സിംഹങ്ങളുടെ കൂട്ടത്തെ എന്താണ് വിളിക്കുന്നത്?",
-        "options": ["പ്രൈഡ്", "ഫ്ലോക്ക്", "സ്കൂൾ", "പാക്ക്"],
-        "answer": 0,
-        "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-        "explanation": "സിംഹങ്ങളുടെ കൂട്ടത്തെ പ്രൈഡ് എന്ന് വിളിക്കുന്നു.",
-        "funFact": "പ്രൈഡിൽ സാധാരണയായി ബന്ധമുള്ള പെൺ സിംഹങ്ങളും അവരുടെ കുഞ്ഞുങ്ങളും കുറച്ച് പുരുഷ സിംഹങ്ങളും ഉണ്ടാകും."
-      },
-      {
-        "id": 2,
-        "question": "കാക്കകളുടെ കൂട്ടത്തെ എന്താണ് വിളിക്കുന്നത്?",
-        "options": ["മർഡർ", "ഗാഗിൾ", "പോഡ്", "സ്വാർം"],
-        "answer": 0,
-        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
-        "explanation": "കാക്കകളുടെ കൂട്ടത്തെ മർഡർ എന്ന് വിളിക്കുന്നു.",
-        "funFact": "കാക്കകൾ വളരെ ബുദ്ധിമുട്ടുള്ളവയാണ്; അവയ്ക്ക് ഉപകരണങ്ങൾ ഉപയോഗിക്കാനും പ്രശ്നങ്ങൾ പരിഹരിക്കാനും കഴിയും."
-      },
-      {
-        "id": 3,
-        "question": "ആനകളുടെ കൂട്ടത്തെ എന്താണ് വിളിക്കുന്നത്?",
-        "options": ["ഹേർഡ്", "പോഡ്", "പാക്ക്", "ട്രൂപ്പ്"],
-        "answer": 0,
-        "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
-        "explanation": "ആനകളുടെ കൂട്ടത്തെ ഹേർഡ് എന്ന് വിളിക്കുന്നു.",
-        "funFact": "ആനകളുടെ കൂട്ടത്തിന് നേതൃത്വം നൽകുന്നത് ഏറ്റവും പ്രായം കൂടിയ പെൺ ആനയാണ്, അവളെ 'മാട്രിയാർക്ക്' എന്ന് വിളിക്കുന്നു."
-      }
-    ]
   }
+  // Add other languages as needed
 };
 
-// =========================
-// 2. Utility Functions
-// =========================
+// ===== Utility Functions =====
 function $(id) { return document.getElementById(id); }
 function show(el) { if (el) el.classList.remove('hidden'); }
 function hide(el) { if (el) el.classList.add('hidden'); }
 function setText(id, value) { if ($(id)) $(id).innerHTML = value; }
 
-// =========================
-// 3. Global State
-// =========================
+// ===== Global State =====
 let LANG = localStorage.getItem('lang') || 'en';
 if (!STRINGS[LANG]) LANG = 'en';
 let quizSet = [];
@@ -188,25 +60,17 @@ let quizInProgress = false;
 let isMuted = false;
 let profileName = localStorage.getItem('profileName') || '';
 
-// =========================
-// 4. Initialization
-// =========================
-try {
+// ===== Initialization =====
+document.addEventListener('DOMContentLoaded', () => {
   updateAllStrings();
   setupEventListeners();
   if ($('profile-name')) $('profile-name').value = profileName;
   hide($('splash-screen'));
   show($('start-screen'));
   hide($('quiz-content'));
-} catch (e) {
-  hide($('splash-screen'));
-  alert("App failed to load. See console for details.");
-  console.error(e);
-}
+});
 
-// =========================
-// 5. Language/UI Update
-// =========================
+// ===== Language Switching =====
 function updateAllStrings() {
   if (!STRINGS[LANG]) LANG = 'en';
   const S = STRINGS[LANG];
@@ -225,9 +89,7 @@ function updateAllStrings() {
   if (quizInProgress) showQuestion();
 }
 
-// =========================
-// 6. Quiz Logic
-// =========================
+// ===== Quiz Logic =====
 function startQuiz(daily = false) {
   isDaily = daily;
   quizInProgress = true;
@@ -362,51 +224,45 @@ function hideFunFact() {
   $('fun-fact-box').innerHTML = '';
 }
 
-// =========================
-// 7. Event Listeners and UI
-// =========================
+// ===== Event Listeners and UI =====
 function setupEventListeners() {
-  if ($('language-selector')) {
-    $('language-selector').onchange = function() {
-      LANG = this.value;
-      localStorage.setItem('lang', LANG);
-      updateAllStrings();
-    };
-  }
-  if ($('start-quiz-btn')) $('start-quiz-btn').onclick = () => startQuiz(false);
-  if ($('start-daily-btn')) $('start-daily-btn').onclick = () => startQuiz(true);
-  if ($('sound-toggle-btn')) $('sound-toggle-btn').onclick = toggleSound;
+  $('language-selector').onchange = function() {
+    LANG = this.value;
+    localStorage.setItem('lang', LANG);
+    updateAllStrings();
+  };
+  $('start-quiz-btn').onclick = () => startQuiz(false);
+  $('start-daily-btn').onclick = () => startQuiz(true);
+  $('sound-toggle-btn').onclick = toggleSound;
   // Profile modal
-  if ($('profile-btn')) $('profile-btn').onclick = () => show($('profile-modal'));
-  if ($('close-profile-modal')) $('close-profile-modal').onclick = () => hide($('profile-modal'));
-  if ($('save-profile-btn')) $('save-profile-btn').onclick = () => {
+  $('profile-btn').onclick = () => show($('profile-modal'));
+  $('close-profile-modal').onclick = () => hide($('profile-modal'));
+  $('save-profile-btn').onclick = () => {
     profileName = $('profile-name').value.trim();
     localStorage.setItem('profileName', profileName);
     showSnackbar("Profile saved!");
     hide($('profile-modal'));
   };
   // Settings modal
-  if ($('open-settings')) $('open-settings').onclick = () => show($('settings-modal'));
-  if ($('close-settings-modal')) $('close-settings-modal').onclick = () => hide($('settings-modal'));
-  if ($('language-setting')) $('language-setting').onchange = function() {
+  $('open-settings').onclick = () => show($('settings-modal'));
+  $('close-settings-modal').onclick = () => hide($('settings-modal'));
+  $('language-setting').onchange = function() {
     LANG = this.value;
     localStorage.setItem('lang', LANG);
     updateAllStrings();
   };
 }
 
-// =========================
-// 8. Sound Logic
-// =========================
+// ===== Sound Logic =====
 function toggleSound() {
   isMuted = !isMuted;
-  if ($('sound-toggle-btn')) $('sound-toggle-btn').setAttribute('aria-pressed', isMuted);
+  $('sound-toggle-btn').setAttribute('aria-pressed', isMuted);
   if (isMuted) {
-    if ($('volume-icon')) $('volume-icon').classList.add('hidden');
-    if ($('mute-icon')) $('mute-icon').classList.remove('hidden');
+    $('volume-icon').classList.add('hidden');
+    $('mute-icon').classList.remove('hidden');
   } else {
-    if ($('volume-icon')) $('volume-icon').classList.remove('hidden');
-    if ($('mute-icon')) $('mute-icon').classList.add('hidden');
+    $('volume-icon').classList.remove('hidden');
+    $('mute-icon').classList.add('hidden');
   }
 }
 function playSound(id) {
@@ -418,12 +274,9 @@ function playSound(id) {
   }
 }
 
-// =========================
-// 9. Snackbar
-// =========================
+// ===== Snackbar =====
 function showSnackbar(message, duration = 2000) {
   const sb = $('snackbar');
-  if (!sb) return;
   sb.textContent = message;
   sb.classList.add('show');
   sb.classList.remove('hidden');
