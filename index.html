@@ -7,8 +7,6 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap"/>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
-    /* --- Paste the CSS from previous steps here or use your own styles.css --- */
-    /* For brevity, only key styles shown, use your full CSS for production */
     :root {
       --primary: #1976d2;
       --accent: #e3f2fd;
@@ -51,6 +49,16 @@
     .fun-fact.hidden { display: none;}
     .snackbar { position: fixed; left: 50%; bottom: 2em; transform: translateX(-50%); background: var(--primary); color: #fff; padding: 1em 2em; border-radius: 1.5em; font-size: 1em; box-shadow: 0 4px 18px rgba(25,118,210,0.15); opacity: 0; pointer-events: none; transition: opacity 0.3s, bottom 0.3s; z-index: 1000;}
     .snackbar.show { opacity: 1; pointer-events: auto; bottom: 3.5em;}
+    .modal { position: fixed; inset: 0; z-index: 200; background: rgba(40,40,40,0.34); display: flex; align-items: center; justify-content: center;}
+    .modal.hidden { display: none !important; }
+    .modal-content { background: #fff; border-radius: 18px; box-shadow: 0 8px 40px rgba(60,60,60,0.18); padding: 2em 1.2em; min-width: 260px; max-width: 98vw; position: relative;}
+    .close-btn { position: absolute; top: 0.7em; right: 1.1em; background: transparent; color: #888; font-size: 1.7em; border: none; border-radius: 50%; cursor: pointer;}
+    .close-btn:hover { background: #e57373; color: #fff; }
+    #sound-toggle-btn { background: var(--accent); color: var(--primary); font-weight: 600; border: none; border-radius: 999px; padding: 0.45em 1em; font-size: 1em; box-shadow: 0 2px 8px rgba(25,118,210,0.06); gap: 0.4em; transition: background 0.18s, color 0.18s; display: inline-flex; align-items: center;}
+    #sound-toggle-btn:hover, #sound-toggle-btn:focus-visible { background: var(--primary); color: #fff;}
+    #volume-icon, #mute-icon { font-size: 1.2em; transition: opacity 0.2s;}
+    #mute-icon.hidden, #volume-icon.hidden { display: none;}
+    .material-icons { font-family: 'Material Icons'; font-style: normal; font-weight: normal; font-size: 24px; line-height: 1; letter-spacing: normal; text-transform: none; display: inline-block; direction: ltr; -webkit-font-feature-settings: 'liga'; -webkit-font-smoothing: antialiased;}
     @media (max-width: 600px) {
       .quiz-container { padding: 1em 0.5em 1em 0.5em; min-width: unset;}
       .header { flex-direction: column; gap: 0.7em; padding: 0.7em 0.5em;}
@@ -62,6 +70,8 @@
   <header class="header">
     <h1 id="app-title">Global Quiz App</h1>
     <nav class="header-btns">
+      <button id="profile-btn" aria-label="Profile"><span class="material-icons">account_circle</span></button>
+      <button id="open-settings" aria-label="Settings"><span class="material-icons">settings</span></button>
       <select id="language-selector" aria-label="Select Language">
         <option value="en">English</option>
         <option value="es">Español</option>
@@ -109,12 +119,39 @@
   <!-- Snackbar/Toast -->
   <div id="snackbar" class="snackbar hidden"></div>
 
+  <!-- Profile Modal -->
+  <div id="profile-modal" class="modal hidden" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-content">
+      <button class="close-btn" id="close-profile-modal" aria-label="Close"><span class="material-icons">close</span></button>
+      <h2 id="profile-modal-title">Profile</h2>
+      <div>
+        <label>Name: <input type="text" id="profile-name" /></label>
+      </div>
+      <button id="save-profile-btn" class="option-button">Save</button>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal hidden" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-content">
+      <button class="close-btn" id="close-settings-modal" aria-label="Close"><span class="material-icons">close</span></button>
+      <h2 id="settings-modal-title">Settings</h2>
+      <label for="language-setting">Language:</label>
+      <select id="language-setting">
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="ml">മലയാളം</option>
+      </select>
+    </div>
+  </div>
+
   <!-- Sound Effects -->
   <audio id="correct-sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b3b3b.mp3"></audio>
   <audio id="wrong-sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_11b3b3b3b.mp3"></audio>
 
   <script>
-    // ===== Strings and Questions (Embedded) =====
+    // ===== Embedded Strings and Questions =====
     const STRINGS = {
       "en": {
         "appTitle": "Global Quiz App",
@@ -125,6 +162,8 @@
         "score": "Score",
         "streak": "Streak",
         "of": "of",
+        "profile": "Profile",
+        "settings": "Settings",
         "quizQuestions": [
           {
             "id": 1,
@@ -170,6 +209,8 @@
         "score": "Puntaje",
         "streak": "Racha",
         "of": "de",
+        "profile": "Perfil",
+        "settings": "Configuración",
         "quizQuestions": [
           {
             "id": 1,
@@ -215,6 +256,8 @@
         "score": "Score",
         "streak": "Série",
         "of": "sur",
+        "profile": "Profil",
+        "settings": "Paramètres",
         "quizQuestions": [
           {
             "id": 1,
@@ -260,6 +303,8 @@
         "score": "സ്കോർ",
         "streak": "സ്ട്രീക്ക്",
         "of": "ഇൽ",
+        "profile": "പ്രൊഫൈൽ",
+        "settings": "ക്രമീകരണങ്ങൾ",
         "quizQuestions": [
           {
             "id": 1,
@@ -311,6 +356,7 @@
     let isDaily = false;
     let quizInProgress = false;
     let isMuted = false;
+    let profileName = localStorage.getItem('profileName') || '';
 
     // ===== Initialization =====
     document.addEventListener('DOMContentLoaded', () => {
@@ -318,6 +364,7 @@
       if (!STRINGS[LANG]) LANG = 'en';
       updateAllStrings();
       setupEventListeners();
+      if (profileName) $('profile-name').value = profileName;
       hide($('splash-screen'));
       show($('start-screen'));
       hide($('quiz-content'));
@@ -330,197 +377,4 @@
       setText('app-title', S.appTitle);
       setText('welcome-title', S.welcomeTitle);
       setText('welcome-desc', S.welcomeDesc);
-      setText('start-quiz-btn', S.startQuiz);
-      setText('start-daily-btn', S.startDailyQuiz);
-      setText('score-label', `${S.score}: <span id="score">0</span>`);
-      setText('streak-label', `${S.streak}: <span id="streak">0</span>`);
-      setText('of', S.of);
-      if ($('language-selector')) $('language-selector').value = LANG;
-      if (quizInProgress) showQuestion();
-    }
-
-    // ===== Quiz Logic =====
-    function startQuiz(daily = false) {
-      isDaily = daily;
-      quizInProgress = true;
-      hide($('start-screen'));
-      show($('quiz-content'));
-      quizSet = getQuizSet();
-      current = 0; score = 0; streak = 0;
-      showQuestion();
-    }
-    function getQuizSet() {
-      const all = STRINGS[LANG].quizQuestions.slice();
-      if (isDaily) return [all[Math.floor(Math.random() * all.length)]];
-      return all.sort(() => Math.random() - 0.5).slice(0, all.length);
-    }
-    function showQuestion() {
-      const S = STRINGS[LANG];
-      const q = quizSet[current];
-      setText('score', score);
-      setText('streak', streak);
-      setText('current-question', current + 1);
-      setText('total-questions', quizSet.length);
-
-      // Render image if present
-      let html = '';
-      if (q.image) html += `<img src="${q.image}" alt="Question Image">`;
-      html += `<h2>${q.question}</h2><div id="options-list"></div>`;
-      $('question-area').innerHTML = html;
-
-      // Randomize options
-      const opts = q.options.map((opt, i) => ({opt, idx: i}));
-      for (let i = opts.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [opts[i], opts[j]] = [opts[j], opts[i]];
-      }
-      opts.forEach(({opt, idx}) => {
-        const btn = document.createElement('button');
-        btn.className = 'option-button';
-        btn.textContent = opt;
-        btn.onclick = () => handleAnswer(idx, btn, opts);
-        $('options-list').appendChild(btn);
-      });
-      hideFunFact();
-      startTimer(20);
-    }
-    function handleAnswer(idx, btn, opts) {
-      clearInterval(timer);
-      const q = quizSet[current];
-      document.querySelectorAll('.option-button').forEach(b => b.disabled = true);
-
-      // Find the correct answer's new index after shuffle
-      const correctOpt = opts.find(o => o.idx === q.answer);
-      if (idx === q.answer) {
-        btn.classList.add('correct');
-        score++; streak++;
-        playSound('correct-sound');
-      } else {
-        btn.classList.add('incorrect');
-        document.querySelectorAll('.option-button')[opts.indexOf(correctOpt)].classList.add('correct');
-        streak = 0;
-        playSound('wrong-sound');
-      }
-      setText('score', score);
-      setText('streak', streak);
-      showFunFact(q.funFact, q.explanation);
-      setTimeout(() => {
-        current++;
-        if (current < quizSet.length) showQuestion();
-        else showQuizEnd();
-      }, 2000);
-    }
-    function showQuizEnd() {
-      quizInProgress = false;
-      $('question-area').innerHTML =
-        `<h2>Quiz Complete!</h2>
-        <p>Your score: <span class="font-bold">${score}</span>/${quizSet.length}</p>
-        <button id="restart-btn" class="option-button" style="width:auto;min-width:120px;">Play Again</button>
-        <button id="return-home-btn" class="option-button" style="width:auto;min-width:120px;">Return Home</button>`;
-      setText('timer-text', '');
-      $('timer-bar-fill').style.width = '0%';
-      $('restart-btn').onclick = () => startQuiz(isDaily);
-      $('return-home-btn').onclick = () => {
-        hide($('quiz-content'));
-        show($('start-screen'));
-      };
-      hideFunFact();
-      showSnackbar("Quiz complete!");
-    }
-    function startTimer(seconds) {
-      let timeLeft = seconds;
-      updateTimerUI(timeLeft, seconds);
-      if (timer) clearInterval(timer);
-      timer = setInterval(() => {
-        timeLeft--;
-        updateTimerUI(timeLeft, seconds);
-        if (timeLeft <= 0) {
-          clearInterval(timer);
-          handleTimeUp();
-        }
-      }, 1000);
-    }
-    function updateTimerUI(timeLeft, total) {
-      setText('timer-text', `${timeLeft}s`);
-      const fill = $('timer-bar-fill');
-      if (fill) {
-        const percent = (timeLeft / total) * 100;
-        fill.style.width = percent + '%';
-        fill.classList.remove('warning', 'danger');
-        if (timeLeft <= 5) fill.classList.add('danger');
-        else if (timeLeft <= 10) fill.classList.add('warning');
-      }
-    }
-    function handleTimeUp() {
-      const q = quizSet[current];
-      document.querySelectorAll('.option-button').forEach((btn) => {
-        btn.disabled = true;
-        if (btn.textContent === q.options[q.answer]) btn.classList.add('correct');
-      });
-      streak = 0;
-      setText('streak', streak);
-      playSound('wrong-sound');
-      showFunFact(q.funFact, q.explanation);
-      setTimeout(() => {
-        current++;
-        if (current < quizSet.length) showQuestion();
-        else showQuizEnd();
-      }, 2000);
-    }
-    function showFunFact(fact, explanation) {
-      if (!fact && !explanation) return hideFunFact();
-      $('fun-fact-box').innerHTML = `<strong>Fun Fact:</strong> ${fact || ''}<br><span>${explanation || ''}</span>`;
-      show($('fun-fact-box'));
-    }
-    function hideFunFact() {
-      hide($('fun-fact-box'));
-      $('fun-fact-box').innerHTML = '';
-    }
-
-    // ===== Event Listeners and UI =====
-    function setupEventListeners() {
-      $('language-selector').onchange = function() {
-        LANG = this.value;
-        localStorage.setItem('lang', LANG);
-        updateAllStrings();
-      };
-      $('start-quiz-btn').onclick = () => startQuiz(false);
-      $('start-daily-btn').onclick = () => startQuiz(true);
-      $('sound-toggle-btn').onclick = toggleSound;
-    }
-
-    // ===== Sound Logic =====
-    function toggleSound() {
-      isMuted = !isMuted;
-      $('sound-toggle-btn').setAttribute('aria-pressed', isMuted);
-      if (isMuted) {
-        $('volume-icon').classList.add('hidden');
-        $('mute-icon').classList.remove('hidden');
-      } else {
-        $('volume-icon').classList.remove('hidden');
-        $('mute-icon').classList.add('hidden');
-      }
-    }
-    function playSound(id) {
-      if (isMuted) return;
-      const sound = $(id);
-      if (sound) {
-        sound.currentTime = 0;
-        sound.play().catch(()=>{});
-      }
-    }
-
-    // ===== Snackbar =====
-    function showSnackbar(message, duration = 2000) {
-      const sb = $('snackbar');
-      sb.textContent = message;
-      sb.classList.add('show');
-      sb.classList.remove('hidden');
-      setTimeout(() => {
-        sb.classList.remove('show');
-        setTimeout(() => sb.classList.add('hidden'), 350);
-      }, duration);
-    }
-  </script>
-</body>
-</html>
+      setText('start-quiz-btn', S.sta
