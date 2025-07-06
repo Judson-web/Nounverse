@@ -9,6 +9,8 @@ const STRINGS = {
     "score": "Score",
     "streak": "Streak",
     "of": "of",
+    "profile": "Profile",
+    "settings": "Settings",
     "quizQuestions": [
       {
         "id": 1,
@@ -17,9 +19,7 @@ const STRINGS = {
         "answer": 0,
         "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
         "explanation": "A group of lions is called a pride.",
-        "funFact": "Lion prides are usually made up of related females and their offspring, plus a small number of adult males.",
-        "difficulty": "easy",
-        "topic": "mammals"
+        "funFact": "Lion prides are usually made up of related females and their offspring, plus a small number of adult males."
       },
       {
         "id": 2,
@@ -28,9 +28,7 @@ const STRINGS = {
         "answer": 0,
         "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
         "explanation": "A group of crows is called a murder.",
-        "funFact": "Crows are known for their intelligence and can use tools and solve complex problems.",
-        "difficulty": "medium",
-        "topic": "birds"
+        "funFact": "Crows are known for their intelligence and can use tools and solve complex problems."
       },
       {
         "id": 3,
@@ -39,9 +37,7 @@ const STRINGS = {
         "answer": 0,
         "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
         "explanation": "A group of elephants is called a herd.",
-        "funFact": "Elephant herds are led by the oldest female, known as the matriarch.",
-        "difficulty": "easy",
-        "topic": "mammals"
+        "funFact": "Elephant herds are led by the oldest female, known as the matriarch."
       }
     ]
   },
@@ -54,6 +50,8 @@ const STRINGS = {
     "score": "Puntaje",
     "streak": "Racha",
     "of": "de",
+    "profile": "Perfil",
+    "settings": "Configuración",
     "quizQuestions": [
       {
         "id": 1,
@@ -62,9 +60,7 @@ const STRINGS = {
         "answer": 0,
         "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
         "explanation": "Un grupo de leones se llama manada.",
-        "funFact": "Las manadas de leones suelen estar formadas por hembras emparentadas y sus crías, además de algunos machos adultos.",
-        "difficulty": "easy",
-        "topic": "mamíferos"
+        "funFact": "Las manadas de leones suelen estar formadas por hembras emparentadas y sus crías, además de algunos machos adultos."
       },
       {
         "id": 2,
@@ -73,9 +69,7 @@ const STRINGS = {
         "answer": 0,
         "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
         "explanation": "Un grupo de cuervos se llama parvada.",
-        "funFact": "Los cuervos son conocidos por su inteligencia y su capacidad para usar herramientas y resolver problemas complejos.",
-        "difficulty": "medium",
-        "topic": "aves"
+        "funFact": "Los cuervos son conocidos por su inteligencia y su capacidad para usar herramientas y resolver problemas complejos."
       },
       {
         "id": 3,
@@ -84,9 +78,7 @@ const STRINGS = {
         "answer": 0,
         "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
         "explanation": "Un grupo de elefantes se llama manada.",
-        "funFact": "Las manadas de elefantes son lideradas por la hembra más vieja, llamada matriarca.",
-        "difficulty": "easy",
-        "topic": "mamíferos"
+        "funFact": "Las manadas de elefantes son lideradas por la hembra más vieja, llamada matriarca."
       }
     ]
   },
@@ -99,6 +91,8 @@ const STRINGS = {
     "score": "Score",
     "streak": "Série",
     "of": "sur",
+    "profile": "Profil",
+    "settings": "Paramètres",
     "quizQuestions": [
       {
         "id": 1,
@@ -107,9 +101,7 @@ const STRINGS = {
         "answer": 0,
         "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
         "explanation": "Un groupe de lions s'appelle une troupe.",
-        "funFact": "Les troupes de lions sont généralement composées de femelles apparentées et de leurs petits, ainsi que de quelques mâles adultes.",
-        "difficulty": "easy",
-        "topic": "mammifères"
+        "funFact": "Les troupes de lions sont généralement composées de femelles apparentées et de leurs petits, ainsi que de quelques mâles adultes."
       },
       {
         "id": 2,
@@ -118,9 +110,7 @@ const STRINGS = {
         "answer": 0,
         "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
         "explanation": "Un groupe de corbeaux s'appelle une volée.",
-        "funFact": "Les corbeaux sont connus pour leur intelligence et leur capacité à utiliser des outils et à résoudre des problèmes complexes.",
-        "difficulty": "medium",
-        "topic": "oiseaux"
+        "funFact": "Les corbeaux sont connus pour leur intelligence et leur capacité à utiliser des outils et à résoudre des problèmes complexes."
       },
       {
         "id": 3,
@@ -129,9 +119,7 @@ const STRINGS = {
         "answer": 0,
         "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
         "explanation": "Un groupe d'éléphants s'appelle un troupeau.",
-        "funFact": "Les troupeaux d'éléphants sont dirigés par la femelle la plus âgée, appelée matriarche.",
-        "difficulty": "easy",
-        "topic": "mammifères"
+        "funFact": "Les troupeaux d'éléphants sont dirigés par la femelle la plus âgée, appelée matriarche."
       }
     ]
   },
@@ -144,6 +132,8 @@ const STRINGS = {
     "score": "സ്കോർ",
     "streak": "സ്ട്രീക്ക്",
     "of": "ഇൽ",
+    "profile": "പ്രൊഫൈൽ",
+    "settings": "ക്രമീകരണങ്ങൾ",
     "quizQuestions": [
       {
         "id": 1,
@@ -152,9 +142,7 @@ const STRINGS = {
         "answer": 0,
         "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
         "explanation": "സിംഹങ്ങളുടെ കൂട്ടത്തെ പ്രൈഡ് എന്ന് വിളിക്കുന്നു.",
-        "funFact": "പ്രൈഡിൽ സാധാരണയായി ബന്ധമുള്ള പെൺ സിംഹങ്ങളും അവരുടെ കുഞ്ഞുങ്ങളും കുറച്ച് പുരുഷ സിംഹങ്ങളും ഉണ്ടാകും.",
-        "difficulty": "easy",
-        "topic": "മൃഗങ്ങൾ"
+        "funFact": "പ്രൈഡിൽ സാധാരണയായി ബന്ധമുള്ള പെൺ സിംഹങ്ങളും അവരുടെ കുഞ്ഞുങ്ങളും കുറച്ച് പുരുഷ സിംഹങ്ങളും ഉണ്ടാകും."
       },
       {
         "id": 2,
@@ -163,9 +151,7 @@ const STRINGS = {
         "answer": 0,
         "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
         "explanation": "കാക്കകളുടെ കൂട്ടത്തെ മർഡർ എന്ന് വിളിക്കുന്നു.",
-        "funFact": "കാക്കകൾ വളരെ ബുദ്ധിമുട്ടുള്ളവയാണ്; അവയ്ക്ക് ഉപകരണങ്ങൾ ഉപയോഗിക്കാനും പ്രശ്നങ്ങൾ പരിഹരിക്കാനും കഴിയും.",
-        "difficulty": "medium",
-        "topic": "പക്ഷികൾ"
+        "funFact": "കാക്കകൾ വളരെ ബുദ്ധിമുട്ടുള്ളവയാണ്; അവയ്ക്ക് ഉപകരണങ്ങൾ ഉപയോഗിക്കാനും പ്രശ്നങ്ങൾ പരിഹരിക്കാനും കഴിയും."
       },
       {
         "id": 3,
@@ -174,9 +160,7 @@ const STRINGS = {
         "answer": 0,
         "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
         "explanation": "ആനകളുടെ കൂട്ടത്തെ ഹേർഡ് എന്ന് വിളിക്കുന്നു.",
-        "funFact": "ആനകളുടെ കൂട്ടത്തിന് നേതൃത്വം നൽകുന്നത് ഏറ്റവും പ്രായം കൂടിയ പെൺ ആനയാണ്, അവളെ 'മാട്രിയാർക്ക്' എന്ന് വിളിക്കുന്നു.",
-        "difficulty": "easy",
-        "topic": "മൃഗങ്ങൾ"
+        "funFact": "ആനകളുടെ കൂട്ടത്തിന് നേതൃത്വം നൽകുന്നത് ഏറ്റവും പ്രായം കൂടിയ പെൺ ആനയാണ്, അവളെ 'മാട്രിയാർക്ക്' എന്ന് വിളിക്കുന്നു."
       }
     ]
   }
@@ -195,6 +179,7 @@ let current = 0, score = 0, streak = 0, timer = null;
 let isDaily = false;
 let quizInProgress = false;
 let isMuted = false;
+let profileName = localStorage.getItem('profileName') || '';
 
 // ===== Initialization =====
 document.addEventListener('DOMContentLoaded', () => {
@@ -202,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!STRINGS[LANG]) LANG = 'en';
   updateAllStrings();
   setupEventListeners();
+  if (profileName) $('profile-name').value = profileName;
   hide($('splash-screen'));
   show($('start-screen'));
   hide($('quiz-content'));
@@ -219,7 +205,10 @@ function updateAllStrings() {
   setText('score-label', `${S.score}: <span id="score">0</span>`);
   setText('streak-label', `${S.streak}: <span id="streak">0</span>`);
   setText('of', S.of);
+  setText('profile-modal-title', S.profile || "Profile");
+  setText('settings-modal-title', S.settings || "Settings");
   if ($('language-selector')) $('language-selector').value = LANG;
+  if ($('language-setting')) $('language-setting').value = LANG;
   if (quizInProgress) showQuestion();
 }
 
@@ -371,6 +360,23 @@ function setupEventListeners() {
   $('start-quiz-btn').onclick = () => startQuiz(false);
   $('start-daily-btn').onclick = () => startQuiz(true);
   $('sound-toggle-btn').onclick = toggleSound;
+  // Profile modal
+  $('profile-btn').onclick = () => show($('profile-modal'));
+  $('close-profile-modal').onclick = () => hide($('profile-modal'));
+  $('save-profile-btn').onclick = () => {
+    profileName = $('profile-name').value.trim();
+    localStorage.setItem('profileName', profileName);
+    showSnackbar("Profile saved!");
+    hide($('profile-modal'));
+  };
+  // Settings modal
+  $('open-settings').onclick = () => show($('settings-modal'));
+  $('close-settings-modal').onclick = () => hide($('settings-modal'));
+  $('language-setting').onchange = function() {
+    LANG = this.value;
+    localStorage.setItem('lang', LANG);
+    updateAllStrings();
+  };
 }
 
 // ===== Sound Logic =====
