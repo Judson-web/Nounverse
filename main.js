@@ -1,11 +1,13 @@
-// ===== Embedded Strings and Questions =====
+// =========================
+// 1. Embedded Strings/Questions
+// =========================
 const STRINGS = {
   "en": {
-    "appTitle": "Global Quiz App",
+    "appTitle": "Quiz App",
     "welcomeTitle": "Welcome!",
-    "welcomeDesc": "Test your knowledge with global quizzes.<br>Ready to begin?",
+    "welcomeDesc": "Test your knowledge with fun quizzes.<br>Ready to begin?",
     "startQuiz": "Start Quiz",
-    "startDailyQuiz": "Start Daily Quiz",
+    "startDailyQuiz": "Daily Challenge",
     "score": "Score",
     "streak": "Streak",
     "of": "of",
@@ -44,33 +46,44 @@ const STRINGS = {
   // Add other languages as needed
 };
 
-// ===== Utility Functions =====
+// =========================
+// 2. Utility Functions
+// =========================
 function $(id) { return document.getElementById(id); }
 function show(el) { if (el) el.classList.remove('hidden'); }
 function hide(el) { if (el) el.classList.add('hidden'); }
 function setText(id, value) { if ($(id)) $(id).innerHTML = value; }
 
-// ===== Global State =====
+// =========================
+// 3. Global State
+// =========================
 let LANG = localStorage.getItem('lang') || 'en';
 if (!STRINGS[LANG]) LANG = 'en';
 let quizSet = [];
-let current = 0, score = 0, streak = 0, timer = null;
+let current = 0, score = 0, streak = 0;
 let isDaily = false;
 let quizInProgress = false;
 let isMuted = false;
 let profileName = localStorage.getItem('profileName') || '';
+let profileAvatar = localStorage.getItem('profileAvatar') ||
+  "https://api.dicebear.com/7.x/personas/svg?seed=owl";
 
-// ===== Initialization =====
+// =========================
+// 4. Initialization
+// =========================
 document.addEventListener('DOMContentLoaded', () => {
   updateAllStrings();
   setupEventListeners();
+  $('profile-avatar').src = profileAvatar;
   if ($('profile-name')) $('profile-name').value = profileName;
   hide($('splash-screen'));
   show($('start-screen'));
   hide($('quiz-content'));
 });
 
-// ===== Language Switching =====
+// =========================
+// 5. Language/UI Update
+// =========================
 function updateAllStrings() {
   if (!STRINGS[LANG]) LANG = 'en';
   const S = STRINGS[LANG];
@@ -80,16 +93,16 @@ function updateAllStrings() {
   setText('start-quiz-btn', S.startQuiz);
   setText('start-daily-btn', S.startDailyQuiz);
   setText('score-label', `${S.score}: <span id="score">0</span>`);
-  setText('streak-label', `${S.streak}: <span id="streak">0</span>`);
-  setText('of', S.of);
+  setText('streak-label', `🔥 <span id="streak">0</span>`);
   setText('profile-modal-title', S.profile || "Profile");
   setText('settings-modal-title', S.settings || "Settings");
-  if ($('language-selector')) $('language-selector').value = LANG;
   if ($('language-setting')) $('language-setting').value = LANG;
   if (quizInProgress) showQuestion();
 }
 
-// ===== Quiz Logic =====
+// =========================
+// 6. Quiz Logic
+// =========================
 function startQuiz(daily = false) {
   isDaily = daily;
   quizInProgress = true;
@@ -112,11 +125,17 @@ function showQuestion() {
   setText('current-question', current + 1);
   setText('total-questions', quizSet.length);
 
+  // Progress bar
+  const percent = ((current) / quizSet.length) * 100;
+  $('progress-fill').style.width = percent + "%";
+
+  // Render image and question
   let html = '';
   if (q.image) html += `<img src="${q.image}" alt="Question Image">`;
   html += `<h2>${q.question}</h2><div id="options-list"></div>`;
   $('question-area').innerHTML = html;
 
+  // Shuffle options
   const opts = q.options.map((opt, i) => ({opt, idx: i}));
   for (let i = opts.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -124,19 +143,18 @@ function showQuestion() {
   }
   opts.forEach(({opt, idx}) => {
     const btn = document.createElement('button');
-    btn.className = 'option-button';
+    btn.className = 'duo-btn';
     btn.textContent = opt;
     btn.onclick = () => handleAnswer(idx, btn, opts);
     $('options-list').appendChild(btn);
   });
   hideFunFact();
-  startTimer(20);
 }
 function handleAnswer(idx, btn, opts) {
-  clearInterval(timer);
   const q = quizSet[current];
-  document.querySelectorAll('.option-button').forEach(b => b.disabled = true);
+  document.querySelectorAll('.duo-btn').forEach(b => b.disabled = true);
 
+  // Find the correct answer's new index after shuffle
   const correctOpt = opts.find(o => o.idx === q.answer);
   if (idx === q.answer) {
     btn.classList.add('correct');
@@ -144,7 +162,7 @@ function handleAnswer(idx, btn, opts) {
     playSound('correct-sound');
   } else {
     btn.classList.add('incorrect');
-    document.querySelectorAll('.option-button')[opts.indexOf(correctOpt)].classList.add('correct');
+    document.querySelectorAll('.duo-btn')[opts.indexOf(correctOpt)].classList.add('correct');
     streak = 0;
     playSound('wrong-sound');
   }
@@ -155,64 +173,24 @@ function handleAnswer(idx, btn, opts) {
     current++;
     if (current < quizSet.length) showQuestion();
     else showQuizEnd();
-  }, 2000);
+  }, 1500);
 }
 function showQuizEnd() {
   quizInProgress = false;
+  $('progress-fill').style.width = "100%";
   $('question-area').innerHTML =
     `<h2>Quiz Complete!</h2>
-    <p>Your score: <span class="font-bold">${score}</span>/${quizSet.length}</p>
-    <button id="restart-btn" class="option-button" style="width:auto;min-width:120px;">Play Again</button>
-    <button id="return-home-btn" class="option-button" style="width:auto;min-width:120px;">Return Home</button>`;
-  setText('timer-text', '');
-  $('timer-bar-fill').style.width = '0%';
+    <p>Your score: <span style="font-weight:bold;">${score}</span>/${quizSet.length}</p>
+    <button id="restart-btn" class="duo-btn duo-btn-primary" style="width:auto;min-width:120px;">Play Again</button>
+    <button id="return-home-btn" class="duo-btn" style="width:auto;min-width:120px;">Return Home</button>`;
   $('restart-btn').onclick = () => startQuiz(isDaily);
   $('return-home-btn').onclick = () => {
     hide($('quiz-content'));
     show($('start-screen'));
+    $('progress-fill').style.width = "0%";
   };
   hideFunFact();
   showSnackbar("Quiz complete!");
-}
-function startTimer(seconds) {
-  let timeLeft = seconds;
-  updateTimerUI(timeLeft, seconds);
-  if (timer) clearInterval(timer);
-  timer = setInterval(() => {
-    timeLeft--;
-    updateTimerUI(timeLeft, seconds);
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      handleTimeUp();
-    }
-  }, 1000);
-}
-function updateTimerUI(timeLeft, total) {
-  setText('timer-text', `${timeLeft}s`);
-  const fill = $('timer-bar-fill');
-  if (fill) {
-    const percent = (timeLeft / total) * 100;
-    fill.style.width = percent + '%';
-    fill.classList.remove('warning', 'danger');
-    if (timeLeft <= 5) fill.classList.add('danger');
-    else if (timeLeft <= 10) fill.classList.add('warning');
-  }
-}
-function handleTimeUp() {
-  const q = quizSet[current];
-  document.querySelectorAll('.option-button').forEach((btn) => {
-    btn.disabled = true;
-    if (btn.textContent === q.options[q.answer]) btn.classList.add('correct');
-  });
-  streak = 0;
-  setText('streak', streak);
-  playSound('wrong-sound');
-  showFunFact(q.funFact, q.explanation);
-  setTimeout(() => {
-    current++;
-    if (current < quizSet.length) showQuestion();
-    else showQuizEnd();
-  }, 2000);
 }
 function showFunFact(fact, explanation) {
   if (!fact && !explanation) return hideFunFact();
@@ -224,16 +202,14 @@ function hideFunFact() {
   $('fun-fact-box').innerHTML = '';
 }
 
-// ===== Event Listeners and UI =====
+// =========================
+// 7. Event Listeners and UI
+// =========================
 function setupEventListeners() {
-  $('language-selector').onchange = function() {
-    LANG = this.value;
-    localStorage.setItem('lang', LANG);
-    updateAllStrings();
-  };
+  // Start quiz
   $('start-quiz-btn').onclick = () => startQuiz(false);
   $('start-daily-btn').onclick = () => startQuiz(true);
-  $('sound-toggle-btn').onclick = toggleSound;
+
   // Profile modal
   $('profile-btn').onclick = () => show($('profile-modal'));
   $('close-profile-modal').onclick = () => hide($('profile-modal'));
@@ -243,6 +219,7 @@ function setupEventListeners() {
     showSnackbar("Profile saved!");
     hide($('profile-modal'));
   };
+
   // Settings modal
   $('open-settings').onclick = () => show($('settings-modal'));
   $('close-settings-modal').onclick = () => hide($('settings-modal'));
@@ -251,9 +228,14 @@ function setupEventListeners() {
     localStorage.setItem('lang', LANG);
     updateAllStrings();
   };
+
+  // Sound
+  $('sound-toggle-btn').onclick = toggleSound;
 }
 
-// ===== Sound Logic =====
+// =========================
+// 8. Sound Logic
+// =========================
 function toggleSound() {
   isMuted = !isMuted;
   $('sound-toggle-btn').setAttribute('aria-pressed', isMuted);
@@ -274,8 +256,10 @@ function playSound(id) {
   }
 }
 
-// ===== Snackbar =====
-function showSnackbar(message, duration = 2000) {
+// =========================
+// 9. Snackbar
+// =========================
+function showSnackbar(message, duration = 1800) {
   const sb = $('snackbar');
   sb.textContent = message;
   sb.classList.add('show');
