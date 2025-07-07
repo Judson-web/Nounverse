@@ -13,8 +13,7 @@
     <button onclick="loadVideo()">Load Video</button>
     <div id="player"></div>
     <div class="controls">
-      <button onclick="playVideo()">Play</button>
-      <button onclick="pauseVideo()">Pause</button>
+      <button id="playPauseBtn" onclick="togglePlayPause()">Play</button>
       <input type="range" id="seekBar" min="0" max="100" value="0" onchange="seekVideo(this.value)">
       <input type="range" id="volumeBar" min="0" max="100" value="100" onchange="setVolume(this.value)">
       <button onclick="toggleFullScreen()">Fullscreen</button>
