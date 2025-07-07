@@ -111,7 +111,7 @@ window.onYouTubeIframeAPIReady = function() {
   createPlayer('dQw4w9WgXcQ'); // Default video
 };
 
-// --- POP-UP & PICTURE-IN-PICTURE LOGIC ---
+// --- POP-UP, PIP, AND SHARE LOGIC ---
 
 document.addEventListener('DOMContentLoaded', function() {
   // Pop-up modal logic
@@ -136,7 +136,6 @@ document.addEventListener('DOMContentLoaded', function() {
     pipBtn.title = "Open Picture-in-Picture window";
     pipBtn.onclick = async () => {
       try {
-        // Open a PiP window with the same size as the player
         const pipWindow = await window.documentPictureInPicture.requestWindow({
           width: playerDiv.clientWidth,
           height: playerDiv.clientHeight,
@@ -149,5 +148,32 @@ document.addEventListener('DOMContentLoaded', function() {
   } else if (pipBtn) {
     pipBtn.disabled = true;
     pipBtn.title = "Picture-in-Picture not supported in this browser";
+  }
+
+  // --- Web Share API logic ---
+  const shareBtn = document.getElementById('shareBtn');
+  if (shareBtn) {
+    shareBtn.onclick = () => {
+      const shareData = {
+        title: document.title || 'Check this out!',
+        url: location.href
+      };
+      if (navigator.share) {
+        navigator.share(shareData).catch(() => {
+          // User cancelled or sharing failed
+        });
+      } else {
+        // Fallback: copy to clipboard and alert
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(shareData.url).then(() => {
+            alert('Link copied to clipboard!');
+          }, () => {
+            prompt('Copy this link:', shareData.url);
+          });
+        } else {
+          prompt('Copy this link:', shareData.url);
+        }
+      }
+    };
   }
 });
