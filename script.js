@@ -1,7 +1,8 @@
 let player;
 let updateTimer = null;
 
-// Extracts YouTube video ID from any common URL or direct input
+// --- YOUTUBE PLAYER LOGIC ---
+
 function extractVideoId(url) {
   const regExp = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|v\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
   const match = url.match(regExp);
@@ -10,7 +11,6 @@ function extractVideoId(url) {
   return null;
 }
 
-// Loads a video given user input
 function loadVideo() {
   const url = document.getElementById('videoUrl').value.trim();
   const videoId = extractVideoId(url);
@@ -25,7 +25,6 @@ function loadVideo() {
   }
 }
 
-// Creates the YouTube player
 function createPlayer(videoId) {
   player = new YT.Player('player', {
     width: '100%',
@@ -39,7 +38,6 @@ function createPlayer(videoId) {
   });
 }
 
-// Handles player ready event
 function onPlayerReady() {
   if (player && player.getVolume) {
     document.getElementById('volumeBar').value = player.getVolume();
@@ -56,16 +54,13 @@ function onPlayerReady() {
   }, 800);
 }
 
-// Handles player state changes
 function onPlayerStateChange(event) {
   updatePlayPauseButton(event.data);
 }
 
-// Play/Pause toggle logic
 function togglePlayPause() {
   if (!player) return;
   const state = player.getPlayerState();
-  // 1: playing, 2: paused, 0: ended, 5: video cued
   if (state === 1) {
     player.pauseVideo();
   } else {
@@ -73,18 +68,12 @@ function togglePlayPause() {
   }
 }
 
-// Updates play/pause button label
 function updatePlayPauseButton(state) {
   const btn = document.getElementById('playPauseBtn');
   if (!btn) return;
-  if (state === 1) {
-    btn.textContent = "Pause";
-  } else {
-    btn.textContent = "Play";
-  }
+  btn.textContent = (state === 1) ? "Pause" : "Play";
 }
 
-// Seek bar logic
 function seekVideo(value) {
   if (player) {
     const duration = player.getDuration();
@@ -92,12 +81,10 @@ function seekVideo(value) {
   }
 }
 
-// Volume control
 function setVolume(value) {
   if (player) player.setVolume(value);
 }
 
-// Fullscreen logic (cross-browser)
 function toggleFullScreen() {
   const iframe = document.querySelector('#player iframe');
   if (!iframe) return;
@@ -112,40 +99,55 @@ function toggleFullScreen() {
   }
 }
 
-// Playback speed control
 function setPlaybackSpeed(speed) {
   if (player) player.setPlaybackRate(Number(speed));
 }
 
-// Theme toggle
 function toggleTheme() {
   document.body.classList.toggle('light');
 }
 
-// YouTube IFrame API setup
 window.onYouTubeIframeAPIReady = function() {
   createPlayer('dQw4w9WgXcQ'); // Default video
 };
 
-// --- POP-UP LOGIC ---
+// --- POP-UP & PICTURE-IN-PICTURE LOGIC ---
 
 document.addEventListener('DOMContentLoaded', function() {
+  // Pop-up modal logic
   const popupBtn = document.getElementById('popupBtn');
   const popupModal = document.getElementById('popupModal');
   const closePopup = document.getElementById('closePopup');
 
   if (popupBtn && popupModal && closePopup) {
-    popupBtn.onclick = () => {
-      popupModal.classList.add('active');
-    };
-    closePopup.onclick = () => {
-      popupModal.classList.remove('active');
-    };
-    // Optional: close modal when clicking outside content
+    popupBtn.onclick = () => popupModal.classList.add('active');
+    closePopup.onclick = () => popupModal.classList.remove('active');
     popupModal.onclick = (e) => {
-      if (e.target === popupModal) {
-        popupModal.classList.remove('active');
+      if (e.target === popupModal) popupModal.classList.remove('active');
+    };
+  }
+
+  // Picture-in-Picture logic (Document PiP API)
+  const pipBtn = document.getElementById('pipBtn');
+  const playerDiv = document.getElementById('player');
+
+  if (window.documentPictureInPicture && pipBtn && playerDiv) {
+    pipBtn.disabled = false;
+    pipBtn.title = "Open Picture-in-Picture window";
+    pipBtn.onclick = async () => {
+      try {
+        // Open a PiP window with the same size as the player
+        const pipWindow = await window.documentPictureInPicture.requestWindow({
+          width: playerDiv.clientWidth,
+          height: playerDiv.clientHeight,
+        });
+        pipWindow.document.body.append(playerDiv);
+      } catch (err) {
+        alert("Failed to open Picture-in-Picture: " + err.message);
       }
     };
+  } else if (pipBtn) {
+    pipBtn.disabled = true;
+    pipBtn.title = "Picture-in-Picture not supported in this browser";
   }
 });
