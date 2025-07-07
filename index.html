@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Custom YouTube Video Player</title>
+  <title>Custom YouTube Player</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="header">
-    <h1>Custom YouTube Video Player</h1>
+    <h1>Custom YouTube Player</h1>
   </header>
   <main>
     <div class="player-container">
@@ -17,11 +17,14 @@
         id="videoUrl"
         placeholder="Paste YouTube URL or ID"
         autocomplete="off"
+        aria-label="YouTube URL or ID"
       />
-      <button onclick="loadVideo()">Load Video</button>
+      <button onclick="loadVideo()" class="primary-btn">Load Video</button>
       <div id="player"></div>
       <div class="controls">
-        <button id="playPauseBtn" onclick="togglePlayPause()">Play</button>
+        <button id="playPauseBtn" onclick="togglePlayPause()" aria-label="Play/Pause">
+          <span id="playPauseIcon">▶️</span>
+        </button>
         <input
           type="range"
           id="seekBar"
@@ -29,6 +32,7 @@
           max="100"
           value="0"
           onchange="seekVideo(this.value)"
+          aria-label="Seek"
         />
         <input
           type="range"
@@ -37,28 +41,32 @@
           max="100"
           value="100"
           onchange="setVolume(this.value)"
+          aria-label="Volume"
         />
-        <button onclick="toggleFullScreen()">Fullscreen</button>
-        <select id="speedSelector" onchange="setPlaybackSpeed(this.value)">
+        <button onclick="toggleFullScreen()" aria-label="Fullscreen">⛶</button>
+        <select id="speedSelector" onchange="setPlaybackSpeed(this.value)" aria-label="Playback speed">
           <option value="0.5">0.5x</option>
           <option value="1" selected>1x</option>
           <option value="1.5">1.5x</option>
           <option value="2">2x</option>
         </select>
-        <button onclick="toggleTheme()">🌙/☀️</button>
-        <button id="pipBtn" title="Picture-in-Picture">PiP</button>
-        <button id="shareBtn" title="Share this player">Share</button>
+        <button onclick="toggleTheme()" aria-label="Toggle theme">🌙/☀️</button>
+        <button id="pipBtn" title="Picture-in-Picture" aria-label="Picture-in-Picture">🗗</button>
+        <button id="shareBtn" title="Share this player" aria-label="Share">📤</button>
       </div>
 
       <!-- Pop-up Button -->
-      <button id="popupBtn" class="popup-btn">Open Pop-up</button>
+      <button id="popupBtn" class="popup-btn">ℹ️ Info</button>
 
       <!-- Pop-up Modal -->
-      <div id="popupModal" class="popup-modal">
+      <div id="popupModal" class="popup-modal" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
         <div class="popup-content">
-          <span id="closePopup" class="close-popup">&times;</span>
-          <h2>Pop-up Title</h2>
-          <p>This is your custom pop-up content. You can add anything here!</p>
+          <span id="closePopup" class="close-popup" aria-label="Close">&times;</span>
+          <h2 id="popupTitle">About This Player</h2>
+          <p>
+            This is a fully custom YouTube player UI.<br>
+            All controls, pop-up, sharing, and Picture-in-Picture are built for a modern, app-like experience.
+          </p>
         </div>
       </div>
     </div>
