@@ -145,6 +145,67 @@ input[type="range"] {
   background: transparent;
 }
 
+/* Pop-up Button */
+.popup-btn {
+  margin-top: 12px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 10px 22px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.2s;
+}
+.popup-btn:active {
+  background: #b00610;
+}
+
+/* Pop-up Modal */
+.popup-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.45);
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-modal.active {
+  display: flex;
+}
+
+.popup-content {
+  background: var(--container-dark);
+  color: var(--text-dark);
+  padding: 32px 24px 24px 24px;
+  border-radius: 16px;
+  min-width: 260px;
+  max-width: 90vw;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  position: relative;
+  text-align: center;
+}
+body.light .popup-content {
+  background: var(--container-light);
+  color: var(--text-light);
+}
+.close-popup {
+  position: absolute;
+  top: 14px; right: 18px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.close-popup:hover {
+  color: var(--accent);
+}
+
 .footer {
   width: 100%;
   background: var(--container-dark);
@@ -200,6 +261,11 @@ body.light .footer {
     font-size: 1rem;
     padding: 10px 8px;
     margin-bottom: 8px;
+  }
+  .popup-content {
+    min-width: 0;
+    width: 90vw;
+    padding: 24px 8px 18px 8px;
   }
 }
 
