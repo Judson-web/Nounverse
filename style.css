@@ -83,6 +83,7 @@ body.light .player-container {
   border-radius: 8px;
   overflow: hidden;
   margin: 14px 0;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
 }
 
 input[type="text"] {
@@ -96,6 +97,7 @@ input[type="text"] {
   color: var(--text-dark);
   transition: background 0.3s, color 0.3s;
   box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 body.light input[type="text"] {
@@ -111,13 +113,15 @@ button, select {
   color: #fff;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.1s;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   outline: none;
+  font-weight: 600;
 }
 
 button:active, select:active {
   background: #555;
+  transform: scale(0.98);
 }
 
 body.light button, body.light select {
@@ -143,10 +147,10 @@ input[type="range"] {
   accent-color: var(--accent);
   margin: 0 4px;
   background: transparent;
+  height: 32px;
 }
 
-/* PiP Button */
-#pipBtn {
+#pipBtn, #shareBtn {
   background: #222;
   color: #fff;
   border-radius: 7px;
@@ -154,41 +158,21 @@ input[type="range"] {
   border: none;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.1s;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   outline: none;
 }
-#pipBtn:active {
+#pipBtn:active, #shareBtn:active {
   background: #444;
+  transform: scale(0.98);
 }
-body.light #pipBtn {
+body.light #pipBtn, body.light #shareBtn {
   background: #e0e0e0;
   color: #181818;
 }
-#pipBtn:disabled {
+#pipBtn:disabled, #shareBtn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-}
-
-/* Share Button */
-#shareBtn {
-  background: #222;
-  color: #fff;
-  border-radius: 7px;
-  padding: 10px 16px;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  outline: none;
-}
-#shareBtn:active {
-  background: #444;
-}
-body.light #shareBtn {
-  background: #e0e0e0;
-  color: #181818;
 }
 
 /* Pop-up Button */
@@ -202,10 +186,11 @@ body.light #shareBtn {
   border: none;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.1s;
 }
 .popup-btn:active {
   background: #b00610;
+  transform: scale(0.98);
 }
 
 /* Pop-up Modal */
@@ -234,6 +219,7 @@ body.light #shareBtn {
   box-shadow: 0 8px 32px rgba(0,0,0,0.18);
   position: relative;
   text-align: center;
+  font-size: 1.08rem;
 }
 body.light .popup-content {
   background: var(--container-light);
@@ -272,46 +258,85 @@ body.light .footer {
   color: var(--text-light);
 }
 
-/* Mobile optimization */
-@media (max-width: 500px) {
+/* --- Professional Mobile UI --- */
+@media (max-width: 600px) {
   .header, .footer {
-    font-size: 1rem;
-    padding: 12px 0 8px 0;
+    font-size: 1.1rem;
+    padding: 14px 0 10px 0;
+    letter-spacing: 0.5px;
   }
   .player-container {
     max-width: 100vw;
-    margin: 12px 0 0 0;
+    margin: 10px 0 0 0;
     border-radius: 0;
     box-shadow: none;
-    padding: 10px 0 10px 0;
+    padding: 8px 0 14px 0;
+    background: var(--container-dark);
+  }
+  body.light .player-container {
+    background: var(--container-light);
   }
   #player {
-    border-radius: 0;
-    margin: 10px 0;
+    border-radius: 12px;
+    margin: 12px 0;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
   }
   .controls {
     flex-direction: column;
-    gap: 8px;
-    padding: 0;
+    gap: 12px;
+    padding: 10px 0 0 0;
+    background: transparent;
+    border-radius: 16px;
+    width: 100%;
   }
   button, select {
-    width: 100%;
-    font-size: 1rem;
-    padding: 12px 0;
+    width: 98%;
+    font-size: 1.08rem;
+    padding: 16px 0;
+    margin: 0 auto;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    font-weight: 600;
+    letter-spacing: 0.2px;
   }
   input[type="range"] {
     width: 100%;
     margin: 0;
+    accent-color: var(--accent);
+    height: 36px;
   }
   input[type="text"] {
-    font-size: 1rem;
-    padding: 10px 8px;
-    margin-bottom: 8px;
+    font-size: 1.08rem;
+    padding: 14px 12px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    width: 98%;
+    background: var(--input-dark);
+    color: var(--text-dark);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  body.light input[type="text"] {
+    background: var(--input-light);
+    color: var(--text-light);
+  }
+  .popup-btn {
+    width: 98%;
+    padding: 16px 0;
+    font-size: 1.08rem;
+    border-radius: 12px;
+    margin-top: 14px;
   }
   .popup-content {
     min-width: 0;
-    width: 90vw;
-    padding: 24px 8px 18px 8px;
+    width: 94vw;
+    padding: 24px 10px 18px 10px;
+    border-radius: 18px;
+    font-size: 1.1rem;
+  }
+  .close-popup {
+    top: 10px;
+    right: 16px;
+    font-size: 2.2rem;
   }
 }
 
