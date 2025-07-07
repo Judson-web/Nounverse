@@ -1,386 +1,110 @@
-:root {
-  --duo-green: #58cc02;
-  --duo-green-dark: #399a00;
-  --duo-yellow: #ffd600;
-  --duo-bg: #f7f8fa;
-  --duo-card: #fff;
-  --duo-blue: #1cb0f6;
-  --duo-gray: #e5e5e5;
-  --duo-text: #222;
-  --duo-accent: #ffb800;
-  --duo-danger: #ff4b4b;
-  --duo-funfact-bg: #fffbe7;
-  --duo-funfact-border: #ffe066;
-  --duo-funfact-text: #7c6512;
-}
-
 body {
-  font-family: "Nunito", Arial, sans-serif;
-  background: var(--duo-bg);
-  color: var(--duo-text);
+  font-family: Arial, sans-serif;
+  background: #181818;
+  color: #fff;
   margin: 0;
-  min-height: 100vh;
+  padding: 0;
+  transition: background 0.3s, color 0.3s;
 }
 
-.duo-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--duo-card);
-  padding: 1.2em 1.5em;
-  border-bottom: 2px solid var(--duo-gray);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-.duo-title {
-  display: flex;
-  align-items: center;
-  gap: 0.7em;
-}
-.duo-logo {
-  font-size: 2em;
-  line-height: 1;
-}
-.duo-app-title {
-  font-weight: 900;
-  font-size: 1.5em;
-  color: var(--duo-green);
-  letter-spacing: 0.01em;
-}
-.duo-nav {
-  display: flex;
-  gap: 0.7em;
-  align-items: center;
-}
-.duo-circle-btn {
-  background: var(--duo-gray);
-  border: none;
-  border-radius: 50%;
-  width: 42px;
-  height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.25em;
-  cursor: pointer;
-  transition: background 0.15s;
-  outline: none;
-}
-.duo-circle-btn:focus-visible, .duo-circle-btn:hover {
-  background: var(--duo-green);
-  color: #fff;
-}
-.duo-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-  background: var(--duo-gray);
-  border: 2px solid var(--duo-green);
+body.light {
+  background: #f7f7f7;
+  color: #181818;
 }
 
-.duo-splash {
-  position: fixed;
-  inset: 0;
-  background: var(--duo-bg);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  font-size: 1.3em;
-}
-.duo-loading-text {
-  margin-top: 1em;
-  font-size: 1.2em;
-  color: var(--duo-green);
-}
-
-.duo-card {
-  background: var(--duo-card);
-  border-radius: 2em;
-  box-shadow: none;
-  max-width: 400px;
-  margin: 2em auto 1.5em auto;
-  padding: 2em 1.2em 2.5em 1.2em;
-  position: relative;
-  border: 2.5px solid var(--duo-gray);
-}
-
-.duo-heading {
-  font-size: 2em;
-  font-weight: 900;
-  color: var(--duo-green-dark);
-  margin-bottom: 0.2em;
+h1 {
   text-align: center;
-}
-.duo-desc {
-  font-size: 1.1em;
-  color: #555;
-  text-align: center;
-  margin-bottom: 1.5em;
-}
-.duo-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-  margin-top: 1.2em;
+  margin-top: 30px;
+  font-weight: 700;
+  letter-spacing: 2px;
 }
 
-.duo-btn {
-  border: none;
-  border-radius: 1.5em;
-  font-size: 1.15em;
-  font-weight: 800;
-  padding: 0.85em 1.2em;
-  background: var(--duo-gray);
-  color: var(--duo-green-dark);
-  cursor: pointer;
-  transition: background 0.16s, color 0.16s;
-  margin: 0.1em 0;
-  outline: none;
-}
-.duo-btn-primary {
-  background: var(--duo-green);
-  color: #fff;
-}
-.duo-btn:focus-visible, .duo-btn:hover {
-  background: var(--duo-green-dark);
-  color: #fff;
-}
-.duo-btn[aria-pressed="true"], .duo-btn.active {
-  background: var(--duo-blue);
-  color: #fff;
-}
-.duo-btn.small {
-  font-size: 1em;
-  padding: 0.5em 1em;
-  border-radius: 1em;
+.player-container {
+  max-width: 700px;
+  margin: 40px auto;
+  background: #232323;
+  padding: 24px 20px 20px 20px;
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  transition: background 0.3s;
 }
 
-.duo-progress-bar {
+body.light .player-container {
+  background: #fff;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+#player {
+  margin-top: 18px;
   width: 100%;
-  height: 12px;
-  background: var(--duo-gray);
+  aspect-ratio: 16/9;
+  background: #000;
   border-radius: 8px;
-  margin-bottom: 1.2em;
   overflow: hidden;
-  position: relative;
-}
-.duo-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--duo-green), var(--duo-yellow));
-  border-radius: 8px;
-  width: 0%;
-  transition: width 0.35s cubic-bezier(.4,1.3,.7,1);
 }
 
-.duo-score-row {
+.controls {
+  margin-top: 18px;
   display: flex;
-  justify-content: space-between;
-  font-size: 1.1em;
-  font-weight: 700;
-  margin-bottom: 0.8em;
-  color: var(--duo-green-dark);
-}
-.duo-question-meta {
-  text-align: center;
-  font-size: 1.1em;
-  color: #888;
-  margin-bottom: 1.2em;
-}
-.duo-question-area img {
-  max-width: 100%;
-  border-radius: 1em;
-  margin-bottom: 1em;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-.duo-question-area h2 {
-  font-size: 1.3em;
-  font-weight: 800;
-  margin: 0.5em 0 1em 0;
-  color: var(--duo-blue);
-  text-align: center;
-}
-.duo-question-area .duo-btn {
-  width: 100%;
-  text-align: left;
-  margin: 0.5em 0;
-}
-.duo-btn.correct {
-  background: #d6ffb7;
-  color: var(--duo-green-dark);
-}
-.duo-btn.incorrect {
-  background: #ffe5e5;
-  color: var(--duo-danger);
-}
-.duo-btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.duo-fun-fact {
-  background: var(--duo-funfact-bg);
-  border-left: 6px solid var(--duo-funfact-border);
-  padding: 1rem 1.2rem;
-  margin: 1.2rem 0 0.7rem 0;
-  border-radius: 1em;
-  font-size: 1.07rem;
-  color: var(--duo-funfact-text);
-  font-weight: 600;
-}
-.duo-fun-fact strong {
-  color: var(--duo-accent);
-}
-.duo-fun-fact.hidden {
-  display: none;
-}
-
-.duo-snackbar {
-  position: fixed;
-  left: 50%;
-  bottom: 2em;
-  transform: translateX(-50%);
-  background: var(--duo-green);
-  color: #fff;
-  padding: 1em 2em;
-  border-radius: 1.5em;
-  font-size: 1em;
-  font-weight: 800;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s, bottom 0.3s;
-  z-index: 1000;
-  box-shadow: 0 1px 10px rgba(0,0,0,0.05);
-}
-.duo-snackbar.show {
-  opacity: 1;
-  pointer-events: auto;
-  bottom: 3.5em;
-}
-
-/* Modals */
-.duo-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  background: rgba(0,0,0,0.18);
-  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   align-items: center;
   justify-content: center;
 }
-.duo-modal.hidden { display: none !important; }
-.duo-modal-content {
-  background: var(--duo-card);
-  border-radius: 2em;
-  box-shadow: none;
-  padding: 2em 1.2em;
-  min-width: 260px;
-  max-width: 95vw;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.2em;
-  border: 2.5px solid var(--duo-gray);
-}
-.duo-modal-heading {
-  font-size: 1.4em;
-  font-weight: 900;
-  color: var(--duo-green-dark);
-  margin-bottom: 0.5em;
-}
-.duo-modal-close {
-  position: absolute;
-  top: 1em;
-  right: 1.2em;
-  background: transparent;
-  color: #888;
-  font-size: 1.5em;
+
+input[type="text"] {
+  width: 65%;
+  padding: 9px 12px;
+  border-radius: 6px;
   border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-.duo-modal-close:focus-visible, .duo-modal-close:hover {
-  background: var(--duo-danger);
+  font-size: 1rem;
+  margin-right: 10px;
+  background: #2c2c2c;
   color: #fff;
+  transition: background 0.3s, color 0.3s;
 }
 
-.duo-profile-avatar-wrap {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1em;
-}
-.duo-avatar-large {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  object-fit: cover;
-  background: var(--duo-gray);
-  border: 3px solid var(--duo-green);
+body.light input[type="text"] {
+  background: #f0f0f0;
+  color: #181818;
 }
 
-.duo-label {
-  font-weight: 800;
-  font-size: 1em;
-  color: var(--duo-blue);
-  display: block;
-  margin-bottom: 0.2em;
-  margin-top: 0.2em;
-}
-.duo-input {
-  width: 100%;
-  font-size: 1.07em;
-  border-radius: 1em;
-  border: 2px solid var(--duo-gray);
-  padding: 0.5em 1em;
-  background: #fafafa;
-  margin-bottom: 1em;
-  color: var(--duo-text);
-  font-family: inherit;
-  font-weight: 700;
-  outline: none;
-  transition: border 0.2s;
-}
-.duo-input:focus {
-  border: 2px solid var(--duo-green);
+button, select {
+  padding: 8px 14px;
+  border-radius: 5px;
+  border: none;
+  background: #3a3a3a;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
 }
 
-.duo-settings-group {
-  width: 100%;
-  margin-bottom: 1.2em;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+button:hover, select:hover {
+  background: #555;
 }
 
-@media (max-width: 600px) {
-  .duo-card {
-    padding: 1em 0.5em 1em 0.5em;
-    min-width: unset;
+body.light button, body.light select {
+  background: #e0e0e0;
+  color: #181818;
+}
+
+input[type="range"] {
+  width: 90px;
+  accent-color: #e50914;
+}
+
+@media (max-width: 800px) {
+  .player-container {
+    max-width: 98vw;
+    padding: 10px;
   }
-  .duo-header {
+  input[type="text"] {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .controls {
     flex-direction: column;
-    gap: 0.7em;
-    padding: 0.7em 0.5em;
-  }
-  .duo-modal-content {
-    padding: 1.2em 0.5em;
-    min-width: unset;
-  }
-  .duo-btn {
-    font-size: 1em;
-    padding: 0.7em 1em;
-  }
-}
-
-@media (max-width: 400px) {
-  .duo-card, .duo-modal-content {
-    padding: 0.5em 0.1em 0.5em 0.1em;
+    gap: 12px;
   }
 }
