@@ -1,20 +1,32 @@
 let player;
 let updateTimer = null;
 
-// Extract YouTube video ID from URL or direct input
+// Robustly extract YouTube video ID from any common URL or direct input
 function extractVideoId(url) {
-  const regex = /(?:youtube\.com.*(?:\?|&)v=|youtu\.be\/)([^&#]+)/;
-  const match = url.match(regex);
-  return match ? match[1] : url;
+  // Covers youtu.be, youtube.com/watch, youtube.com/embed, youtube.com/v, youtube.com/shorts, and direct IDs
+  const regExp = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|v\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url.match(regExp);
+  if (match && match[1]) {
+    return match[1];
+  }
+  // fallback: if user enters just the ID
+  if (/^[a-zA-Z0-9_-]{11}$/.test(url)) {
+    return url;
+  }
+  return null;
 }
 
 // Load video based on user input
 function loadVideo() {
   const url = document.getElementById('videoUrl').value.trim();
   const videoId = extractVideoId(url);
-  if (player && videoId) {
+  if (!videoId) {
+    alert("Please enter a valid YouTube URL or video ID.");
+    return;
+  }
+  if (player) {
     player.loadVideoById(videoId);
-  } else if (videoId) {
+  } else {
     createPlayer(videoId);
   }
 }
@@ -48,7 +60,7 @@ function onPlayerReady() {
 
 // Handle player state changes (optional for more features)
 function onPlayerStateChange(event) {
-  // You can add custom logic here if needed
+  // Add custom logic here if needed
 }
 
 // Custom control functions
