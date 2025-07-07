@@ -47,6 +47,10 @@ function createPlayer(videoId) {
 
 // When player is ready, set up seek bar updates
 function onPlayerReady() {
+  // Set volume bar to current player volume
+  if (player && player.getVolume) {
+    document.getElementById('volumeBar').value = player.getVolume();
+  }
   updateTimer = setInterval(() => {
     if (player && player.getDuration) {
       const duration = player.getDuration();
@@ -84,14 +88,18 @@ function setVolume(value) {
 }
 
 function toggleFullScreen() {
+  // Get the iframe inside the #player container
   const iframe = document.querySelector('#player iframe');
+  if (!iframe) return;
+
+  // Use the Fullscreen API with all vendor prefixes for compatibility
   if (iframe.requestFullscreen) {
     iframe.requestFullscreen();
-  } else if (iframe.webkitRequestFullscreen) {
-    iframe.webkitRequestFullscreen();
-  } else if (iframe.mozRequestFullScreen) {
+  } else if (iframe.mozRequestFullScreen) { // Firefox
     iframe.mozRequestFullScreen();
-  } else if (iframe.msRequestFullscreen) {
+  } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari, Opera
+    iframe.webkitRequestFullscreen();
+  } else if (iframe.msRequestFullscreen) { // IE/Edge
     iframe.msRequestFullscreen();
   }
 }
