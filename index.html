@@ -12,13 +12,32 @@
   </header>
   <main>
     <div class="player-container">
-      <input type="text" id="videoUrl" placeholder="Paste YouTube URL or ID" />
+      <input
+        type="text"
+        id="videoUrl"
+        placeholder="Paste YouTube URL or ID"
+        autocomplete="off"
+      />
       <button onclick="loadVideo()">Load Video</button>
       <div id="player"></div>
       <div class="controls">
         <button id="playPauseBtn" onclick="togglePlayPause()">Play</button>
-        <input type="range" id="seekBar" min="0" max="100" value="0" onchange="seekVideo(this.value)">
-        <input type="range" id="volumeBar" min="0" max="100" value="100" onchange="setVolume(this.value)">
+        <input
+          type="range"
+          id="seekBar"
+          min="0"
+          max="100"
+          value="0"
+          onchange="seekVideo(this.value)"
+        />
+        <input
+          type="range"
+          id="volumeBar"
+          min="0"
+          max="100"
+          value="100"
+          onchange="setVolume(this.value)"
+        />
         <button onclick="toggleFullScreen()">Fullscreen</button>
         <select id="speedSelector" onchange="setPlaybackSpeed(this.value)">
           <option value="0.5">0.5x</option>
