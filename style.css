@@ -170,6 +170,27 @@ body.light #pipBtn {
   cursor: not-allowed;
 }
 
+/* Share Button */
+#shareBtn {
+  background: #222;
+  color: #fff;
+  border-radius: 7px;
+  padding: 10px 16px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  outline: none;
+}
+#shareBtn:active {
+  background: #444;
+}
+body.light #shareBtn {
+  background: #e0e0e0;
+  color: #181818;
+}
+
 /* Pop-up Button */
 .popup-btn {
   margin-top: 12px;
