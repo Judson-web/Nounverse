@@ -1,178 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title id="app-title">QuizOwl</title>
-  <link href="https://fonts.googleapis.com/css?family=Nunito:700,800,900&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    /* Mascot bounce animation */
-    #mascot-emoji, #mascot-reaction {
-      animation: mascot-bounce 0.8s cubic-bezier(.4,1.3,.7,1) both;
-    }
-    @keyframes mascot-bounce {
-      0%   { transform: translateY(0);}
-      30%  { transform: translateY(-16px);}
-      50%  { transform: translateY(4px);}
-      70%  { transform: translateY(-8px);}
-      100% { transform: translateY(0);}
-    }
-    #confetti-canvas {
-      pointer-events: none;
-      z-index: 1000;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom YouTube Video Player</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="bg-[#f7f8fa] font-[Nunito,sans-serif] text-[#222]">
-
-  <!-- Header: Mascot, XP, Streak, Profile, Settings -->
-  <header class="flex justify-between items-center px-4 py-3 bg-white border-b-2 border-[#e5e5e5] sticky top-0 z-10">
-    <div class="flex items-center gap-3">
-      <span class="text-3xl" id="mascot-emoji" aria-label="Mascot">🦉</span>
-      <span id="app-title" class="font-extrabold text-2xl text-[#58cc02]">QuizOwl</span>
-      <div class="ml-4 flex items-center gap-2">
-        <div class="relative w-28 h-4 bg-[#e5e5e5] rounded-full overflow-hidden">
-          <div id="xp-bar" class="absolute top-0 left-0 h-full bg-gradient-to-r from-[#58cc02] to-[#ffd600] rounded-full transition-all duration-500" style="width:40%"></div>
-        </div>
-        <span class="text-xs font-bold text-[#399a00]" id="xp-label">XP: 40/100</span>
-      </div>
-      <div class="ml-2 flex items-center gap-1">
-        <span class="text-xl" aria-label="Streak">🔥</span>
-        <span id="streak-count" class="font-bold text-[#ffb800]">3</span>
-      </div>
-    </div>
-    <nav class="flex items-center gap-3">
-      <button id="badge-btn" class="rounded-full bg-[#e5e5e5] w-10 h-10 flex items-center justify-center text-xl" title="Badges" aria-label="Badges">🏅</button>
-      <button id="profile-btn" class="rounded-full bg-[#e5e5e5] w-10 h-10 flex items-center justify-center" aria-label="Profile">
-        <img src="https://api.dicebear.com/7.x/personas/svg?seed=owl" alt="Profile" id="header-avatar" class="w-8 h-8 rounded-full border-2 border-[#58cc02]"/>
-      </button>
-      <button id="open-settings" class="rounded-full bg-[#e5e5e5] w-10 h-10 flex items-center justify-center text-xl" aria-label="Settings">⚙️</button>
-    </nav>
-  </header>
-
-  <!-- Snackbar/Toast for feedback -->
-  <div id="snackbar" class="fixed left-1/2 bottom-8 -translate-x-1/2 bg-[#58cc02] text-white px-6 py-3 rounded-2xl font-extrabold text-lg opacity-0 pointer-events-none transition-all duration-300 z-50"></div>
-
-  <!-- Splash/Loading Screen -->
-  <div class="fixed inset-0 flex flex-col items-center justify-center bg-[#f7f8fa] z-50" id="splash-screen" aria-live="polite">
-    <span class="text-5xl">🦉</span>
-    <div class="mt-4 text-xl font-bold text-[#58cc02]">Loading...</div>
-  </div>
-
-  <!-- Daily Goal / Streak Banner -->
-  <div class="max-w-md mx-auto mt-4 mb-2 flex items-center justify-between px-4 py-2 bg-[#fffbe7] rounded-xl border-l-4 border-[#ffd600] shadow-sm">
-    <div>
-      <span class="font-bold text-[#7c6512]" id="daily-streak-label">Daily Streak:</span>
-      <span class="font-extrabold text-[#ffb800]" id="daily-streak-count">3</span>
-      <span class="ml-2 text-sm text-[#7c6512]">Goal: <span id="daily-goal">5</span></span>
-    </div>
-    <span class="text-2xl" id="streak-emoji">🔥</span>
-  </div>
-
-  <!-- Start Screen -->
-  <main id="start-screen" class="max-w-md mx-auto bg-white rounded-3xl shadow-none p-8 mt-6 mb-4 flex flex-col items-center hidden" role="main" aria-labelledby="welcome-title">
-    <h2 id="welcome-title" class="text-3xl font-extrabold text-[#399a00] mb-2">Welcome!</h2>
-    <div id="mascot-message" class="text-lg text-[#1cb0f6] font-bold mb-3">🦉 Ready for a challenge?</div>
-    <p id="welcome-desc" class="text-base text-[#555] text-center mb-6">
-      Test your knowledge with fun quizzes.<br>Ready to begin?
-    </p>
-    <div class="flex flex-col gap-4 w-full">
-      <button id="start-quiz-btn" class="duo-btn duo-btn-primary w-full">Start Quiz</button>
-      <button id="start-daily-btn" class="duo-btn w-full">Daily Challenge</button>
-    </div>
-    <div class="mt-6 flex flex-col items-center gap-2">
-      <button id="share-btn" class="duo-btn small bg-[#e5e5e5] w-40">Share App</button>
-      <span class="text-xs text-[#999]">Share your streak or invite friends!</span>
-    </div>
-  </main>
-
-  <!-- Quiz Content -->
-  <section id="quiz-content" class="max-w-md mx-auto bg-white rounded-3xl shadow-none p-8 mt-6 mb-4 flex flex-col items-center hidden" aria-live="polite" aria-atomic="true">
-    <div class="w-full flex flex-col items-center">
-      <div class="duo-progress-bar w-full h-4 bg-[#e5e5e5] rounded-full overflow-hidden mb-3">
-        <div id="progress-fill" class="duo-progress-fill h-full bg-gradient-to-r from-[#58cc02] to-[#ffd600] rounded-full transition-all duration-500" style="width:0%"></div>
-      </div>
-      <div class="flex justify-between w-full mb-2">
-        <span id="score-label" class="font-bold text-[#399a00]">Score: <span id="score">0</span></span>
-        <span id="streak-label" class="font-bold text-[#ffb800]">🔥 <span id="streak">0</span></span>
-      </div>
-      <div class="text-center text-[#888] text-sm mb-2">
-        <span id="current-question">1</span> / <span id="total-questions">3</span>
-      </div>
-    </div>
-    <div id="mascot-reaction" class="text-4xl my-2" aria-live="polite" aria-atomic="true">🦉</div>
-    <div id="mascot-encouragement" class="text-base text-[#1cb0f6] font-bold mb-2" aria-live="polite"></div>
-    <div id="question-area" class="w-full"></div>
-    <div id="fun-fact-box" class="duo-fun-fact hidden mt-4 w-full" aria-live="polite"></div>
-  </section>
-
-  <!-- Badges Modal -->
-  <div id="badges-modal" class="duo-modal hidden fixed inset-0 z-50 flex items-center justify-center bg-black/20" tabindex="-1" aria-modal="true" role="dialog" aria-labelledby="badges-modal-title">
-    <div class="bg-white rounded-2xl p-6 max-w-sm w-full relative flex flex-col items-center">
-      <button class="absolute top-3 right-4 text-2xl" id="close-badges-modal" aria-label="Close">✖️</button>
-      <h2 id="badges-modal-title" class="text-xl font-extrabold text-[#399a00] mb-4">Badges</h2>
-      <div class="flex flex-wrap gap-4 justify-center mt-3" id="badges-list">
-        <!-- Badges will be rendered here -->
-      </div>
+<body>
+  <h1>Custom YouTube Video Player</h1>
+  <div class="player-container">
+    <input type="text" id="videoUrl" placeholder="Paste YouTube URL or ID" />
+    <button onclick="loadVideo()">Load Video</button>
+    <div id="player"></div>
+    <div class="controls">
+      <button onclick="playVideo()">Play</button>
+      <button onclick="pauseVideo()">Pause</button>
+      <input type="range" id="seekBar" min="0" max="100" value="0" onchange="seekVideo(this.value)">
+      <input type="range" id="volumeBar" min="0" max="100" value="100" onchange="setVolume(this.value)">
+      <button onclick="toggleFullScreen()">Fullscreen</button>
+      <select id="speedSelector" onchange="setPlaybackSpeed(this.value)">
+        <option value="0.5">0.5x</option>
+        <option value="1" selected>1x</option>
+        <option value="1.5">1.5x</option>
+        <option value="2">2x</option>
+      </select>
+      <button onclick="toggleTheme()">🌙/☀️</button>
     </div>
   </div>
-
-  <!-- Profile Modal -->
-  <div id="profile-modal" class="duo-modal hidden fixed inset-0 z-50 flex items-center justify-center bg-black/20" tabindex="-1" aria-modal="true" role="dialog" aria-labelledby="profile-modal-title">
-    <div class="bg-white rounded-2xl p-6 max-w-sm w-full relative flex flex-col items-center">
-      <button class="absolute top-3 right-4 text-2xl" id="close-profile-modal" aria-label="Close">✖️</button>
-      <h2 id="profile-modal-title" class="text-xl font-extrabold text-[#399a00] mb-4">Profile</h2>
-      <div class="flex justify-center mb-4">
-        <img id="profile-avatar" src="https://api.dicebear.com/7.x/personas/svg?seed=owl" alt="Avatar" class="w-20 h-20 rounded-full border-4 border-[#58cc02]" />
-      </div>
-      <form id="profile-form" autocomplete="off" class="w-full flex flex-col items-center">
-        <label for="profile-name" class="font-bold text-[#1cb0f6] mb-1">Name:</label>
-        <input type="text" id="profile-name" maxlength="32" class="w-full rounded-xl border-2 border-[#e5e5e5] px-4 py-2 mb-4 text-lg font-bold focus:border-[#58cc02] outline-none" autocomplete="off" placeholder="Your name" />
-      </form>
-      <button id="save-profile-btn" class="duo-btn duo-btn-primary w-full">Save</button>
-    </div>
-  </div>
-
-  <!-- Settings Modal -->
-  <div id="settings-modal" class="duo-modal hidden fixed inset-0 z-50 flex items-center justify-center bg-black/20" tabindex="-1" aria-modal="true" role="dialog" aria-labelledby="settings-modal-title">
-    <div class="bg-white rounded-2xl p-6 max-w-sm w-full relative flex flex-col items-center">
-      <button class="absolute top-3 right-4 text-2xl" id="close-settings-modal" aria-label="Close">✖️</button>
-      <h2 id="settings-modal-title" class="text-xl font-extrabold text-[#399a00] mb-4">Settings</h2>
-      <div class="w-full mb-4">
-        <label for="language-setting" class="font-bold text-[#1cb0f6] block mb-1">Language:</label>
-        <select id="language-setting" class="w-full rounded-xl border-2 border-[#e5e5e5] px-4 py-2 mb-2 text-lg font-bold focus:border-[#58cc02] outline-none">
-          <option value="en">English</option>
-          <option value="es">Español</option>
-          <option value="fr">Français</option>
-          <option value="ml">മലയാളം</option>
-        </select>
-      </div>
-      <div class="w-full mb-4">
-        <label for="sound-toggle-btn" class="font-bold text-[#1cb0f6] block mb-1">Sound:</label>
-        <button id="sound-toggle-btn" class="duo-btn w-32" aria-label="Sound" aria-pressed="false" type="button">
-          <span id="volume-icon">🔊</span>
-          <span id="mute-icon" class="hidden">🔇</span>
-        </button>
-      </div>
-      <div class="w-full">
-        <label for="theme-toggle" class="font-bold text-[#1cb0f6] block mb-1">Theme:</label>
-        <button id="theme-toggle" class="duo-btn w-32" type="button">
-          <span id="theme-icon">🌞</span>
-          <span id="theme-label">Light</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Sound Effects (hidden) -->
-  <audio id="correct-sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b3b3b.mp3"></audio>
-  <audio id="wrong-sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_11b3b3b3b.mp3"></audio>
-
-  <!-- Confetti Canvas (for celebrations) -->
-  <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50" style="display:none;"></canvas>
-
-  <!-- Main JS (to be added after CSS) -->
-  <!-- <script src="main.js"></script> -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="script.js"></script>
 </body>
 </html>
